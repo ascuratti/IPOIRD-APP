@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>IPOIRD PRO Match Analysis <link rel="apple-touch-icon" href="https://via.placeholder.com/180/00f2ff/0b0f19?text=IPOIRD">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"></title>
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card: #161e2d;
+            --accent: #00f2ff;
+            --text: #e2e8f0;
+            --win: #10b981;
+            --loss: #f43f5e;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0; padding: 10px;
+            display: flex; flex-direction: column; height: 100vh;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+            margin-bottom: 10px;
+        }
+        .stat-tile {
+            background: var(--card); border-radius: 10px; padding: 10px;
+            text-align: center; border: 1px solid #2d3748;
+        }
+        .stat-label { font-size: 0.65rem; color: #94a3b8; text-transform: uppercase; }
+        .stat-val { font-size: 1.2rem; font-weight: bold; display: block; }
+
+        /* Goal Controls */
+        .goal-controls {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;
+        }
+        .btn-goal {
+            padding: 12px; border: none; border-radius: 8px; font-weight: bold; color: white;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+        }
+
+        /* Matrix Grid */
+        .matrix {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex-grow: 1;
+        }
+        .macro-btn {
+            background: var(--card); border: 1px solid #2d3748; border-radius: 12px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: 0.2s;
+        }
+        .macro-btn:active { transform: scale(0.95); background: #1e293b; }
+        .macro-title { color: var(--accent); font-weight: bold; font-size: 0.8rem; margin-bottom: 5px;}
+        .macro-score { font-size: 1.5rem; font-weight: 800; }
+
+        /* Modal Micro-voci */
+        #modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 100; flex-direction: column; justify-content: center; padding: 20px; box-sizing: border-box;
+        }
+        .micro-list { display: flex; flex-direction: column; gap: 10px; }
+        .micro-btn {
+            background: #1e293b; color: white; border: 1px solid var(--accent);
+            padding: 15px; border-radius: 10px; display: flex; justify-content: space-between;
+        }
+
+        .performance-tag {
+            font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; margin-top: 5px; display: inline-block;
+        }
+        .over { background: var(--win); color: white; }
+        .under { background: var(--loss); color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="stats-bar">
+        <div class="stat-tile">
+            <span class="stat-label">xG Creati</span>
+            <span class="stat-val" id="xg-c">0.00</span>
+            <div id="perf-c" class="performance-tag">OK</div>
+        </div>
+        <div class="stat-tile">
+            <span class="stat-label">xG Concessi</span>
+            <span class="stat-val" id="xg-con">0.00</span>
+            <div id="perf-con" class="performance-tag">OK</div>
+        </div>
+    </div>
+
+    <div class="goal-controls">
+        <button class="btn-goal" style="background: var(--win)" onclick="addGoal('fatti')">GOL FATTO +</button>
+        <button class="btn-goal" style="background: var(--loss)" onclick="addGoal('subiti')">GOL SUBITO +</button>
+    </div>
+
+    <div class="matrix">
+        <div class="macro-btn" onclick="openMicro('I')"><span class="macro-title">INIZIATIVA</span><span class="macro-score" id="s-I">0</span></div>
+        <div class="macro-btn" onclick="openMicro('P')"><span class="macro-title">PREPARAZIONE</span><span class="macro-score" id="s-P">0</span></div>
+        <div class="macro-btn" onclick="openMicro('O')"><span class="macro-title">OPPORTUNITÀ</span><span class="macro-score" id="s-O">0</span></div>
+        <div class="macro-btn" onclick="openMicro('Ind')"><span class="macro-title">INDIRIZZO</span><span class="macro-score" id="s-Ind">0</span></div>
+        <div class="macro-btn" onclick="openMicro('R')"><span class="macro-title">RIFINITURA</span><span class="macro-score" id="s-R">0</span></div>
+        <div class="macro-btn" onclick="openMicro('D')"><span class="macro-title">DETERMINA</span><span class="macro-score" id="s-D">0</span></div>
+    </div>
+
+    <div id="modal">
+        <h2 id="modal-title" style="text-align:center; color: var(--accent);"></h2>
+        <div id="micro-container" class="micro-list"></div>
+        <button onclick="closeModal()" style="margin-top:20px; padding:15px; background:transparent; border:1px solid white; color:white; border-radius:10px;">CHIUDI</button>
+    </div>
+
+    <script>
+        let stats = { I:0, P:0, O:0, Ind:0, R:0, D:0, xgc:0, xgcon:0, gf:0, gs:0 };
+
+        const microData = {
+            I: [ {l: 'Costruzione basso OK', p: 2}, {l: 'Uscita palla pulita', p: 1}, {l: 'Errore impostazione', p: -2} ],
+            P: [ {l: 'Passaggio tra linee', p: 3}, {l: 'Cambio gioco', p: 2}, {l: 'Possesso sterile', p: 1} ],
+            O: [ {l: 'Dribbling/Sup. Num', p: 3}, {l: 'Inserimento/Taglio', p: 2}, {l: 'Sovrapposizione', p: 1} ],
+            Ind: [ {l: 'Cross qualità', p: 2}, {l: 'Palla filtrante', p: 3}, {l: 'Scelta errata', p: -1} ],
+            R: [ {l: 'Assist', p: 4}, {l: 'Sponda/Appoggio', p: 2}, {l: 'Controllo orientato', p: 1} ],
+            D: [ {l: 'Tiro in porta (Centrale)', xg: 0.1, p: 2}, {l: 'Occasione Nitida', xg: 0.4, p: 5}, {l: 'Tiro fuori area', xg: 0.03, p: 1} ]
+        };
+
+        function openMicro(macro) {
+            const m = document.getElementById('modal');
+            const container = document.getElementById('micro-container');
+            document.getElementById('modal-title').innerText = macro;
+            container.innerHTML = '';
+            
+            microData[macro].forEach(item => {
+                let btn = document.createElement('div');
+                btn.className = 'micro-btn';
+                btn.onclick = () => { 
+                    stats[macro] += item.p; 
+                    if(item.xg) addXG(item.xg, 'c');
+                    updateUI(); 
+                    closeModal();
+                };
+                btn.innerHTML = `<span>${item.l}</span> <b>${item.p > 0 ? '+'+item.p : item.p}</b>`;
+                container.appendChild(btn);
+            });
+            m.style.display = 'flex';
+        }
+
+        function addGoal(tipo) {
+            if(tipo === 'fatti') { stats.gf++; } else { stats.gs++; }
+            updateUI();
+        }
+
+        function addXG(val, tipo) {
+            if(tipo === 'c') stats.xgc += val; else stats.xgcon += val;
+            updateUI();
+        }
+
+        function updateUI() {
+            // Update Scores
+            ['I','P','O','Ind','R','D'].forEach(m => {
+                document.getElementById(`s-${m}`).innerText = stats[m];
+            });
+            document.getElementById('xg-c').innerText = stats.xgc.toFixed(2);
+            document.getElementById('xg-con').innerText = stats.xgcon.toFixed(2);
+
+            // Analisi Performance
+            const perfC = document.getElementById('perf-c');
+            const diffC = stats.gf - stats.xgc;
+            perfC.innerText = diffC >= 0 ? `+${diffC.toFixed(1)} GOL (Over)` : `${diffC.toFixed(1)} GOL (Under)`;
+            perfC.className = 'performance-tag ' + (diffC >= 0 ? 'over' : 'under');
+
+            const perfCon = document.getElementById('perf-con');
+            const diffCon = stats.gs - stats.xgcon;
+            perfCon.innerText = diffCon <= 0 ? `${diffCon.toFixed(1)} (Solidi)` : `+${diffCon.toFixed(1)} (Subiti troppo)`;
+            perfCon.className = 'performance-tag ' + (diffCon <= 0 ? 'over' : 'under');
+        }
+
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
+    </script>
+</body>
+</html>
