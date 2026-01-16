@@ -3,547 +3,297 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>IPOIRD TACTICAL ANALYZER PRO</title>
+    <title>IPOIRD TACTICAL ANALYZER ULTRA-PRO</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         :root {
-            --bg: #0b0f19;
-            --card: #161e2d;
-            --accent: #00f2ff;
-            --text: #e2e8f0;
-            --win: #10b981;
-            --loss: #f43f5e;
-            --gray: #64748b;
+            --bg: #0b0f19; --card: #161e2d; --accent: #00f2ff;
+            --text: #e2e8f0; --win: #10b981; --loss: #f43f5e; --gray: #64748b; --warning: #fbbf24;
         }
 
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            background: var(--bg); color: var(--text);
+            margin: 0; padding: 10px; display: flex; flex-direction: column; min-height: 100vh;
         }
 
-        /* --- HEADER: TIMER & POSSESSO --- */
+        /* --- HEADER & CONTROLS --- */
         .header-box { 
-            background: var(--card); 
-            border-radius: 15px; 
-            padding: 20px; 
-            border: 1px solid var(--gray); 
-            margin-bottom: 10px; 
-            text-align: center; 
+            background: var(--card); border-radius: 15px; padding: 20px; 
+            border: 1px solid var(--gray); margin-bottom: 10px; text-align: center; 
         }
-        #timer-display { 
-            font-size: 3rem; 
-            font-weight: 900; 
-            font-variant-numeric: tabular-nums; 
-            color: white; 
-            margin-bottom: 15px; 
-            display: block; 
-        }
-        .possession-container { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 15px; 
-            margin-bottom: 15px; 
-        }
+        #timer-display { font-size: 3.5rem; font-weight: 900; color: white; display: block; margin-bottom: 5px; }
+        .period-label { color: var(--accent); font-weight: 900; letter-spacing: 2px; margin-bottom: 15px; }
+        
+        .possession-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
         .pos-btn { 
-            padding: 20px; 
-            border: none; 
-            border-radius: 12px; 
-            color: white; 
-            font-weight: 800; 
-            opacity: 0.2; 
-            transition: 0.3s; 
-            font-size: 1.1rem;
+            padding: 22px; border: none; border-radius: 12px; color: white; 
+            font-weight: 800; opacity: 0.2; transition: 0.3s; font-size: 1.1rem;
         }
-        .pos-btn.active { 
-            opacity: 1; 
-            box-shadow: 0 0 25px var(--accent); 
-            transform: scale(1.05); 
-        }
-        .control-btns {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-        .btn-main-sm {
-            background: transparent;
-            border: 1px solid var(--gray);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
+        .pos-btn.active { opacity: 1; box-shadow: 0 0 25px var(--accent); transform: scale(1.02); }
 
-        /* --- DASHBOARD: xG COUNTERS --- */
-        .kpi-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .kpi-card {
-            background: var(--card);
-            padding: 15px;
-            border-radius: 15px;
-            text-align: center;
-            border: 1px solid #2d3748;
-        }
-        .kpi-label { font-size: 0.7rem; color: var(--gray); text-transform: uppercase; margin-bottom: 5px; display: block; }
-        .kpi-value { font-size: 1.8rem; font-weight: 900; color: var(--accent); }
+        .discipline-row { display: flex; justify-content: space-around; margin-bottom: 15px; }
+        .card-btn { background: #1e293b; border: 1px solid var(--gray); padding: 8px 15px; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; }
+        .card-yellow { border-left: 5px solid var(--warning); }
+        .card-red { border-left: 5px solid var(--loss); }
 
-        /* --- GRID: MACROCATEGORIE --- */
-        .section-title { 
-            font-size: 0.8rem; 
-            color: var(--accent); 
-            font-weight: 900; 
-            margin: 15px 0 10px 5px; 
-            text-transform: uppercase; 
-            letter-spacing: 1.5px;
+        .control-btns { display: flex; justify-content: center; gap: 10px; }
+        .btn-main-sm { background: #334155; border: none; color: white; padding: 12px 20px; border-radius: 8px; font-weight: bold; }
+
+        /* --- DASHBOARD --- */
+        .kpi-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .kpi-card { background: var(--card); padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #2d3748; }
+        .kpi-value { font-size: 2rem; font-weight: 900; color: var(--accent); display: block; }
+        .kpi-label { font-size: 0.7rem; color: var(--gray); text-transform: uppercase; }
+
+        /* --- LOG BOX --- */
+        .log-container {
+            background: #0f172a; border: 1px solid #334155; border-radius: 12px;
+            height: 120px; overflow-y: auto; padding: 10px; margin-bottom: 15px; font-family: monospace; font-size: 0.75rem;
         }
-        .matrix { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 12px; 
-            margin-bottom: 15px; 
-        }
+        .log-entry { border-bottom: 1px solid #1e293b; padding: 3px 0; display: flex; justify-content: space-between; }
+        .log-ts { color: var(--accent); margin-right: 10px; }
+
+        /* --- GRID --- */
+        .matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
         .macro-btn {
-            background: var(--card);
-            border: 1px solid #2d3748;
-            border-radius: 18px;
-            padding: 30px 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            transition: 0.2s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            background: var(--card); border: 1px solid #2d3748; border-radius: 18px; padding: 30px 10px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
         }
-        .macro-btn:active { transform: scale(0.95); background: #1e293b; }
-        .macro-title { font-weight: 900; font-size: 0.85rem; color: #fff; line-height: 1.2; }
-        .macro-count { font-size: 0.65rem; color: var(--gray); margin-top: 8px; font-weight: bold; }
+        .macro-btn:active { background: var(--accent); }
+        .macro-btn:active .macro-title { color: black; }
+        .macro-title { font-weight: 900; font-size: 0.85rem; color: #fff; text-transform: uppercase; }
+        .macro-count { font-size: 0.65rem; color: var(--accent); margin-top: 8px; font-weight: bold; }
 
-        /* --- MODAL SYSTEM --- */
+        /* --- MODAL --- */
         #modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.98);
-            z-index: 1000;
-            flex-direction: column;
-            padding: 20px;
-            box-sizing: border-box;
-            overflow-y: auto;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.98); z-index: 2000; flex-direction: column; padding: 20px; box-sizing: border-box; overflow-y: auto;
         }
-        .modal-header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-        .modal-title {
-            color: var(--accent);
-            font-size: 1.4rem;
-            font-weight: 900;
-            text-transform: uppercase;
-        }
-        .micro-group {
-            background: #1e293b;
-            border-radius: 15px;
-            padding: 18px;
-            margin-bottom: 15px;
-            border-left: 5px solid var(--accent);
-        }
-        .micro-label {
-            display: block;
-            font-size: 0.95rem;
-            font-weight: 800;
-            margin-bottom: 12px;
-            color: #fff;
-        }
-        .btn-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .btn-action {
-            flex: 1;
-            min-width: 100px;
-            padding: 16px 10px;
-            border: none;
-            border-radius: 10px;
-            background: #334155;
-            color: white;
-            font-size: 0.8rem;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-        .btn-action:active { background: var(--accent); color: #000; }
-        .btn-close {
-            background: var(--loss);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            border: none;
-            font-weight: 900;
-            font-size: 1rem;
-            margin-top: 20px;
-            width: 100%;
-        }
+        .micro-group { background: #1e293b; border-radius: 15px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--accent); }
+        .micro-label { display: block; font-size: 0.8rem; font-weight: 800; margin-bottom: 12px; color: var(--gray); text-transform: uppercase; }
+        .btn-row { display: flex; flex-wrap: wrap; gap: 8px; }
+        .btn-action { flex: 1; min-width: 110px; padding: 15px 8px; border: none; border-radius: 8px; background: #334155; color: white; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; }
+        .btn-action.danger { background: #450a0a; color: #f87171; }
+        .btn-close { background: var(--loss); color: white; padding: 20px; border-radius: 15px; border: none; font-weight: 900; margin-top: 10px; width: 100%; }
 
-        /* --- FOOTER: NOTES & REPORT --- */
-        .notes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        textarea { 
-            background: #0f172a; border: 1px solid #334155; border-radius: 12px; 
-            color: white; padding: 12px; font-size: 0.85rem; height: 100px; resize: none;
-        }
-        .report-btn {
-            background: var(--accent);
-            color: black;
-            padding: 22px;
-            border-radius: 18px;
-            border: none;
-            font-weight: 900;
-            font-size: 1.2rem;
-            margin-bottom: 40px;
-        }
-        #chart-wrapper {
-            display: none;
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 50px;
-        }
+        /* --- REPORT --- */
+        .report-btn { background: var(--accent); color: black; padding: 25px; border-radius: 20px; border: none; font-weight: 900; font-size: 1.2rem; width: 100%; margin: 20px 0; }
+        .chart-box { background: white; border-radius: 20px; padding: 15px; margin-bottom: 20px; display: none; }
     </style>
 </head>
 <body>
 
     <div class="header-box">
+        <div class="period-label" id="period-display">1° TEMPO</div>
         <span id="timer-display">00:00</span>
+        
         <div class="possession-container">
-            <button id="posA" class="pos-btn" style="background: var(--win)" onclick="togglePossession('A')">NOI: <span id="percA">50%</span></button>
-            <button id="posB" class="pos-btn" style="background: var(--loss)" onclick="togglePossession('B')">LORO: <span id="percB">50%</span></button>
+            <button id="posA" class="pos-btn" style="background: var(--win)" onclick="setPoss('A')">NOI: <span id="percA">50%</span></button>
+            <button id="posB" class="pos-btn" style="background: var(--loss)" onclick="setPoss('B')">LORO: <span id="percB">50%</span></button>
         </div>
+
+        <div class="discipline-row">
+            <div class="card-btn card-yellow" onclick="addDisc('N','Y')">NOI: <span id="y-n">0</span></div>
+            <div class="card-btn card-red" onclick="addDisc('N','R')">ROSSI: <span id="r-n">0</span></div>
+            <div class="card-btn card-yellow" onclick="addDisc('L','Y')">LORO: <span id="y-l">0</span></div>
+        </div>
+
         <div class="control-btns">
-            <button id="startStopBtn" class="btn-main-sm" onclick="startStopTimer()">AVVIA MATCH</button>
-            <button class="btn-main-sm" onclick="resetAll()">RESET</button>
+            <button id="startBtn" class="btn-main-sm" onclick="toggleTimer()">AVVIA MATCH</button>
+            <button class="btn-main-sm" onclick="changePeriod()">CAMBIO TEMPO</button>
+            <button class="btn-main-sm" onclick="resetMatch()">RESET</button>
         </div>
     </div>
 
     <div class="kpi-container">
-        <div class="kpi-card">
-            <span class="kpi-label">xG Prodotti (Noi)</span>
-            <span class="kpi-value" id="xg-prod">0.00</span>
-        </div>
-        <div class="kpi-card">
-            <span class="kpi-label">xG Concessi (Loro)</span>
-            <span class="kpi-value" id="xg-conc">0.00</span>
-        </div>
+        <div class="kpi-card"><span class="kpi-value" id="xg-prod">0.00</span><span class="kpi-label">xG Prodotti</span></div>
+        <div class="kpi-card"><span class="kpi-value" id="xg-conc">0.00</span><span class="kpi-label">xG Concessi</span></div>
     </div>
 
-    <div class="section-title">Macro Categorie Analisi</div>
+    <div class="log-container" id="main-log">
+        <div class="log-entry"><span class="log-ts">00:00</span><span>Sistema pronto per l'analisi.</span></div>
+    </div>
+
     <div class="matrix">
         <div class="macro-btn" onclick="openMacro('FINALIZZAZIONE')">
-            <span class="macro-title">FINALIZZAZIONE</span>
+            <span class="macro-title">Finalizzazione</span>
             <span class="macro-count" id="count-FINALIZZAZIONE">Eventi: 0</span>
         </div>
-        <div class="macro-btn" onclick="openMacro('PALLA INATTIVA')">
-            <span class="macro-title">PALLA INATTIVA</span>
+        <div class="macro-btn" onclick="openMacro('PALLA-INATTIVA')">
+            <span class="macro-title">Palla Inattiva</span>
             <span class="macro-count" id="count-PALLA-INATTIVA">Eventi: 0</span>
         </div>
-        <div class="macro-btn" onclick="openMacro('TRANSIZIONI OFFENSIVE')">
-            <span class="macro-title">TRANSIZIONI OFFENSIVE</span>
+        <div class="macro-btn" onclick="openMacro('TRANSIZIONI-OFFENSIVE')">
+            <span class="macro-title">Transizioni OFF</span>
             <span class="macro-count" id="count-TRANSIZIONI-OFFENSIVE">Eventi: 0</span>
         </div>
-        <div class="macro-btn" onclick="openMacro('CONTRASTO E RECUPERO')">
-            <span class="macro-title">CONTRASTO E RECUPERO</span>
-            <span class="macro-count" id="count-CONTRASTO-E-RECUPERO">Eventi: 0</span>
+        <div class="macro-btn" onclick="openMacro('CONTRASTO-RECUPERO')">
+            <span class="macro-title">Contrasto/Rec</span>
+            <span class="macro-count" id="count-CONTRASTO-RECUPERO">Eventi: 0</span>
         </div>
         <div class="macro-btn" onclick="openMacro('PROGRESSIONE')">
-            <span class="macro-title">PROGRESSIONE</span>
+            <span class="macro-title">Progressione</span>
             <span class="macro-count" id="count-PROGRESSIONE">Eventi: 0</span>
         </div>
-        <div class="macro-btn" onclick="openMacro('TRANSIZIONI DIFENSIVE')">
-            <span class="macro-title">TRANSIZIONI DIFENSIVE</span>
+        <div class="macro-btn" onclick="openMacro('TRANSIZIONI-DIFENSIVE')">
+            <span class="macro-title">Transizioni DIF</span>
             <span class="macro-count" id="count-TRANSIZIONI-DIFENSIVE">Eventi: 0</span>
         </div>
     </div>
 
-    <div class="section-title">Note Tattiche Live</div>
-    <div class="notes-grid">
-        <textarea placeholder="Analisi Offensiva..."></textarea>
-        <textarea placeholder="Analisi Difensiva..."></textarea>
-    </div>
+    <button class="report-btn" onclick="fullReport()">GENERA REPORT ANALITICO</button>
 
-    <button class="report-btn" onclick="generateReport()">GENERA REPORT FINALE</button>
-
-    <div id="chart-wrapper">
-        <canvas id="radarChart"></canvas>
-    </div>
+    <div id="box-radar" class="chart-box"><canvas id="chartRadar"></canvas></div>
+    <div id="box-viscidi" class="chart-box"><canvas id="chartViscidi"></canvas></div>
 
     <div id="modal-overlay">
-        <div class="modal-header">
-            <h2 id="modal-title" class="modal-title"></h2>
-        </div>
-        <div id="modal-content">
-            </div>
-        <button class="btn-close" onclick="closeModal()">CHIUDI E TORNA AL MATCH</button>
+        <h2 id="modal-title" style="color:var(--accent); text-align:center; text-transform:uppercase;"></h2>
+        <div id="modal-body"></div>
+        <button class="btn-close" onclick="closeModal()">TORNA AL LIVE</button>
     </div>
 
     <script>
-        // --- STATE MANAGEMENT ---
-        let matchSeconds = 0;
-        let timeNoi = 0;
-        let timeLoro = 0;
-        let isTimerActive = false;
-        let currentPossession = null;
-        let timerInterval = null;
-
+        let seconds = 0, timeN = 0, timeL = 0, activeP = null, timerIdx = null, running = false, period = 1;
         let stats = {
-            xgNoi: 0.0,
-            xgLoro: 0.0,
-            counts: {
-                "FINALIZZAZIONE": 0,
-                "PALLA INATTIVA": 0,
-                "TRANSIZIONI OFFENSIVE": 0,
-                "CONTRASTO E RECUPERO": 0,
-                "PROGRESSIONE": 0,
-                "TRANSIZIONI DIFENSIVE": 0
-            }
+            xgN: 0, xgL: 0, yN: 0, rN: 0, yL: 0,
+            counts: { "FINALIZZAZIONE":0, "PALLA-INATTIVA":0, "TRANSIZIONI-OFFENSIVE":0, "CONTRASTO-RECUPERO":0, "PROGRESSIONE":0, "TRANSIZIONI-DIFENSIVE":0 }
         };
 
-        // --- TIMER & POSSESSION LOGIC ---
-        function startStopTimer() {
-            if (!isTimerActive) {
-                isTimerActive = true;
-                document.getElementById('startStopBtn').innerText = "PAUSA MATCH";
-                timerInterval = setInterval(() => {
-                    matchSeconds++;
-                    if (currentPossession === 'A') timeNoi++;
-                    if (currentPossession === 'B') timeLoro++;
-                    updateTimerDisplay();
-                }, 1000);
+        function toggleTimer() {
+            if(!running) {
+                running = true; document.getElementById('startBtn').innerText = "PAUSA";
+                timerIdx = setInterval(() => { seconds++; if(activeP==='A') timeN++; if(activeP==='B') timeL++; updateUI(); }, 1000);
+                addLog("Match avviato");
             } else {
-                isTimerActive = false;
-                document.getElementById('startStopBtn').innerText = "RIPRENDI MATCH";
-                clearInterval(timerInterval);
+                running = false; clearInterval(timerIdx); document.getElementById('startBtn').innerText = "RIPRENDI";
+                addLog("Match in pausa");
             }
         }
 
-        function togglePossession(team) {
-            currentPossession = team;
-            document.getElementById('posA').classList.toggle('active', team === 'A');
-            document.getElementById('posB').classList.toggle('active', team === 'B');
+        function updateUI() {
+            const m = Math.floor(seconds/60).toString().padStart(2,'0'), s = (seconds%60).toString().padStart(2,'0');
+            document.getElementById('timer-display').innerText = `${m}:${s}`;
+            let tot = timeN + timeL || 1;
+            document.getElementById('percA').innerText = Math.round((timeN/tot)*100)+'%';
+            document.getElementById('percB').innerText = Math.round((timeL/tot)*100)+'%';
         }
 
-        function updateTimerDisplay() {
-            const mins = Math.floor(matchSeconds / 60).toString().padStart(2, '0');
-            const secs = (matchSeconds % 60).toString().padStart(2, '0');
-            document.getElementById('timer-display').innerText = `${mins}:${secs}`;
+        function setPoss(t) { activeP = t; document.getElementById('posA').classList.toggle('active', t==='A'); document.getElementById('posB').classList.toggle('active', t==='B'); }
 
-            const totalPosTime = timeNoi + timeLoro || 1;
-            document.getElementById('percA').innerText = Math.round((timeNoi / totalPosTime) * 100) + '%';
-            document.getElementById('percB').innerText = Math.round((timeLoro / totalPosTime) * 100) + '%';
+        function addDisc(team, type) {
+            const key = type.toLowerCase() + team;
+            stats[key]++;
+            document.getElementById(`${type.toLowerCase()}-${team.toLowerCase()}`).innerText = stats[key];
+            addLog(`Cartellino ${type==='Y'?'Giallo':'Rosso'} Team ${team}`);
         }
 
-        // --- MODAL & MICRO LOGIC ---
-        function openMacro(macroName) {
-            const overlay = document.getElementById('modal-overlay');
-            const title = document.getElementById('modal-title');
-            const content = document.getElementById('modal-content');
-            
-            title.innerText = macroName;
-            content.innerHTML = ''; // Clear previous
-            
-            // --- LOGICA ESPLICITA PER OGNI CATEGORIA ---
-
-            if (macroName === 'FINALIZZAZIONE') {
-                content.innerHTML = `
-                    <div class="micro-group">
-                        <span class="micro-label">TIRI TOTALI (NOI)</span>
-                        <div class="btn-row">
-                            <button class="btn-action" onclick="addShot('NOI', 0.15, 'Porta')">In Porta (0.15)</button>
-                            <button class="btn-action" onclick="addShot('NOI', 0.05, 'Fuori')">Fuori (0.05)</button>
-                            <button class="btn-action" onclick="addShot('NOI', 0.03, 'Bloccato')">Bloccato</button>
-                        </div>
-                    </div>
-                    <div class="micro-group">
-                        <span class="micro-label">TIRI TOTALI (LORO)</span>
-                        <div class="btn-row">
-                            <button class="btn-action" onclick="addShot('LORO', 0.15, 'Porta')">In Porta</button>
-                            <button class="btn-action" onclick="addShot('LORO', 0.05, 'Fuori')">Fuori</button>
-                        </div>
-                    </div>
-                    <div class="micro-group">
-                        <span class="micro-label">POSIZIONE TIRO (CALCOLO xG AGGIUNTIVO)</span>
-                        <div class="btn-row">
-                            <button class="btn-action" onclick="addXG('NOI', 0.30)">Area Centrale (+0.3)</button>
-                            <button class="btn-action" onclick="addXG('NOI', 0.05)">Fuori Area (+0.05)</button>
-                        </div>
-                    </div>
-                    <div class="micro-group">
-                        <span class="micro-label">ESITO E QUALITÀ</span>
-                        <div class="btn-row">
-                            <button class="btn-action" onclick="logEvent('FINALIZZAZIONE')">GOL SEGNATO</button>
-                            <button class="btn-action" onclick="logEvent('FINALIZZAZIONE')">ASSIST</button>
-                            <button class="btn-action" onclick="logEvent('FINALIZZAZIONE')">CROSS RIUSCITO</button>
-                            <button class="btn-action" onclick="logEvent('FINALIZZAZIONE')">CROSS TENTATO</button>
-                        </div>
-                    </div>
-                `;
-            }
-
-            if (macroName === 'PALLA INATTIVA') {
-                content.innerHTML = `
-                    <div class="micro-group">
-                        <span class="micro-label">CALCI D'ANGOLO</span>
-                        <div class="btn-row">
-                            <button class="btn-action" onclick="logEvent('PALLA INATTIVA')">CORNER A FAVORE</button>
-                            <button class="btn-action" onclick="logEvent('PALLA INATTIVA')">CORNER CONTRO</button>
-                        </div>
-                    </div>
-                    <div class="micro-group">
-                        <span class="micro-label">PUNIZIONI E TIRI</span>
-                        <div class="btn-row">
-                            <button class="btn-action" onclick="logEvent('PALLA INATTIVA')">PUNIZIONE PERICOLOSA</button>
-                            <button class="btn-action" onclick="addXG('NOI', 0.10)">TIRO DA PIAZZATO</button>
-                            <button class="btn-action" onclick="logEvent('PALLA INATTIVA')">GOL DA PIAZZATO</button>
-                        </div>
-                    </div>
-                `;
-            }
-
-            if (macroName === 'TRANSIZIONI OFFENSIVE') {
-                content.innerHTML = `
-                    <div class="micro-group">
-                        <span class="micro-label">AZIONI DI RIPARTENZA</span>
-                        <div class="btn-row">
-                            <button class="btn-action" onclick="logEvent('TRANSIZIONI OFFENSIVE')">CONTROPIEDE CONCLUSO</button>
-                            <button class="btn-action" onclick="logEvent('TRANSIZIONI OFFENSIVE')">ATTACCO DIRETTO</button>
-                        </div>
-                    </div>
-                `;
-            }
-
-            if (macroName === 'CONTRASTO E RECUPERO') {
-                content.innerHTML = `
-                    <div class="micro-group">
-                        <span class="micro-label">DIFESA ATTIVA</span>
-                        <div class="btn-row">
-                            <button class="btn-action" onclick="logEvent('CONTRASTO E RECUPERO')">CONTRASTO VINTO</button>
-                            <button class="btn-action" onclick="logEvent('CONTRASTO E RECUPERO')">CONTRASTO TENTATO</button>
-                            <button class="btn-action" onclick="logEvent('CONTRASTO E RECUPERO')">INTERCETTAZIONE</button>
-                            <button class="btn-action" onclick="logEvent('CONTRASTO E RECUPERO')">DUELLO AEREO VINTO</button>
-                        </div>
-                    </div>
-                `;
-            }
-
-            if (macroName === 'PROGRESSIONE') {
-                content.innerHTML = `
-                    <div class="micro-group">
-                        <span class="micro-label">MANOVRA AVANZATA</span>
-                        <div class="btn-row">
-                            <button class="btn-action" onclick="logEvent('PROGRESSIONE')">DRIBBLING RIUSCITO</button>
-                            <button class="btn-action" onclick="logEvent('PROGRESSIONE')">DRIBBLING TENTATO</button>
-                            <button class="btn-action" onclick="logEvent('PROGRESSIONE')">PASSAGGIO IN PROFONDITÀ</button>
-                        </div>
-                    </div>
-                `;
-            }
-
-            if (macroName === 'TRANSIZIONI DIFENSIVE') {
-                content.innerHTML = `
-                    <div class="micro-group">
-                        <span class="micro-label">PERICOLI SUBITI</span>
-                        <div class="btn-row">
-                            <button class="btn-action" onclick="logEvent('TRANSIZIONI DIFENSIVE')">CONTROPIEDE SUBITO</button>
-                            <button class="btn-action" onclick="logEvent('TRANSIZIONI DIFENSIVE')">PERDITA PALLA PERICOLOSA</button>
-                            <button class="btn-action" onclick="logEvent('TRANSIZIONI DIFENSIVE')">FALLO TATTICO</button>
-                        </div>
-                    </div>
-                `;
-            }
-
-            overlay.style.display = 'flex';
+        function changePeriod() {
+            period++; document.getElementById('period-display').innerText = period + "° TEMPO";
+            addLog(`Inizio ${period}° Tempo`);
         }
 
-        function closeModal() {
-            document.getElementById('modal-overlay').style.display = 'none';
+        function openMacro(name) {
+            const body = document.getElementById('modal-body');
+            document.getElementById('modal-title').innerText = name.replace(/-/g, ' ');
+            body.innerHTML = '';
+
+            if(name === 'FINALIZZAZIONE') {
+                body.innerHTML = `
+                <div class="micro-group"><span class="micro-label">TIRI NOI (Qualità xG)</span><div class="btn-row">
+                    <button class="btn-action" onclick="logE('xgN', 0.50, 'FINALIZZAZIONE', 'Tiro Area Centro')">Centrale (0.50)</button>
+                    <button class="btn-action" onclick="logE('xgN', 0.15, 'FINALIZZAZIONE', 'Tiro Defilato')">Defilato (0.15)</button>
+                    <button class="btn-action" onclick="logE('xgN', 0.05, 'FINALIZZAZIONE', 'Tiro Fuori Area')">Lontano (0.05)</button>
+                    <button class="btn-action" onclick="logE(null, 0, 'FINALIZZAZIONE', 'GOL SEGNATO')">GOL SEGNATO</button>
+                </div></div>
+                <div class="micro-group"><span class="micro-label">TIRI SUBITI</span><div class="btn-row">
+                    <button class="btn-action danger" onclick="logE('xgL', 0.50, 'FINALIZZAZIONE', 'Tiro Subito Centro')">Centro (Subito)</button>
+                    <button class="btn-action danger" onclick="logE('xgL', 0.15, 'FINALIZZAZIONE', 'Tiro Subito Def.')">Defilato (Subito)</button>
+                </div></div>`;
+            } else if(name === 'PALLA-INATTIVA') {
+                body.innerHTML = `<div class="micro-group"><span class="micro-label">Corner e Punizioni</span><div class="btn-row">
+                    <button class="btn-action" onclick="logE(null, 0, 'PALLA-INATTIVA', 'Corner Pro')">Corner (+)</button>
+                    <button class="btn-action danger" onclick="logE(null, 0, 'PALLA-INATTIVA', 'Corner Contro')">Corner (-)</button>
+                    <button class="btn-action" onclick="logE('xgN', 0.75, 'PALLA-INATTIVA', 'Rigore/Piazzato')">Rigore/Piazzato</button>
+                    <button class="btn-action" onclick="logE(null, 0, 'PALLA-INATTIVA', 'Gol Inattiva')">Gol Inattiva</button>
+                </div></div>`;
+            } else if(name === 'TRANSIZIONI-OFFENSIVE') {
+                body.innerHTML = `<div class="micro-group"><span class="micro-label">Recupero e Ripartenza</span><div class="btn-row">
+                    <button class="btn-action" onclick="logE(null, 0, 'TRANSIZIONI-OFFENSIVE', 'Contropiede')">Contropiede</button>
+                    <button class="btn-action" onclick="logE(null, 0, 'TRANSIZIONI-OFFENSIVE', 'Attacco Diretto')">Attacco Diretto</button>
+                    <button class="btn-action" onclick="logE(null, 0, 'TRANSIZIONI-OFFENSIVE', 'Transizione Positiva')">Trans. Positiva</button>
+                </div></div>`;
+            } else if(name === 'CONTRASTO-RECUPERO') {
+                body.innerHTML = `<div class="micro-group"><span class="micro-label">Fase Difesa Attiva</span><div class="btn-row">
+                    <button class="btn-action" onclick="logE(null, 0, 'CONTRASTO-RECUPERO', 'Contrasto Vinto')">Contrasto</button>
+                    <button class="btn-action" onclick="logE(null, 0, 'CONTRASTO-RECUPERO', 'Intercetto')">Intercettata</button>
+                    <button class="btn-action" onclick="logE(null, 0, 'CONTRASTO-RECUPERO', 'Duello Aereo')">Duello Aereo</button>
+                </div></div>`;
+            } else if(name === 'PROGRESSIONE') {
+                body.innerHTML = `<div class="micro-group"><span class="micro-label">Sviluppo Manovra</span><div class="btn-row">
+                    <button class="btn-action" onclick="logE(null, 0, 'PROGRESSIONE', 'Dribbling')">Dribbling</button>
+                    <button class="btn-action" onclick="logE(null, 0, 'PROGRESSIONE', 'Passaggio Chiave')">Filtrante</button>
+                    <button class="btn-action" onclick="logE(null, 0, 'PROGRESSIONE', 'Cross')">Cross</button>
+                </div></div>`;
+            } else if(name === 'TRANSIZIONI-DIFENSIVE') {
+                body.innerHTML = `<div class="micro-group"><span class="micro-label">Perdita Possesso</span><div class="btn-row">
+                    <button class="btn-action danger" onclick="logE(null, 0, 'TRANSIZIONI-DIFENSIVE', 'Contropiede Subito')">Ripartenza Subita</button>
+                    <button class="btn-action danger" onclick="logE('xgL', 0.40, 'TRANSIZIONI-DIFENSIVE', 'Persa Critica')">Persa in uscita</button>
+                    <button class="btn-action danger" onclick="logE(null, 0, 'TRANSIZIONI-DIFENSIVE', 'Fallo Tattico')">Fallo Tattico</button>
+                </div></div>`;
+            }
+            document.getElementById('modal-overlay').style.display = 'flex';
         }
 
-        // --- STATS LOGIC ---
-        function addShot(team, val, label) {
-            if (team === 'NOI') stats.xgNoi += val;
-            else stats.xgLoro += val;
-            logEvent('FINALIZZAZIONE');
-            updateKPIs();
-        }
-
-        function addXG(team, val) {
-            if (team === 'NOI') stats.xgNoi += val;
-            else stats.xgLoro += val;
-            updateKPIs();
-        }
-
-        function logEvent(macro) {
+        function logE(xgK, val, macro, label) {
+            if(xgK) stats[xgK] += val;
             stats.counts[macro]++;
-            const displayMacro = macro.replace(/ /g, '-');
-            document.getElementById(`count-${displayMacro}`).innerText = `Eventi: ${stats.counts[macro]}`;
-            updateKPIs();
+            document.getElementById('xg-prod').innerText = stats.xgN.toFixed(2);
+            document.getElementById('xg-conc').innerText = stats.xgL.toFixed(2);
+            document.getElementById(`count-${macro}`).innerText = `Eventi: ${stats.counts[macro]}`;
+            addLog(label); closeModal();
         }
 
-        function updateKPIs() {
-            document.getElementById('xg-prod').innerText = stats.xgNoi.toFixed(2);
-            document.getElementById('xg-conc').innerText = stats.xgLoro.toFixed(2);
+        function addLog(msg) {
+            const log = document.getElementById('main-log');
+            const ts = document.getElementById('timer-display').innerText;
+            log.innerHTML = `<div class="log-entry"><span class="log-ts">[${ts}]</span><span>${msg}</span></div>` + log.innerHTML;
         }
 
-        function resetAll() {
-            if(confirm("Vuoi resettare tutti i dati del match?")) {
-                location.reload();
-            }
-        }
+        function closeModal() { document.getElementById('modal-overlay').style.display = 'none'; }
+        function resetMatch() { if(confirm("Cancellare tutti i dati?")) location.reload(); }
 
-        // --- CHARTING ---
-        function generateReport() {
-            document.getElementById('chart-wrapper').style.display = 'block';
-            const ctx = document.getElementById('radarChart').getContext('2d');
-            
-            const labels = Object.keys(stats.counts);
-            const dataValues = Object.values(stats.counts);
+        function fullReport() {
+            document.getElementById('box-radar').style.display = 'block';
+            document.getElementById('box-viscidi').style.display = 'block';
 
-            new Chart(ctx, {
+            new Chart(document.getElementById('chartRadar'), {
                 type: 'radar',
                 data: {
-                    labels: labels,
+                    labels: ['FIN', 'INA', 'T-OFF', 'REC', 'PROG', 'T-DIF'],
+                    datasets: [{ label: 'Volume d\'Azione', data: Object.values(stats.counts), backgroundColor: 'rgba(0, 242, 255, 0.2)', borderColor: '#00f2ff', borderWidth: 3 }]
+                },
+                options: { scales: { r: { beginAtZero: true, grid: { color: '#ccc' } } } }
+            });
+
+            new Chart(document.getElementById('chartViscidi'), {
+                type: 'scatter',
+                data: {
                     datasets: [{
-                        label: 'Volume d\'Azione per Macroarea',
-                        data: dataValues,
-                        backgroundColor: 'rgba(0, 242, 255, 0.2)',
-                        borderColor: '#00f2ff',
-                        pointBackgroundColor: '#00f2ff',
-                        borderWidth: 3
+                        label: 'Posizionamento Tattico (xG)',
+                        data: [{ x: stats.xgL, y: stats.xgN }],
+                        backgroundColor: '#f43f5e', pointRadius: 12
                     }]
                 },
                 options: {
                     scales: {
-                        r: {
-                            angleLines: { color: '#334155' },
-                            grid: { color: '#334155' },
-                            pointLabels: { color: '#64748b', font: { size: 10, weight: 'bold' } },
-                            beginAtZero: true
-                        }
-                    },
-                    plugins: { legend: { display: false } }
+                        x: { min: 0, max: 4, title: { display: true, text: 'xG CONCESSI' } },
+                        y: { min: 0, max: 4, title: { display: true, text: 'xG PRODOTTI' } }
+                    }
                 }
             });
             window.scrollTo(0, document.body.scrollHeight);
