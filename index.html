@@ -3,80 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>IPOIRD TACTICAL ANALYZER ULTRA-PRO</title>
-    
+    <title>IPOIRD TACTICAL ANALYZER - MATRICE FEDERALE V2</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <style>
         :root {
             --bg: #0b0f19; --card: #161e2d; --accent: #00f2ff;
             --text: #e2e8f0; --win: #10b981; --loss: #f43f5e; --gray: #64748b; --warning: #fbbf24;
         }
-
-        body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--bg); color: var(--text);
-            margin: 0; padding: 10px; display: flex; flex-direction: column; min-height: 100vh;
-        }
-
-        .header-box { 
-            background: var(--card); border-radius: 15px; padding: 20px; 
-            border: 1px solid var(--gray); margin-bottom: 10px; text-align: center; 
-        }
-        #timer-display { font-size: 3.5rem; font-weight: 900; color: white; display: block; margin-bottom: 5px; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 10px; display: flex; flex-direction: column; min-height: 100vh; }
+        .header-box { background: var(--card); border-radius: 15px; padding: 20px; border: 1px solid var(--gray); margin-bottom: 10px; text-align: center; }
+        #timer-display { font-size: 3.5rem; font-weight: 900; color: white; display: block; }
         .period-label { color: var(--accent); font-weight: 900; letter-spacing: 2px; margin-bottom: 15px; }
-        
         .possession-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        .pos-btn { 
-            padding: 22px; border: none; border-radius: 12px; color: white; 
-            font-weight: 800; opacity: 0.2; transition: 0.3s; font-size: 1.1rem;
-        }
+        .pos-btn { padding: 22px; border: none; border-radius: 12px; color: white; font-weight: 800; opacity: 0.2; transition: 0.3s; font-size: 1.1rem; }
         .pos-btn.active { opacity: 1; box-shadow: 0 0 25px var(--accent); transform: scale(1.02); }
-
-        .discipline-row { display: flex; justify-content: space-around; margin-bottom: 15px; }
-        .card-btn { background: #1e293b; border: 1px solid var(--gray); padding: 8px 15px; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; }
-        .card-yellow { border-left: 5px solid var(--warning); }
-        .card-red { border-left: 5px solid var(--loss); }
-
-        .control-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-        .btn-main-sm { background: #334155; border: none; color: white; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 0.8rem; }
-        .btn-reset { background: #450a0a; color: #f87171; border: 1px solid #7f1d1d; }
-
+        .control-btns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+        .btn-main-sm { background: #334155; border: none; color: white; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 0.7rem; }
+        .btn-reset { background: #450a0a; color: #f87171; }
         .kpi-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .kpi-card { background: var(--card); padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #2d3748; }
         .kpi-value { font-size: 2rem; font-weight: 900; color: var(--accent); display: block; }
-        .kpi-label { font-size: 0.7rem; color: var(--gray); text-transform: uppercase; }
-
-        .log-container {
-            background: #0f172a; border: 1px solid #334155; border-radius: 12px;
-            height: 120px; overflow-y: auto; padding: 10px; margin-bottom: 15px; font-family: monospace; font-size: 0.75rem;
-        }
+        .log-container { background: #0f172a; border: 1px solid #334155; border-radius: 12px; height: 120px; overflow-y: auto; padding: 10px; margin-bottom: 15px; font-family: monospace; font-size: 0.75rem; }
         .log-entry { border-bottom: 1px solid #1e293b; padding: 3px 0; display: flex; justify-content: space-between; }
-        .log-ts { color: var(--accent); margin-right: 10px; }
-
-        .matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
-        .macro-btn {
-            background: var(--card); border: 1px solid #2d3748; border-radius: 18px; padding: 30px 10px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
-        }
-        .macro-btn:active { background: var(--accent); }
-        .macro-title { font-weight: 900; font-size: 0.85rem; color: #fff; text-transform: uppercase; }
-        .macro-count { font-size: 0.65rem; color: var(--accent); margin-top: 8px; font-weight: bold; }
-
-        #modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.98); z-index: 2000; flex-direction: column; padding: 20px; box-sizing: border-box; overflow-y: auto;
-        }
-        .micro-group { background: #1e293b; border-radius: 15px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--accent); }
-        .micro-label { display: block; font-size: 0.8rem; font-weight: 800; margin-bottom: 12px; color: var(--gray); text-transform: uppercase; }
-        .btn-row { display: flex; flex-wrap: wrap; gap: 8px; }
-        .btn-action { flex: 1; min-width: 110px; padding: 15px 8px; border: none; border-radius: 8px; background: #334155; color: white; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; }
-        .btn-action.danger { background: #450a0a; color: #f87171; }
-        .btn-close { background: var(--loss); color: white; padding: 20px; border-radius: 15px; border: none; font-weight: 900; margin-top: 10px; width: 100%; }
-
-        .report-btn { background: var(--accent); color: black; padding: 20px; border-radius: 15px; border: none; font-weight: 900; font-size: 1rem; width: 100%; margin: 5px 0; }
+        .matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .macro-btn { background: var(--card); border: 1px solid #2d3748; border-radius: 15px; padding: 25px 5px; text-align: center; }
+        .macro-title { font-weight: 900; font-size: 0.8rem; color: #fff; text-transform: uppercase; display: block; }
+        .macro-count { font-size: 0.65rem; color: var(--accent); margin-top: 5px; }
+        #modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 2000; flex-direction: column; padding: 20px; box-sizing: border-box; overflow-y: auto; }
+        .micro-group { background: #1e293b; border-radius: 12px; padding: 15px; margin-bottom: 10px; border-left: 4px solid var(--accent); }
+        .micro-label { display: block; font-size: 0.75rem; font-weight: 800; margin-bottom: 10px; color: var(--gray); text-transform: uppercase; }
+        .btn-row { display: flex; flex-wrap: wrap; gap: 6px; }
+        .btn-action { flex: 1; min-width: 130px; padding: 12px 5px; border: none; border-radius: 6px; background: #334155; color: white; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+        .report-btn { background: var(--accent); color: black; padding: 18px; border-radius: 12px; border: none; font-weight: 900; width: 100%; margin: 5px 0; }
         .mail-btn { background: #ea4335; color: white; }
-        .chart-box { background: white; border-radius: 20px; padding: 15px; margin-bottom: 20px; display: none; }
+        .btn-close { background: var(--loss); color: white; padding: 15px; border: none; border-radius: 8px; font-weight: 900; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -84,94 +44,56 @@
     <div class="header-box">
         <div class="period-label" id="period-display">1° TEMPO</div>
         <span id="timer-display">00:00</span>
-        
         <div class="possession-container">
             <button id="posA" class="pos-btn" style="background: var(--win)" onclick="setPoss('A')">NOI: <span id="percA">50%</span></button>
             <button id="posB" class="pos-btn" style="background: var(--loss)" onclick="setPoss('B')">LORO: <span id="percB">50%</span></button>
         </div>
-
-        <div class="discipline-row">
-            <div class="card-btn card-yellow" onclick="addDisc('N','Y')">NOI: <span id="y-n">0</span></div>
-            <div class="card-btn card-red" onclick="addDisc('N','R')">ROSSI: <span id="r-n">0</span></div>
-            <div class="card-btn card-yellow" onclick="addDisc('L','Y')">LORO: <span id="y-l">0</span></div>
-        </div>
-
         <div class="control-btns">
-            <button id="startBtn" class="btn-main-sm" onclick="toggleTimer()">AVVIA</button>
+            <button id="startBtn" class="btn-main-sm" onclick="toggleTimer()">START</button>
             <button id="nextPeriodBtn" class="btn-main-sm" onclick="switchToSecondPeriod()">2° TEMPO</button>
-            <button class="btn-main-sm btn-reset" onclick="resetAllData()">RESET MATCH</button>
+            <button class="btn-main-sm btn-reset" onclick="resetAllData()">RESET</button>
         </div>
     </div>
 
     <div class="kpi-container">
-        <div class="kpi-card"><span class="kpi-value" id="xg-prod">0.00</span><span class="kpi-label">xG Prodotti</span></div>
-        <div class="kpi-card"><span class="kpi-value" id="xg-conc">0.00</span><span class="kpi-label">xG Concessi</span></div>
+        <div class="kpi-card"><span class="kpi-value" id="xg-prod">0.00</span><span class="kpi-label">PT. PRODOTTI</span></div>
+        <div class="kpi-card"><span class="kpi-value" id="xg-conc">0.00</span><span class="kpi-label">PT. SUBITI</span></div>
     </div>
 
-    <div class="log-container" id="main-log">
-        <div class="log-entry"><span class="log-ts">00:00</span><span>Analizzatore Pronto.</span></div>
-    </div>
+    <div class="log-container" id="main-log"></div>
 
     <div class="matrix">
-        <div class="macro-btn" onclick="openMacro('FINALIZZAZIONE')">
-            <span class="macro-title">Finalizzazione</span>
-            <span class="macro-count" id="count-FINALIZZAZIONE">Eventi: 0</span>
-        </div>
-        <div class="macro-btn" onclick="openMacro('PALLA-INATTIVA')">
-            <span class="macro-title">Palla Inattiva</span>
-            <span class="macro-count" id="count-PALLA-INATTIVA">Eventi: 0</span>
-        </div>
-        <div class="macro-btn" onclick="openMacro('TRANSIZIONI-OFFENSIVE')">
-            <span class="macro-title">Transizioni OFF</span>
-            <span class="macro-count" id="count-TRANSIZIONI-OFFENSIVE">Eventi: 0</span>
-        </div>
-        <div class="macro-btn" onclick="openMacro('CONTRASTO-RECUPERO')">
-            <span class="macro-title">Contrasto/Rec</span>
-            <span class="macro-count" id="count-CONTRASTO-RECUPERO">Eventi: 0</span>
-        </div>
-        <div class="macro-btn" onclick="openMacro('PROGRESSIONE')">
-            <span class="macro-title">Progressione</span>
-            <span class="macro-count" id="count-PROGRESSIONE">Eventi: 0</span>
-        </div>
-        <div class="macro-btn" onclick="openMacro('TRANSIZIONI-DIFENSIVE')">
-            <span class="macro-title">Transizioni DIF</span>
-            <span class="macro-count" id="count-TRANSIZIONI-DIFENSIVE">Eventi: 0</span>
-        </div>
+        <div class="macro-btn" onclick="openMacro('FINALIZZAZIONE')"><span class="macro-title">Finalizzazione</span><span class="macro-count" id="count-FINALIZZAZIONE">Eventi: 0</span></div>
+        <div class="macro-btn" onclick="openMacro('PALLA-INATTIVA')"><span class="macro-title">Palla Inattiva</span><span class="macro-count" id="count-PALLA-INATTIVA">Eventi: 0</span></div>
+        <div class="macro-btn" onclick="openMacro('TRANSIZIONI-OFFENSIVE')"><span class="macro-title">Transizioni OFF</span><span class="macro-count" id="count-TRANSIZIONI-OFFENSIVE">Eventi: 0</span></div>
+        <div class="macro-btn" onclick="openMacro('CONTRASTO-RECUPERO')"><span class="macro-title">Contrasto/Rec</span><span class="macro-count" id="count-CONTRASTO-RECUPERO">Eventi: 0</span></div>
+        <div class="macro-btn" onclick="openMacro('PROGRESSIONE')"><span class="macro-title">Progressione</span><span class="macro-count" id="count-PROGRESSIONE">Eventi: 0</span></div>
+        <div class="macro-btn" onclick="openMacro('TRANSIZIONI-DIFENSIVE')"><span class="macro-title">Transizioni DIF</span><span class="macro-count" id="count-TRANSIZIONI-DIFENSIVE">Eventi: 0</span></div>
     </div>
 
-    <button class="report-btn" onclick="fullReport()">GRAFICI REPORT</button>
-    <button class="report-btn mail-btn" onclick="sendReportByMail()">📧 INVIA REPORT A SCURATTI</button>
-
-    <div id="box-radar" class="chart-box"><canvas id="chartRadar"></canvas></div>
-    <div id="box-viscidi" class="chart-box"><canvas id="chartViscidi"></canvas></div>
+    <button class="report-btn mail-btn" onclick="sendReportByMail()">📧 INVIA ANALISI A SCURATTI</button>
 
     <div id="modal-overlay">
-        <h2 id="modal-title" style="color:var(--accent); text-align:center;"></h2>
+        <h2 id="modal-title" style="color:var(--accent); text-align:center; text-transform:uppercase; font-size:1.2rem;"></h2>
         <div id="modal-body"></div>
-        <button class="btn-close" onclick="closeModal()">CHIUDI</button>
+        <button class="btn-close" onclick="closeModal()">RITORNA AL CAMPO</button>
     </div>
 
     <script>
         let seconds = 0, timeN = 0, timeL = 0, activeP = null, timerIdx = null, running = false, period = 1;
-        
-        let matchData = {
-            t1: { xgN: 0, xgL: 0, posN: "50%", posL: "50%", counts: {} },
-            t2: { xgN: 0, xgL: 0, posN: "50%", posL: "50%", counts: {} }
-        };
-
+        let matchData = { t1: { ptN: 0, ptL: 0, pos: "50/50" }, t2: { ptN: 0, ptL: 0, pos: "50/50" } };
         let stats = {
-            xgN: 0, xgL: 0, yn: 0, rn: 0, yl: 0,
-            counts: { "FINALIZZAZIONE":0, "PALLA-INATTIVA":0, "TRANSIZIONI-OFFENSIVE":0, "CONTRASTO-RECUPERO":0, "PROGRESSIONE":0, "TRANSIZIONI-DIFENSIVE":0 }
+            ptN: 0, ptL: 0,
+            counts: { "FINALIZZAZIONE":0, "PALLA-INATTIVA":0, "TRANSIZIONI-OFFENSIVE":0, "CONTRASTO-RECUPERO":0, "PROGRESSIONE":0, "TRANSIZIONI-DIFENSIVE":0 },
+            micro: {}
         };
 
         function toggleTimer() {
             if(!running) {
                 running = true; document.getElementById('startBtn').innerText = "PAUSA";
                 timerIdx = setInterval(() => { seconds++; if(activeP==='A') timeN++; if(activeP==='B') timeL++; updateUI(); }, 1000);
-                addLog("Timer avviato");
             } else {
                 running = false; clearInterval(timerIdx); document.getElementById('startBtn').innerText = "RIPRENDI";
-                addLog("Timer in pausa");
             }
         }
 
@@ -185,114 +107,98 @@
 
         function setPoss(t) { activeP = t; document.getElementById('posA').classList.toggle('active', t==='A'); document.getElementById('posB').classList.toggle('active', t==='B'); }
 
-        function addDisc(team, type) {
-            const key = type.toLowerCase() + team.toLowerCase();
-            stats[key]++;
-            document.getElementById(`${type.toLowerCase()}-${team.toLowerCase()}`).innerText = stats[key];
-            addLog(`Cartellino ${type} Team ${team}`);
-        }
-
-        function switchToSecondPeriod() {
-            if (period === 1) {
-                matchData.t1 = { 
-                    xgN: stats.xgN.toFixed(2), 
-                    xgL: stats.xgL.toFixed(2), 
-                    posN: document.getElementById('percA').innerText, 
-                    posL: document.getElementById('percB').innerText,
-                    counts: {...stats.counts}
-                };
-                period = 2; seconds = 0; timeN = 0; timeL = 0;
-                stats.xgN = 0; stats.xgL = 0;
-                Object.keys(stats.counts).forEach(k => {
-                    stats.counts[k] = 0;
-                    document.getElementById(`count-${k}`).innerText = "Eventi: 0";
-                });
-                document.getElementById('xg-prod').innerText = "0.00";
-                document.getElementById('xg-conc').innerText = "0.00";
-                document.getElementById('period-display').innerText = "2° TEMPO";
-                document.getElementById('nextPeriodBtn').style.opacity = "0.5";
-                addLog("--- INIZIO SECONDO TEMPO ---");
-                updateUI();
-            }
-        }
-
-        function resetAllData() {
-            if(confirm("Cancellare definitivamente tutti i dati del match?")) location.reload();
-        }
-
         function openMacro(name) {
             const body = document.getElementById('modal-body');
             document.getElementById('modal-title').innerText = name.replace(/-/g, ' ');
             body.innerHTML = '';
-            
-            let content = '';
-            if(name === 'FINALIZZAZIONE') {
-                content = `<div class="micro-group"><span class="micro-label">NOI</span><div class="btn-row">
-                    <button class="btn-action" onclick="logE('xgN', 0.50, 'FINALIZZAZIONE', 'Tiro Centro')">Centro</button>
-                    <button class="btn-action" onclick="logE('xgN', 0.15, 'FINALIZZAZIONE', 'Tiro Lato')">Lato</button>
-                    <button class="btn-action" style="background:var(--win)" onclick="logE(null, 0, 'FINALIZZAZIONE', 'GOL')">GOL</button>
-                </div></div>`;
-            } else if(name === 'TRANSIZIONI-DIFENSIVE') {
-                content = `<div class="micro-group"><span class="micro-label">PERICOLO</span><div class="btn-row">
-                    <button class="btn-action danger" onclick="logE('xgL', 0.40, 'TRANSIZIONI-DIFENSIVE', 'Persa Critica')">Persa Uscita</button>
-                    <button class="btn-action danger" onclick="logE(null, 0, 'TRANSIZIONI-DIFENSIVE', 'Contropiede Subito')">Ripartenza</button>
-                </div></div>`;
-            } else {
-                content = `<div class="micro-group"><span class="micro-label">AZIONI</span><div class="btn-row">
-                    <button class="btn-action" onclick="logE(null, 0, '${name}', 'Azione Positiva')">Positiva</button>
-                    <button class="btn-action danger" onclick="logE(null, 0, '${name}', 'Azione Negativa')">Negativa</button>
-                </div></div>`;
+            let h = '';
+
+            switch(name) {
+                case 'FINALIZZAZIONE':
+                    h = group("TIRI", [
+                        btn('xgN', 0.10, name, 'Tiro Fuori'), btn('xgN', 0.20, name, 'Tiro Porta'), btn('xgN', 0.05, name, 'Tiro Bloccato'),
+                        btn('xgN', 0.15, name, 'Tiro Fuori Area'), btn('xgN', 0.40, name, 'Tiro Dentro Area'), btn('xgN', 1.00, name, 'GOL SEGNATO', '#10b981')
+                    ]) + group("CREAZIONE", [
+                        btn('xgN', 0.30, name, 'Assist'), btn('xgN', 0.15, name, 'Key Pass'), btn('xgN', 0.10, name, 'Cross Riuscito'), btn(null, 0, name, 'Cross Tentato')
+                    ]);
+                    break;
+                case 'PALLA-INATTIVA':
+                    h = group("SITUAZIONI", [
+                        btn('xgN', 0.10, name, 'Corner Pro'), btn('xgL', 0.10, name, 'Corner Contro'), btn('xgN', 0.25, name, 'Punizione Peric.'), btn('xgN', 0.50, name, 'Gol/Tiro Inattiva')
+                    ]);
+                    break;
+                case 'TRANSIZIONI-OFFENSIVE':
+                    h = group("RIPARTENZA", [
+                        btn('xgN', 0.40, name, 'Contropiede OK'), btn('xgN', 0.25, name, 'Attacco Diretto')
+                    ]);
+                    break;
+                case 'CONTRASTO-RECUPERO':
+                    h = group("DIFESA ATTIVA", [
+                        btn('xgN', 0.05, name, 'Contrasto Vinto'), btn(null, 0, name, 'Contrasto Perso'), btn('xgN', 0.10, name, 'Intercettazione'), btn('xgN', 0.05, name, 'Duello Aereo Vinto')
+                    ]);
+                    break;
+                case 'PROGRESSIONE':
+                    h = group("DRIBBLING (ZONA METRI)", [
+                        btn('xgN', 0.05, name, 'Dribbling 0-25m'), btn('xgN', 0.15, name, 'Dribbling 26-50m'), 
+                        btn('xgN', 0.25, name, 'Dribbling 51-75m'), btn('xgN', 0.40, name, 'Dribbling 76-100m')
+                    ]) + group("MANOVRA", [
+                        btn('xgN', 0.20, name, 'Pass. Profondità'), btn(null, 0, name, 'Dribbling Perso')
+                    ]);
+                    break;
+                case 'TRANSIZIONI-DIFENSIVE':
+                    h = group("PERICOLO SUBITO", [
+                        btn('xgL', 0.40, name, 'Contropiede Subito'), btn('xgL', 0.50, name, 'Persa Zona Peric.'), btn('xgL', 0.10, name, 'Fallo Tattico')
+                    ]);
+                    break;
             }
-            body.innerHTML = content;
+            body.innerHTML = h;
             document.getElementById('modal-overlay').style.display = 'flex';
         }
 
-        function logE(xgK, val, macro, label) {
-            if(xgK) stats[xgK] += val;
-            stats.counts[macro]++;
-            document.getElementById('xg-prod').innerText = stats.xgN.toFixed(2);
-            document.getElementById('xg-conc').innerText = stats.xgL.toFixed(2);
-            document.getElementById(`count-${macro}`).innerText = `Eventi: ${stats.counts[macro]}`;
-            addLog(label); closeModal();
+        function group(label, btns) { return `<div class="micro-group"><span class="micro-label">${label}</span><div class="btn-row">${btns.join('')}</div></div>`; }
+        function btn(type, val, macro, label, color) { 
+            let style = color ? `style="background:${color}"` : '';
+            return `<button class="btn-action" ${style} onclick="logE('${type}', ${val}, '${macro}', '${label}')">${label}</button>`; 
         }
 
-        function addLog(msg) {
-            const log = document.getElementById('main-log');
+        function logE(type, val, macro, label) {
+            if(type === 'xgN') stats.ptN += val;
+            if(type === 'xgL') stats.ptL += val;
+            stats.counts[macro]++;
+            stats.micro[label] = (stats.micro[label] || 0) + 1;
+            document.getElementById('xg-prod').innerText = stats.ptN.toFixed(2);
+            document.getElementById('xg-conc').innerText = stats.ptL.toFixed(2);
+            document.getElementById(`count-${macro}`).innerText = `Eventi: ${stats.counts[macro]}`;
             const ts = document.getElementById('timer-display').innerText;
-            log.innerHTML = `<div class="log-entry"><span class="log-ts">[${ts}]</span><span>${msg}</span></div>` + log.innerHTML;
+            document.getElementById('main-log').innerHTML = `<div class="log-entry"><span>[${ts}] ${label}</span></div>` + document.getElementById('main-log').innerHTML;
+            closeModal();
+        }
+
+        function switchToSecondPeriod() {
+            if(period === 1) {
+                matchData.t1 = { ptN: stats.ptN.toFixed(2), ptL: stats.ptL.toFixed(2), pos: document.getElementById('percA').innerText + "/" + document.getElementById('percB').innerText };
+                period = 2; seconds = 0; timeN = 0; timeL = 0; stats.ptN = 0; stats.ptL = 0;
+                document.getElementById('period-display').innerText = "2° TEMPO";
+                document.getElementById('nextPeriodBtn').style.opacity = "0.5";
+                updateUI();
+            }
+        }
+
+        function sendReportByMail() {
+            let currentP = period === 1 ? "t1" : "t2";
+            matchData[currentP] = { ptN: stats.ptN.toFixed(2), ptL: stats.ptL.toFixed(2), pos: document.getElementById('percA').innerText + "/" + document.getElementById('percB').innerText };
+            
+            const email = "scurattiandrea@gmail.com";
+            const subject = "ANALISI TATTICA IPOIRD - " + new Date().toLocaleDateString();
+            let bodyText = `SINTESI MATCH\n\n1° TEMPO: Pt ${matchData.t1.ptN}/${matchData.t1.ptL} | Poss. ${matchData.t1.pos}\n`;
+            if(period === 2) bodyText += `2° TEMPO: Pt ${matchData.t2.ptN}/${matchData.t2.ptL} | Poss. ${matchData.t2.pos}\n`;
+            bodyText += `\nDETTAGLIO EVENTI:\n` + JSON.stringify(stats.micro, null, 2);
+            
+            window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
         }
 
         function closeModal() { document.getElementById('modal-overlay').style.display = 'none'; }
-
-        function sendReportByMail() {
-            // Salvataggio dati correnti
-            if (period === 2) {
-                matchData.t2 = { xgN: stats.xgN.toFixed(2), xgL: stats.xgL.toFixed(2), posN: document.getElementById('percA').innerText, posL: document.getElementById('percB').innerText };
-            } else {
-                matchData.t1 = { xgN: stats.xgN.toFixed(2), xgL: stats.xgL.toFixed(2), posN: document.getElementById('percA').innerText, posL: document.getElementById('percB').innerText };
-            }
-
-            const email = "scurattiandrea@gmail.com";
-            const subject = "REPORT IPOIRD - " + new Date().toLocaleDateString();
-            let body = `ANALISI MATCH\n\n1° TEMPO:\nxG Noi: ${matchData.t1.xgN}\nxG Loro: ${matchData.t1.xgL}\nPossesso: ${matchData.t1.posN} - ${matchData.t1.posL}\n\n`;
-            if(period === 2) body += `2° TEMPO:\nxG Noi: ${matchData.t2.xgN}\nxG Loro: ${matchData.t2.xgL}\nPossesso: ${matchData.t2.posN} - ${matchData.t2.posL}\n\n`;
-            body += `CRONOLOGIA EVENTI:\n` + document.getElementById('main-log').innerText;
-
-            window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        }
-
-        function fullReport() {
-            document.getElementById('box-radar').style.display = 'block';
-            document.getElementById('box-viscidi').style.display = 'block';
-            new Chart(document.getElementById('chartRadar'), {
-                type: 'radar',
-                data: {
-                    labels: ['FIN', 'INA', 'T-OFF', 'REC', 'PROG', 'T-DIF'],
-                    datasets: [{ label: 'Volume', data: Object.values(stats.counts), borderColor: '#00f2ff', backgroundColor: 'rgba(0,242,255,0.1)' }]
-                }
-            });
-            window.scrollTo(0, document.body.scrollHeight);
-        }
+        function resetAllData() { if(confirm("Resettare tutto?")) location.reload(); }
     </script>
 </body>
 </html>
