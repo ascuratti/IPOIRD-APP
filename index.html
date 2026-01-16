@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>IPOIRD TACTICAL ANALYZER ULTRA-PRO</title>
     
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
@@ -40,8 +38,9 @@
         .card-yellow { border-left: 5px solid var(--warning); }
         .card-red { border-left: 5px solid var(--loss); }
 
-        .control-btns { display: flex; justify-content: center; gap: 10px; }
-        .btn-main-sm { background: #334155; border: none; color: white; padding: 12px 20px; border-radius: 8px; font-weight: bold; }
+        .control-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+        .btn-main-sm { background: #334155; border: none; color: white; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 0.8rem; }
+        .btn-reset { background: #450a0a; color: #f87171; border: 1px solid #7f1d1d; }
 
         .kpi-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .kpi-card { background: var(--card); padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #2d3748; }
@@ -61,7 +60,6 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
         }
         .macro-btn:active { background: var(--accent); }
-        .macro-btn:active .macro-title { color: black; }
         .macro-title { font-weight: 900; font-size: 0.85rem; color: #fff; text-transform: uppercase; }
         .macro-count { font-size: 0.65rem; color: var(--accent); margin-top: 8px; font-weight: bold; }
 
@@ -76,8 +74,8 @@
         .btn-action.danger { background: #450a0a; color: #f87171; }
         .btn-close { background: var(--loss); color: white; padding: 20px; border-radius: 15px; border: none; font-weight: 900; margin-top: 10px; width: 100%; }
 
-        .report-btn { background: var(--accent); color: black; padding: 25px; border-radius: 20px; border: none; font-weight: 900; font-size: 1.2rem; width: 100%; margin: 10px 0; }
-        .notion-btn { background: #ffffff; color: #000; border: 2px solid #333; }
+        .report-btn { background: var(--accent); color: black; padding: 20px; border-radius: 15px; border: none; font-weight: 900; font-size: 1rem; width: 100%; margin: 5px 0; }
+        .mail-btn { background: #ea4335; color: white; }
         .chart-box { background: white; border-radius: 20px; padding: 15px; margin-bottom: 20px; display: none; }
     </style>
 </head>
@@ -99,9 +97,9 @@
         </div>
 
         <div class="control-btns">
-            <button id="startBtn" class="btn-main-sm" onclick="toggleTimer()">AVVIA MATCH</button>
-            <button class="btn-main-sm" onclick="changePeriod()">CAMBIO TEMPO</button>
-            <button class="btn-main-sm" onclick="resetMatch()">RESET</button>
+            <button id="startBtn" class="btn-main-sm" onclick="toggleTimer()">AVVIA</button>
+            <button id="nextPeriodBtn" class="btn-main-sm" onclick="switchToSecondPeriod()">2° TEMPO</button>
+            <button class="btn-main-sm btn-reset" onclick="resetAllData()">RESET MATCH</button>
         </div>
     </div>
 
@@ -111,7 +109,7 @@
     </div>
 
     <div class="log-container" id="main-log">
-        <div class="log-entry"><span class="log-ts">00:00</span><span>Sistema pronto per l'analisi.</span></div>
+        <div class="log-entry"><span class="log-ts">00:00</span><span>Analizzatore Pronto.</span></div>
     </div>
 
     <div class="matrix">
@@ -141,20 +139,26 @@
         </div>
     </div>
 
-    <button class="report-btn" onclick="fullReport()">GENERA REPORT ANALITICO</button>
-    <button class="report-btn notion-btn" onclick="syncToNotion()">📤 SINCRONIZZA CON NOTION</button>
+    <button class="report-btn" onclick="fullReport()">GRAFICI REPORT</button>
+    <button class="report-btn mail-btn" onclick="sendReportByMail()">📧 INVIA REPORT A SCURATTI</button>
 
     <div id="box-radar" class="chart-box"><canvas id="chartRadar"></canvas></div>
     <div id="box-viscidi" class="chart-box"><canvas id="chartViscidi"></canvas></div>
 
     <div id="modal-overlay">
-        <h2 id="modal-title" style="color:var(--accent); text-align:center; text-transform:uppercase;"></h2>
+        <h2 id="modal-title" style="color:var(--accent); text-align:center;"></h2>
         <div id="modal-body"></div>
-        <button class="btn-close" onclick="closeModal()">TORNA AL LIVE</button>
+        <button class="btn-close" onclick="closeModal()">CHIUDI</button>
     </div>
 
     <script>
         let seconds = 0, timeN = 0, timeL = 0, activeP = null, timerIdx = null, running = false, period = 1;
+        
+        let matchData = {
+            t1: { xgN: 0, xgL: 0, posN: "50%", posL: "50%", counts: {} },
+            t2: { xgN: 0, xgL: 0, posN: "50%", posL: "50%", counts: {} }
+        };
+
         let stats = {
             xgN: 0, xgL: 0, yn: 0, rn: 0, yl: 0,
             counts: { "FINALIZZAZIONE":0, "PALLA-INATTIVA":0, "TRANSIZIONI-OFFENSIVE":0, "CONTRASTO-RECUPERO":0, "PROGRESSIONE":0, "TRANSIZIONI-DIFENSIVE":0 }
@@ -164,10 +168,10 @@
             if(!running) {
                 running = true; document.getElementById('startBtn').innerText = "PAUSA";
                 timerIdx = setInterval(() => { seconds++; if(activeP==='A') timeN++; if(activeP==='B') timeL++; updateUI(); }, 1000);
-                addLog("Match avviato");
+                addLog("Timer avviato");
             } else {
                 running = false; clearInterval(timerIdx); document.getElementById('startBtn').innerText = "RIPRENDI";
-                addLog("Match in pausa");
+                addLog("Timer in pausa");
             }
         }
 
@@ -185,63 +189,61 @@
             const key = type.toLowerCase() + team.toLowerCase();
             stats[key]++;
             document.getElementById(`${type.toLowerCase()}-${team.toLowerCase()}`).innerText = stats[key];
-            addLog(`Cartellino ${type==='Y'?'Giallo':'Rosso'} Team ${team}`);
+            addLog(`Cartellino ${type} Team ${team}`);
         }
 
-        function changePeriod() {
-            period++; document.getElementById('period-display').innerText = period + "° TEMPO";
-            addLog(`Inizio ${period}° Tempo`);
+        function switchToSecondPeriod() {
+            if (period === 1) {
+                matchData.t1 = { 
+                    xgN: stats.xgN.toFixed(2), 
+                    xgL: stats.xgL.toFixed(2), 
+                    posN: document.getElementById('percA').innerText, 
+                    posL: document.getElementById('percB').innerText,
+                    counts: {...stats.counts}
+                };
+                period = 2; seconds = 0; timeN = 0; timeL = 0;
+                stats.xgN = 0; stats.xgL = 0;
+                Object.keys(stats.counts).forEach(k => {
+                    stats.counts[k] = 0;
+                    document.getElementById(`count-${k}`).innerText = "Eventi: 0";
+                });
+                document.getElementById('xg-prod').innerText = "0.00";
+                document.getElementById('xg-conc').innerText = "0.00";
+                document.getElementById('period-display').innerText = "2° TEMPO";
+                document.getElementById('nextPeriodBtn').style.opacity = "0.5";
+                addLog("--- INIZIO SECONDO TEMPO ---");
+                updateUI();
+            }
+        }
+
+        function resetAllData() {
+            if(confirm("Cancellare definitivamente tutti i dati del match?")) location.reload();
         }
 
         function openMacro(name) {
             const body = document.getElementById('modal-body');
             document.getElementById('modal-title').innerText = name.replace(/-/g, ' ');
             body.innerHTML = '';
-
+            
+            let content = '';
             if(name === 'FINALIZZAZIONE') {
-                body.innerHTML = `
-                <div class="micro-group"><span class="micro-label">TIRI NOI (Qualità xG)</span><div class="btn-row">
-                    <button class="btn-action" onclick="logE('xgN', 0.50, 'FINALIZZAZIONE', 'Tiro Area Centro')">Centrale (0.50)</button>
-                    <button class="btn-action" onclick="logE('xgN', 0.15, 'FINALIZZAZIONE', 'Tiro Defilato')">Defilato (0.15)</button>
-                    <button class="btn-action" onclick="logE('xgN', 0.05, 'FINALIZZAZIONE', 'Tiro Fuori Area')">Lontano (0.05)</button>
-                    <button class="btn-action" onclick="logE(null, 0, 'FINALIZZAZIONE', 'GOL SEGNATO')">GOL SEGNATO</button>
-                </div></div>
-                <div class="micro-group"><span class="micro-label">TIRI SUBITI</span><div class="btn-row">
-                    <button class="btn-action danger" onclick="logE('xgL', 0.50, 'FINALIZZAZIONE', 'Tiro Subito Centro')">Centro (Subito)</button>
-                    <button class="btn-action danger" onclick="logE('xgL', 0.15, 'FINALIZZAZIONE', 'Tiro Subito Def.')">Defilato (Subito)</button>
-                </div></div>`;
-            } else if(name === 'PALLA-INATTIVA') {
-                body.innerHTML = `<div class="micro-group"><span class="micro-label">Corner e Punizioni</span><div class="btn-row">
-                    <button class="btn-action" onclick="logE(null, 0, 'PALLA-INATTIVA', 'Corner Pro')">Corner (+)</button>
-                    <button class="btn-action danger" onclick="logE(null, 0, 'PALLA-INATTIVA', 'Corner Contro')">Corner (-)</button>
-                    <button class="btn-action" onclick="logE('xgN', 0.75, 'PALLA-INATTIVA', 'Rigore/Piazzato')">Rigore/Piazzato</button>
-                    <button class="btn-action" onclick="logE(null, 0, 'PALLA-INATTIVA', 'Gol Inattiva')">Gol Inattiva</button>
-                </div></div>`;
-            } else if(name === 'TRANSIZIONI-OFFENSIVE') {
-                body.innerHTML = `<div class="micro-group"><span class="micro-label">Recupero e Ripartenza</span><div class="btn-row">
-                    <button class="btn-action" onclick="logE(null, 0, 'TRANSIZIONI-OFFENSIVE', 'Contropiede')">Contropiede</button>
-                    <button class="btn-action" onclick="logE(null, 0, 'TRANSIZIONI-OFFENSIVE', 'Attacco Diretto')">Attacco Diretto</button>
-                    <button class="btn-action" onclick="logE(null, 0, 'TRANSIZIONI-OFFENSIVE', 'Transizione Positiva')">Trans. Positiva</button>
-                </div></div>`;
-            } else if(name === 'CONTRASTO-RECUPERO') {
-                body.innerHTML = `<div class="micro-group"><span class="micro-label">Fase Difesa Attiva</span><div class="btn-row">
-                    <button class="btn-action" onclick="logE(null, 0, 'CONTRASTO-RECUPERO', 'Contrasto Vinto')">Contrasto</button>
-                    <button class="btn-action" onclick="logE(null, 0, 'CONTRASTO-RECUPERO', 'Intercetto')">Intercettata</button>
-                    <button class="btn-action" onclick="logE(null, 0, 'CONTRASTO-RECUPERO', 'Duello Aereo')">Duello Aereo</button>
-                </div></div>`;
-            } else if(name === 'PROGRESSIONE') {
-                body.innerHTML = `<div class="micro-group"><span class="micro-label">Sviluppo Manovra</span><div class="btn-row">
-                    <button class="btn-action" onclick="logE(null, 0, 'PROGRESSIONE', 'Dribbling')">Dribbling</button>
-                    <button class="btn-action" onclick="logE(null, 0, 'PROGRESSIONE', 'Passaggio Chiave')">Filtrante</button>
-                    <button class="btn-action" onclick="logE(null, 0, 'PROGRESSIONE', 'Cross')">Cross</button>
+                content = `<div class="micro-group"><span class="micro-label">NOI</span><div class="btn-row">
+                    <button class="btn-action" onclick="logE('xgN', 0.50, 'FINALIZZAZIONE', 'Tiro Centro')">Centro</button>
+                    <button class="btn-action" onclick="logE('xgN', 0.15, 'FINALIZZAZIONE', 'Tiro Lato')">Lato</button>
+                    <button class="btn-action" style="background:var(--win)" onclick="logE(null, 0, 'FINALIZZAZIONE', 'GOL')">GOL</button>
                 </div></div>`;
             } else if(name === 'TRANSIZIONI-DIFENSIVE') {
-                body.innerHTML = `<div class="micro-group"><span class="micro-label">Perdita Possesso</span><div class="btn-row">
-                    <button class="btn-action danger" onclick="logE(null, 0, 'TRANSIZIONI-DIFENSIVE', 'Contropiede Subito')">Ripartenza Subita</button>
-                    <button class="btn-action danger" onclick="logE('xgL', 0.40, 'TRANSIZIONI-DIFENSIVE', 'Persa Critica')">Persa in uscita</button>
-                    <button class="btn-action danger" onclick="logE(null, 0, 'TRANSIZIONI-DIFENSIVE', 'Fallo Tattico')">Fallo Tattico</button>
+                content = `<div class="micro-group"><span class="micro-label">PERICOLO</span><div class="btn-row">
+                    <button class="btn-action danger" onclick="logE('xgL', 0.40, 'TRANSIZIONI-DIFENSIVE', 'Persa Critica')">Persa Uscita</button>
+                    <button class="btn-action danger" onclick="logE(null, 0, 'TRANSIZIONI-DIFENSIVE', 'Contropiede Subito')">Ripartenza</button>
+                </div></div>`;
+            } else {
+                content = `<div class="micro-group"><span class="micro-label">AZIONI</span><div class="btn-row">
+                    <button class="btn-action" onclick="logE(null, 0, '${name}', 'Azione Positiva')">Positiva</button>
+                    <button class="btn-action danger" onclick="logE(null, 0, '${name}', 'Azione Negativa')">Negativa</button>
                 </div></div>`;
             }
+            body.innerHTML = content;
             document.getElementById('modal-overlay').style.display = 'flex';
         }
 
@@ -261,70 +263,35 @@
         }
 
         function closeModal() { document.getElementById('modal-overlay').style.display = 'none'; }
-        function resetMatch() { if(confirm("Cancellare tutti i dati?")) location.reload(); }
+
+        function sendReportByMail() {
+            // Salvataggio dati correnti
+            if (period === 2) {
+                matchData.t2 = { xgN: stats.xgN.toFixed(2), xgL: stats.xgL.toFixed(2), posN: document.getElementById('percA').innerText, posL: document.getElementById('percB').innerText };
+            } else {
+                matchData.t1 = { xgN: stats.xgN.toFixed(2), xgL: stats.xgL.toFixed(2), posN: document.getElementById('percA').innerText, posL: document.getElementById('percB').innerText };
+            }
+
+            const email = "scurattiandrea@gmail.com";
+            const subject = "REPORT IPOIRD - " + new Date().toLocaleDateString();
+            let body = `ANALISI MATCH\n\n1° TEMPO:\nxG Noi: ${matchData.t1.xgN}\nxG Loro: ${matchData.t1.xgL}\nPossesso: ${matchData.t1.posN} - ${matchData.t1.posL}\n\n`;
+            if(period === 2) body += `2° TEMPO:\nxG Noi: ${matchData.t2.xgN}\nxG Loro: ${matchData.t2.xgL}\nPossesso: ${matchData.t2.posN} - ${matchData.t2.posL}\n\n`;
+            body += `CRONOLOGIA EVENTI:\n` + document.getElementById('main-log').innerText;
+
+            window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
 
         function fullReport() {
             document.getElementById('box-radar').style.display = 'block';
             document.getElementById('box-viscidi').style.display = 'block';
-
             new Chart(document.getElementById('chartRadar'), {
                 type: 'radar',
                 data: {
                     labels: ['FIN', 'INA', 'T-OFF', 'REC', 'PROG', 'T-DIF'],
-                    datasets: [{ label: 'Volume d\'Azione', data: Object.values(stats.counts), backgroundColor: 'rgba(0, 242, 255, 0.2)', borderColor: '#00f2ff', borderWidth: 3 }]
-                },
-                options: { scales: { r: { beginAtZero: true, grid: { color: '#ccc' } } } }
-            });
-
-            new Chart(document.getElementById('chartViscidi'), {
-                type: 'scatter',
-                data: {
-                    datasets: [{
-                        label: 'Posizionamento Tattico (xG)',
-                        data: [{ x: stats.xgL, y: stats.xgN }],
-                        backgroundColor: '#f43f5e', pointRadius: 12
-                    }]
-                },
-                options: {
-                    scales: {
-                        x: { min: 0, max: 4, title: { display: true, text: 'xG CONCESSI' } },
-                        y: { min: 0, max: 4, title: { display: true, text: 'xG PRODOTTI' } }
-                    }
+                    datasets: [{ label: 'Volume', data: Object.values(stats.counts), borderColor: '#00f2ff', backgroundColor: 'rgba(0,242,255,0.1)' }]
                 }
             });
             window.scrollTo(0, document.body.scrollHeight);
-        }
-
-        // --- INTEGRAZIONE NOTION ---
-        async function syncToNotion() {
-            const WEBHOOK_URL = "https://hook.eu1.make.com/3r5fy9swh0xv5pf7237iu55dicn7hxa5
-"; // Sostituisci questo URL con quello di Make.com
-            
-            const payload = {
-                timestamp: new Date().toLocaleString(),
-                match_id: "Match_" + Date.now(),
-                xg_prodotti: stats.xgN.toFixed(2),
-                xg_concessi: stats.xgL.toFixed(2),
-                possesso_noi: document.getElementById('percA').innerText,
-                possesso_loro: document.getElementById('percB').innerText,
-                cartellini_y_n: stats.yn,
-                cartellini_r_n: stats.rn,
-                cartellini_y_l: stats.yl,
-                eventi: stats.counts,
-                log_testuale: document.getElementById('main-log').innerText
-            };
-
-            try {
-                const response = await fetch(WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                alert("✅ Dati inviati a Notion!");
-            } catch (error) {
-                console.error("Errore Notion:", error);
-                alert("❌ Errore durante l'invio.");
-            }
         }
     </script>
 </body>
