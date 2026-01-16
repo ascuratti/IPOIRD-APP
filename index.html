@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>IPOIRD PRO Match Analysis <link rel="apple-touch-icon" href="https://via.placeholder.com/180/00f2ff/0b0f19?text=IPOIRD">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"></title>
+    <title>IPOIRD PRO Match Analysis</title>
+    
+    <link rel="apple-touch-icon" href="https://via.placeholder.com/180/00f2ff/0b0f19?text=IPOIRD">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
         :root {
             --bg: #0b0f19;
@@ -14,6 +19,7 @@
             --text: #e2e8f0;
             --win: #10b981;
             --loss: #f43f5e;
+            --gray: #64748b;
         }
 
         body {
@@ -21,8 +27,19 @@
             background: var(--bg);
             color: var(--text);
             margin: 0; padding: 10px;
-            display: flex; flex-direction: column; height: 100vh;
+            display: flex; flex-direction: column; min-height: 100vh;
+            overflow-y: auto;
         }
+
+        /* Timer e Possesso */
+        .timer-section { 
+            background: var(--card); border-radius: 15px; padding: 15px; 
+            margin-bottom: 10px; text-align: center; border: 1px solid var(--gray); 
+        }
+        #main-timer { font-size: 2rem; font-weight: 800; font-variant-numeric: tabular-nums; display: block; margin-bottom: 10px; }
+        .possession-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .pos-btn { padding: 12px; border: none; border-radius: 10px; font-weight: bold; color: white; opacity: 0.3; transition: 0.3s; }
+        .pos-btn.active { opacity: 1; box-shadow: 0 0 15px var(--accent); transform: scale(1.02); }
 
         /* Stats Bar */
         .stats-bar {
@@ -47,16 +64,27 @@
 
         /* Matrix Grid */
         .matrix {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex-grow: 1;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;
         }
         .macro-btn {
-            background: var(--card); border: 1px solid #2d3748; border-radius: 12px;
+            background: var(--card); border: 1px solid #2d3748; border-radius: 12px; padding: 15px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             transition: 0.2s;
         }
         .macro-btn:active { transform: scale(0.95); background: #1e293b; }
         .macro-title { color: var(--accent); font-weight: bold; font-size: 0.8rem; margin-bottom: 5px;}
         .macro-score { font-size: 1.5rem; font-weight: 800; }
+
+        /* Azioni Avversarie */
+        .opp-section { margin-bottom: 20px; }
+        .opp-btns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .opp-btn { 
+            background: #1e1b2e; border: 1px solid var(--loss); color: var(--loss); 
+            padding: 10px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; 
+        }
+
+        /* Grafico */
+        #chart-box { display: none; background: white; border-radius: 15px; padding: 10px; margin-top: 10px; margin-bottom: 30px; }
 
         /* Modal Micro-voci */
         #modal {
@@ -74,9 +102,23 @@
         }
         .over { background: var(--win); color: white; }
         .under { background: var(--loss); color: white; }
+        
+        .main-action-btn {
+            width: 100%; padding: 18px; background: var(--accent); color: black; 
+            border: none; border-radius: 12px; font-weight: 800; font-size: 1rem; margin-top: 10px;
+        }
     </style>
 </head>
 <body>
+
+    <div class="timer-section">
+        <span id="main-timer">00:00</span>
+        <div class="possession-btns">
+            <button id="posA" class="pos-btn" style="background: var(--win)" onclick="setPossession('A')">NOI: <span id="percA">50%</span></button>
+            <button id="posB" class="pos-btn" style="background: var(--loss)" onclick="setPossession('B')">LORO: <span id="percB">50%</span></button>
+        </div>
+        <button onclick="toggleTimer()" id="playBtn" style="width:100%; margin-top:10px; background:var(--gray); border:none; color:white; padding:5px; border-radius:5px;">START/STOP</button>
+    </div>
 
     <div class="stats-bar">
         <div class="stat-tile">
@@ -105,6 +147,21 @@
         <div class="macro-btn" onclick="openMicro('D')"><span class="macro-title">DETERMINA</span><span class="macro-score" id="s-D">0</span></div>
     </div>
 
+    <div class="opp-section">
+        <div style="font-size: 0.7rem; color: var(--gray); margin-bottom: 5px; text-transform: uppercase;">Azioni Avversarie (xG Concessi)</div>
+        <div class="opp-btns">
+            <button class="opp-btn" onclick="addXG(0.1, 'con')">TIRO (0.1)</button>
+            <button class="opp-btn" onclick="addXG(0.4, 'con')">BIG CHANCE</button>
+            <button class="opp-btn" onclick="addXG(0.76, 'con')">RIGORE</button>
+        </div>
+    </div>
+
+    <button class="main-action-btn" onclick="generateChart()">GENERA GRAFICO FINALE</button>
+    
+    <div id="chart-box">
+        <canvas id="quadrantChart"></canvas>
+    </div>
+
     <div id="modal">
         <h2 id="modal-title" style="text-align:center; color: var(--accent);"></h2>
         <div id="micro-container" class="micro-list"></div>
@@ -112,6 +169,7 @@
     </div>
 
     <script>
+        let seconds = 0, timeA = 0, timeB = 0, isRunning = false, possession = null, timerInt;
         let stats = { I:0, P:0, O:0, Ind:0, R:0, D:0, xgc:0, xgcon:0, gf:0, gs:0 };
 
         const microData = {
@@ -122,6 +180,38 @@
             R: [ {l: 'Assist', p: 4}, {l: 'Sponda/Appoggio', p: 2}, {l: 'Controllo orientato', p: 1} ],
             D: [ {l: 'Tiro in porta (Centrale)', xg: 0.1, p: 2}, {l: 'Occasione Nitida', xg: 0.4, p: 5}, {l: 'Tiro fuori area', xg: 0.03, p: 1} ]
         };
+
+        // Gestione Timer e Possesso
+        function toggleTimer() {
+            if(!isRunning) {
+                timerInt = setInterval(() => {
+                    seconds++;
+                    if(possession === 'A') timeA++;
+                    if(possession === 'B') timeB++;
+                    updateTimerUI();
+                }, 1000);
+                isRunning = true;
+                document.getElementById('playBtn').innerText = "PAUSA";
+            } else {
+                clearInterval(timerInt);
+                isRunning = false;
+                document.getElementById('playBtn').innerText = "RIPRENDI";
+            }
+        }
+
+        function setPossession(team) {
+            possession = team;
+            document.getElementById('posA').classList.toggle('active', team === 'A');
+            document.getElementById('posB').classList.toggle('active', team === 'B');
+        }
+
+        function updateTimerUI() {
+            let mins = Math.floor(seconds / 60), secs = seconds % 60;
+            document.getElementById('main-timer').innerText = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+            let total = timeA + timeB || 1;
+            document.getElementById('percA').innerText = Math.round((timeA/total)*100) + '%';
+            document.getElementById('percB').innerText = Math.round((timeB/total)*100) + '%';
+        }
 
         function openMicro(macro) {
             const m = document.getElementById('modal');
@@ -155,14 +245,12 @@
         }
 
         function updateUI() {
-            // Update Scores
             ['I','P','O','Ind','R','D'].forEach(m => {
                 document.getElementById(`s-${m}`).innerText = stats[m];
             });
             document.getElementById('xg-c').innerText = stats.xgc.toFixed(2);
             document.getElementById('xg-con').innerText = stats.xgcon.toFixed(2);
 
-            // Analisi Performance
             const perfC = document.getElementById('perf-c');
             const diffC = stats.gf - stats.xgc;
             perfC.innerText = diffC >= 0 ? `+${diffC.toFixed(1)} GOL (Over)` : `${diffC.toFixed(1)} GOL (Under)`;
@@ -175,6 +263,35 @@
         }
 
         function closeModal() { document.getElementById('modal').style.display = 'none'; }
+
+        // Funzione Grafico
+        function generateChart() {
+            document.getElementById('chart-box').style.display = 'block';
+            const ctx = document.getElementById('quadrantChart').getContext('2d');
+            
+            // Logica Viscidi: Asse X (Costruzione) vs Asse Y (Finalizzazione)
+            const xVal = stats.I + stats.P + stats.O;
+            const yVal = stats.Ind + stats.R + stats.D;
+
+            new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Prestazione Match',
+                        data: [{x: xVal, y: yVal}],
+                        backgroundColor: '#00f2ff',
+                        pointRadius: 12
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: { min: 0, max: 60, title: {display: true, text: 'Sviluppo (I+P+O)'}},
+                        y: { min: 0, max: 60, title: {display: true, text: 'Finalizzazione (Ind+R+D)'}}
+                    }
+                }
+            });
+            window.scrollTo(0, document.body.scrollHeight);
+        }
     </script>
 </body>
 </html>
