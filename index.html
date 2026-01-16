@@ -28,17 +28,16 @@
             color: var(--text);
             margin: 0; padding: 10px;
             display: flex; flex-direction: column; min-height: 100vh;
-            overflow-y: auto;
         }
 
-        /* Timer e Possesso */
-        .timer-section { 
+        /* TIMER & POSSESSO */
+        .header-box { 
             background: var(--card); border-radius: 15px; padding: 15px; 
-            margin-bottom: 10px; text-align: center; border: 1px solid var(--gray); 
+            border: 1px solid var(--gray); margin-bottom: 10px; text-align: center; 
         }
-        #main-timer { font-size: 2rem; font-weight: 800; font-variant-numeric: tabular-nums; display: block; margin-bottom: 10px; }
-        .possession-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .pos-btn { padding: 12px; border: none; border-radius: 10px; font-weight: bold; color: white; opacity: 0.3; transition: 0.3s; }
+        #timer-display { font-size: 2.2rem; font-weight: 800; font-variant-numeric: tabular-nums; color: white; margin-bottom: 10px; display: block; }
+        .possession-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+        .pos-btn { padding: 15px; border: none; border-radius: 10px; color: white; font-weight: bold; opacity: 0.3; transition: 0.3s; }
         .pos-btn.active { opacity: 1; box-shadow: 0 0 15px var(--accent); transform: scale(1.02); }
 
         /* Stats Bar */
@@ -75,21 +74,19 @@
         .macro-title { color: var(--accent); font-weight: bold; font-size: 0.8rem; margin-bottom: 5px;}
         .macro-score { font-size: 1.5rem; font-weight: 800; }
 
-        /* Azioni Avversarie */
-        .opp-section { margin-bottom: 20px; }
-        .opp-btns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .opp-btn { 
-            background: #1e1b2e; border: 1px solid var(--loss); color: var(--loss); 
-            padding: 10px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; 
-        }
+        /* AZIONI AVVERSARIE */
+        .section-title { font-size: 0.75rem; color: var(--accent); font-weight: bold; margin: 15px 0 5px 5px; text-transform: uppercase; }
+        .opp-btns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px; }
+        .opp-btn { background: #1e1b2e; border: 1px solid var(--loss); color: var(--loss); padding: 12px; border-radius: 8px; font-size: 0.7rem; font-weight: bold; }
 
-        /* Grafico */
-        #chart-box { display: none; background: white; border-radius: 15px; padding: 10px; margin-top: 10px; margin-bottom: 30px; }
+        /* NOTE SLOTS */
+        .notes-area { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        textarea { background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: white; padding: 8px; font-size: 0.8rem; resize: none; height: 80px; }
 
         /* Modal Micro-voci */
         #modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 100; flex-direction: column; justify-content: center; padding: 20px; box-sizing: border-box;
+            background: rgba(0,0,0,0.95); z-index: 100; flex-direction: column; justify-content: center; padding: 20px; box-sizing: border-box;
         }
         .micro-list { display: flex; flex-direction: column; gap: 10px; }
         .micro-btn {
@@ -102,22 +99,20 @@
         }
         .over { background: var(--win); color: white; }
         .under { background: var(--loss); color: white; }
-        
-        .main-action-btn {
-            width: 100%; padding: 18px; background: var(--accent); color: black; 
-            border: none; border-radius: 12px; font-weight: 800; font-size: 1rem; margin-top: 10px;
-        }
+
+        #chart-box { display: none; background: white; border-radius: 15px; padding: 10px; margin-top: 15px; margin-bottom: 40px; }
+        .main-action-btn { width: 100%; padding: 18px; background: var(--accent); color: black; border: none; border-radius: 12px; font-weight: 800; font-size: 1rem; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="timer-section">
-        <span id="main-timer">00:00</span>
-        <div class="possession-btns">
-            <button id="posA" class="pos-btn" style="background: var(--win)" onclick="setPossession('A')">NOI: <span id="percA">50%</span></button>
-            <button id="posB" class="pos-btn" style="background: var(--loss)" onclick="setPossession('B')">LORO: <span id="percB">50%</span></button>
+    <div class="header-box">
+        <span id="timer-display">00:00</span>
+        <div class="possession-container">
+            <button id="posA" class="pos-btn" style="background: var(--win)" onclick="setPos('A')">NOI: <span id="percA">50%</span></button>
+            <button id="posB" class="pos-btn" style="background: var(--loss)" onclick="setPos('B')">LORO: <span id="percB">50%</span></button>
         </div>
-        <button onclick="toggleTimer()" id="playBtn" style="width:100%; margin-top:10px; background:var(--gray); border:none; color:white; padding:5px; border-radius:5px;">START/STOP</button>
+        <button id="playBtn" onclick="toggleTimer()" style="background:none; border: 1px solid var(--gray); color:white; padding:5px 15px; border-radius:5px; font-size:0.7rem;">AVVIA MATCH</button>
     </div>
 
     <div class="stats-bar">
@@ -138,6 +133,7 @@
         <button class="btn-goal" style="background: var(--loss)" onclick="addGoal('subiti')">GOL SUBITO +</button>
     </div>
 
+    <div class="section-title">Matrice Analisi (Noi)</div>
     <div class="matrix">
         <div class="macro-btn" onclick="openMicro('I')"><span class="macro-title">INIZIATIVA</span><span class="macro-score" id="s-I">0</span></div>
         <div class="macro-btn" onclick="openMicro('P')"><span class="macro-title">PREPARAZIONE</span><span class="macro-score" id="s-P">0</span></div>
@@ -147,16 +143,20 @@
         <div class="macro-btn" onclick="openMicro('D')"><span class="macro-title">DETERMINA</span><span class="macro-score" id="s-D">0</span></div>
     </div>
 
-    <div class="opp-section">
-        <div style="font-size: 0.7rem; color: var(--gray); margin-bottom: 5px; text-transform: uppercase;">Azioni Avversarie (xG Concessi)</div>
-        <div class="opp-btns">
-            <button class="opp-btn" onclick="addXG(0.1, 'con')">TIRO (0.1)</button>
-            <button class="opp-btn" onclick="addXG(0.4, 'con')">BIG CHANCE</button>
-            <button class="opp-btn" onclick="addXG(0.76, 'con')">RIGORE</button>
-        </div>
+    <div class="section-title">Azioni Avversarie</div>
+    <div class="opp-btns">
+        <button class="opp-btn" onclick="addOppXG(0.1)">TIRO (0.1)</button>
+        <button class="opp-btn" onclick="addOppXG(0.4)">CHANCE (0.4)</button>
+        <button class="opp-btn" onclick="addOppXG(0.75)">RIGORE (0.7)</button>
     </div>
 
-    <button class="main-action-btn" onclick="generateChart()">GENERA GRAFICO FINALE</button>
+    <div class="section-title">Note Tattiche</div>
+    <div class="notes-area">
+        <textarea placeholder="Note Nostre..."></textarea>
+        <textarea placeholder="Note Avversarie..."></textarea>
+    </div>
+
+    <button class="main-action-btn" onclick="generateFinalChart()">GENERA GRAFICO FINALE</button>
     
     <div id="chart-box">
         <canvas id="quadrantChart"></canvas>
@@ -165,13 +165,15 @@
     <div id="modal">
         <h2 id="modal-title" style="text-align:center; color: var(--accent);"></h2>
         <div id="micro-container" class="micro-list"></div>
-        <button onclick="closeModal()" style="margin-top:20px; padding:15px; background:transparent; border:1px solid white; color:white; border-radius:10px;">CHIUDI</button>
+        <button onclick="closeModal()" style="margin-top:20px; padding:15px; background:transparent; border:1px solid white; color:white; border-radius:10px;">ANNULLA</button>
     </div>
 
     <script>
+        // Stato Iniziale
         let seconds = 0, timeA = 0, timeB = 0, isRunning = false, possession = null, timerInt;
         let stats = { I:0, P:0, O:0, Ind:0, R:0, D:0, xgc:0, xgcon:0, gf:0, gs:0 };
 
+        // DATI ORIGINALI MICRO-VOCI
         const microData = {
             I: [ {l: 'Costruzione basso OK', p: 2}, {l: 'Uscita palla pulita', p: 1}, {l: 'Errore impostazione', p: -2} ],
             P: [ {l: 'Passaggio tra linee', p: 3}, {l: 'Cambio gioco', p: 2}, {l: 'Possesso sterile', p: 1} ],
@@ -181,14 +183,14 @@
             D: [ {l: 'Tiro in porta (Centrale)', xg: 0.1, p: 2}, {l: 'Occasione Nitida', xg: 0.4, p: 5}, {l: 'Tiro fuori area', xg: 0.03, p: 1} ]
         };
 
-        // Gestione Timer e Possesso
+        // GESTIONE TIMER E POSSESSO
         function toggleTimer() {
             if(!isRunning) {
                 timerInt = setInterval(() => {
                     seconds++;
                     if(possession === 'A') timeA++;
                     if(possession === 'B') timeB++;
-                    updateTimerUI();
+                    updateUI();
                 }, 1000);
                 isRunning = true;
                 document.getElementById('playBtn').innerText = "PAUSA";
@@ -199,20 +201,13 @@
             }
         }
 
-        function setPossession(team) {
+        function setPos(team) {
             possession = team;
             document.getElementById('posA').classList.toggle('active', team === 'A');
             document.getElementById('posB').classList.toggle('active', team === 'B');
         }
 
-        function updateTimerUI() {
-            let mins = Math.floor(seconds / 60), secs = seconds % 60;
-            document.getElementById('main-timer').innerText = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
-            let total = timeA + timeB || 1;
-            document.getElementById('percA').innerText = Math.round((timeA/total)*100) + '%';
-            document.getElementById('percB').innerText = Math.round((timeB/total)*100) + '%';
-        }
-
+        // AZIONI
         function openMicro(macro) {
             const m = document.getElementById('modal');
             const container = document.getElementById('micro-container');
@@ -224,7 +219,7 @@
                 btn.className = 'micro-btn';
                 btn.onclick = () => { 
                     stats[macro] += item.p; 
-                    if(item.xg) addXG(item.xg, 'c');
+                    if(item.xg) stats.xgc += item.xg;
                     updateUI(); 
                     closeModal();
                 };
@@ -239,18 +234,32 @@
             updateUI();
         }
 
-        function addXG(val, tipo) {
-            if(tipo === 'c') stats.xgc += val; else stats.xgcon += val;
+        function addOppXG(val) {
+            stats.xgcon += val;
             updateUI();
         }
 
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
+
+        // UPDATE UI GLOBALE
         function updateUI() {
+            // Timer & Possesso
+            let mins = Math.floor(seconds / 60), secs = seconds % 60;
+            document.getElementById('timer-display').innerText = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+            let totalTime = timeA + timeB || 1;
+            document.getElementById('percA').innerText = Math.round((timeA / totalTime) * 100) + '%';
+            document.getElementById('percB').innerText = Math.round((timeB / totalTime) * 100) + '%';
+
+            // Punteggi Matrix
             ['I','P','O','Ind','R','D'].forEach(m => {
                 document.getElementById(`s-${m}`).innerText = stats[m];
             });
+
+            // xG Display
             document.getElementById('xg-c').innerText = stats.xgc.toFixed(2);
             document.getElementById('xg-con').innerText = stats.xgcon.toFixed(2);
 
+            // Performance Tags
             const perfC = document.getElementById('perf-c');
             const diffC = stats.gf - stats.xgc;
             perfC.innerText = diffC >= 0 ? `+${diffC.toFixed(1)} GOL (Over)` : `${diffC.toFixed(1)} GOL (Under)`;
@@ -262,14 +271,12 @@
             perfCon.className = 'performance-tag ' + (diffCon <= 0 ? 'over' : 'under');
         }
 
-        function closeModal() { document.getElementById('modal').style.display = 'none'; }
-
-        // Funzione Grafico
-        function generateChart() {
+        // GRAFICO
+        function generateFinalChart() {
             document.getElementById('chart-box').style.display = 'block';
             const ctx = document.getElementById('quadrantChart').getContext('2d');
             
-            // Logica Viscidi: Asse X (Costruzione) vs Asse Y (Finalizzazione)
+            // X: Sviluppo (I+P+O) | Y: Pericolo (Ind+R+D)
             const xVal = stats.I + stats.P + stats.O;
             const yVal = stats.Ind + stats.R + stats.D;
 
@@ -277,16 +284,16 @@
                 type: 'scatter',
                 data: {
                     datasets: [{
-                        label: 'Prestazione Match',
+                        label: 'Analisi Match',
                         data: [{x: xVal, y: yVal}],
                         backgroundColor: '#00f2ff',
-                        pointRadius: 12
+                        pointRadius: 10
                     }]
                 },
                 options: {
                     scales: {
-                        x: { min: 0, max: 60, title: {display: true, text: 'Sviluppo (I+P+O)'}},
-                        y: { min: 0, max: 60, title: {display: true, text: 'Finalizzazione (Ind+R+D)'}}
+                        x: { min: 0, max: 60, title: {display: true, text: 'Sviluppo Manovra (I+P+O)'}},
+                        y: { min: 0, max: 60, title: {display: true, text: 'Efficacia Offensiva (Ind+R+D)'}}
                     }
                 }
             });
