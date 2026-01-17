@@ -45,7 +45,11 @@
             margin: 0 auto;
         }
 
-        .tempo-section h2 {
+        section {
+            margin-bottom: 64px;
+        }
+
+        section h2 {
             font-size: 11px;
             color: #6b7280;
             margin-bottom: 16px;
@@ -54,7 +58,7 @@
             letter-spacing: 1.2px;
         }
 
-        /* Indicatori Tempo */
+        /* TEMPO SECTION */
         .tempo-indicators {
             display: inline-flex;
             gap: 0;
@@ -90,7 +94,6 @@
             color: #ffffff;
         }
 
-        /* Cronometro */
         .cronometro {
             background: #fafafa;
             padding: 56px 48px;
@@ -150,7 +153,6 @@
             cursor: not-allowed;
         }
 
-        /* Possesso Palla */
         .possesso-container {
             background: #fafafa;
             padding: 40px;
@@ -206,48 +208,315 @@
             font-family: 'SF Mono', monospace;
         }
 
-        /* Statistiche Possesso */
         .possesso-stats {
-            display: flex;
-            flex-direction: column;
+            margin-top: 32px;
+        }
+
+        .possesso-summary {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 24px;
         }
 
-        .possesso-item {
-            display: grid;
-            grid-template-columns: 60px 1fr 80px;
-            align-items: center;
-            gap: 16px;
+        .possesso-summary-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .team-name {
-            font-weight: 500;
-            font-size: 12px;
+        .summary-label {
+            font-size: 11px;
             color: #6b7280;
+            font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .possesso-bar {
-            height: 4px;
-            background: #e5e7eb;
-            border-radius: 2px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .possesso-fill {
-            height: 100%;
-            transition: width 0.3s ease;
-            background: #1a1a1a;
-        }
-
-        .possesso-time {
-            font-size: 13px;
+        .summary-value {
+            font-size: 20px;
             color: #1a1a1a;
             font-family: 'SF Mono', monospace;
             font-weight: 400;
-            text-align: right;
+        }
+
+        /* PUNTEGGIO SECTION */
+        .gol-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            background: #fafafa;
+            padding: 48px;
+            border-radius: 2px;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 32px;
+        }
+
+        .gol-team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .gol-label {
+            font-size: 11px;
+            color: #6b7280;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .gol-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn-gol {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            background: #ffffff;
+            color: #1a1a1a;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-gol:hover {
+            border-color: #1a1a1a;
+        }
+
+        .gol-value {
+            font-size: 64px;
+            font-weight: 300;
+            color: #1a1a1a;
+            font-family: 'SF Mono', monospace;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .gol-separator {
+            font-size: 48px;
+            font-weight: 300;
+            color: #e5e7eb;
+        }
+
+        .xg-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .xg-team {
+            background: #fafafa;
+            padding: 24px;
+            border-radius: 2px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .xg-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .xg-label {
+            font-size: 11px;
+            color: #6b7280;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .xg-value {
+            font-size: 28px;
+            font-weight: 300;
+            color: #1a1a1a;
+            font-family: 'SF Mono', monospace;
+        }
+
+        .xg-status {
+            margin-top: 8px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 3px;
+            background: #e5e7eb;
+            color: #6b7280;
+        }
+
+        .status-badge.ok {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-badge.under {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status-badge.over {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .timeline-container {
+            background: #fafafa;
+            padding: 32px;
+            border-radius: 2px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .timeline-container h3 {
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 24px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .timeline-wrapper {
+            margin-bottom: 24px;
+        }
+
+        .timeline-bar {
+            position: relative;
+            height: 40px;
+            margin-bottom: 8px;
+        }
+
+        .timeline-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e5e7eb;
+            transform: translateY(-50%);
+        }
+
+        .timeline-markers {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            top: 50%;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #1a1a1a;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .timeline-marker:hover {
+            width: 16px;
+            height: 16px;
+        }
+
+        .timeline-marker.gol-noi {
+            background: #059669;
+        }
+
+        .timeline-marker.gol-loro {
+            background: #dc2626;
+        }
+
+        .timeline-scale {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #9ca3af;
+            font-family: 'SF Mono', monospace;
+        }
+
+        .eventi-list {
+            margin-top: 24px;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 16px;
+        }
+
+        .no-eventi {
+            font-size: 12px;
+            color: #9ca3af;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .evento-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .evento-item:last-child {
+            border-bottom: none;
+        }
+
+        .evento-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .evento-time {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a1a;
+            font-family: 'SF Mono', monospace;
+            min-width: 40px;
+        }
+
+        .evento-team {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #6b7280;
+            letter-spacing: 0.5px;
+        }
+
+        .evento-desc {
+            font-size: 12px;
+            color: #1a1a1a;
+        }
+
+        .evento-delete {
+            font-size: 11px;
+            color: #dc2626;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px 8px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .evento-delete:hover {
+            text-decoration: underline;
         }
 
         @media (max-width: 768px) {
@@ -284,6 +553,15 @@
             .tempo-btn {
                 flex: 1;
             }
+
+            .gol-container {
+                padding: 32px 24px;
+                gap: 24px;
+            }
+
+            .gol-value {
+                font-size: 48px;
+            }
         }
     </style>
 </head>
@@ -298,13 +576,11 @@
             <section class="tempo-section">
                 <h2>TEMPO</h2>
                 
-                <!-- Indicatori Tempo -->
                 <div class="tempo-indicators">
                     <button class="tempo-btn active" id="primo-tempo" data-tempo="1">1° TEMPO</button>
                     <button class="tempo-btn" id="secondo-tempo" data-tempo="2">2° TEMPO</button>
                 </div>
 
-                <!-- Cronometro -->
                 <div class="cronometro">
                     <div class="timer-display" id="timer-display">00:00</div>
                     <div class="timer-controls">
@@ -314,7 +590,6 @@
                     </div>
                 </div>
 
-                <!-- Possesso Palla -->
                 <div class="possesso-container">
                     <h3>POSSESSO PALLA</h3>
                     
@@ -330,99 +605,90 @@
                     </div>
 
                     <div class="possesso-stats">
-                        <div class="possesso-item">
-                            <span class="team-name">NOI</span>
-                            <div class="possesso-bar">
-                                <div class="possesso-fill noi-fill" id="possesso-noi-bar" style="width: 50%"></div>
+                        <div class="possesso-summary">
+                            <div class="possesso-summary-item">
+                                <span class="summary-label">Tempo NOI</span>
+                                <span class="summary-value" id="possesso-noi-time">00:00</span>
                             </div>
-                            <span class="possesso-percentage" id="possesso-noi-percentage">50%</span>
-                            <span class="possesso-time" id="possesso-noi-time">00:00</span>
-                        </div>
-                        
-                        <div class="possesso-item">
-                            <span class="team-name">LORO</span>
-                            <div class="possesso-bar">
-                                <div class="possesso-fill loro-fill" id="possesso-loro-bar" style="width: 50%"></div>
+                            <div class="possesso-summary-item">
+                                <span class="summary-label">Tempo LORO</span>
+                                <span class="summary-value" id="possesso-loro-time">00:00</span>
                             </div>
-                            <span class="possesso-percentage" id="possesso-loro-percentage">50%</span>
-                            <span class="possesso-time" id="possesso-loro-time">00:00</span>
                         </div>
                     </div>
                 </div>
             </section>
+
             <!-- PUNTO 2: PUNTEGGIO -->
-<section class="punteggio-section">
-    <h2>PUNTEGGIO</h2>
+            <section class="punteggio-section">
+                <h2>PUNTEGGIO</h2>
 
-    <!-- Gol -->
-    <div class="gol-container">
-        <div class="gol-team">
-            <span class="gol-label">NOI</span>
-            <div class="gol-controls">
-                <button class="btn-gol btn-gol-minus" data-team="noi">-</button>
-                <span class="gol-value" id="gol-noi">0</span>
-                <button class="btn-gol btn-gol-plus" data-team="noi">+</button>
-            </div>
-        </div>
+                <div class="gol-container">
+                    <div class="gol-team">
+                        <span class="gol-label">NOI</span>
+                        <div class="gol-controls">
+                            <button class="btn-gol btn-gol-minus" data-team="noi">-</button>
+                            <span class="gol-value" id="gol-noi">0</span>
+                            <button class="btn-gol btn-gol-plus" data-team="noi">+</button>
+                        </div>
+                    </div>
 
-        <div class="gol-separator">-</div>
+                    <div class="gol-separator">-</div>
 
-        <div class="gol-team">
-            <span class="gol-label">LORO</span>
-            <div class="gol-controls">
-                <button class="btn-gol btn-gol-minus" data-team="loro">-</button>
-                <span class="gol-value" id="gol-loro">0</span>
-                <button class="btn-gol btn-gol-plus" data-team="loro">+</button>
-            </div>
-        </div>
-    </div>
+                    <div class="gol-team">
+                        <span class="gol-label">LORO</span>
+                        <div class="gol-controls">
+                            <button class="btn-gol btn-gol-minus" data-team="loro">-</button>
+                            <span class="gol-value" id="gol-loro">0</span>
+                            <button class="btn-gol btn-gol-plus" data-team="loro">+</button>
+                        </div>
+                    </div>
+                </div>
 
-    <!-- xG e Performance -->
-    <div class="xg-container">
-        <div class="xg-team">
-            <div class="xg-header">
-                <span class="xg-label">xG NOI</span>
-                <span class="xg-value" id="xg-noi">0.00</span>
-            </div>
-            <div class="xg-status" id="xg-status-noi">
-                <span class="status-badge">OK</span>
-            </div>
-        </div>
+                <div class="xg-container">
+                    <div class="xg-team">
+                        <div class="xg-header">
+                            <span class="xg-label">xG NOI</span>
+                            <span class="xg-value" id="xg-noi">0.00</span>
+                        </div>
+                        <div class="xg-status" id="xg-status-noi">
+                            <span class="status-badge">OK</span>
+                        </div>
+                    </div>
 
-        <div class="xg-team">
-            <div class="xg-header">
-                <span class="xg-label">xG LORO</span>
-                <span class="xg-value" id="xg-loro">0.00</span>
-            </div>
-            <div class="xg-status" id="xg-status-loro">
-                <span class="status-badge">OK</span>
-            </div>
-        </div>
-    </div>
+                    <div class="xg-team">
+                        <div class="xg-header">
+                            <span class="xg-label">xG LORO</span>
+                            <span class="xg-value" id="xg-loro">0.00</span>
+                        </div>
+                        <div class="xg-status" id="xg-status-loro">
+                            <span class="status-badge">OK</span>
+                        </div>
+                    </div>
+                </div>
 
-    <!-- Timeline Eventi -->
-    <div class="timeline-container">
-        <h3>TIMELINE EVENTI</h3>
-        <div class="timeline-wrapper">
-            <div class="timeline-bar">
-                <div class="timeline-line"></div>
-                <div class="timeline-markers" id="timeline-markers"></div>
-            </div>
-            <div class="timeline-scale">
-                <span>0'</span>
-                <span>15'</span>
-                <span>30'</span>
-                <span>45'</span>
-                <span>60'</span>
-                <span>75'</span>
-                <span>90'</span>
-            </div>
-        </div>
-        <div class="eventi-list" id="eventi-list">
-            <p class="no-eventi">Nessun evento registrato</p>
-        </div>
-    </div>
-</section>
+                <div class="timeline-container">
+                    <h3>TIMELINE EVENTI</h3>
+                    <div class="timeline-wrapper">
+                        <div class="timeline-bar">
+                            <div class="timeline-line"></div>
+                            <div class="timeline-markers" id="timeline-markers"></div>
+                        </div>
+                        <div class="timeline-scale">
+                            <span>0'</span>
+                            <span>15'</span>
+                            <span>30'</span>
+                            <span>45'</span>
+                            <span>60'</span>
+                            <span>75'</span>
+                            <span>90'</span>
+                        </div>
+                    </div>
+                    <div class="eventi-list" id="eventi-list">
+                        <p class="no-eventi">Nessun evento registrato</p>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
@@ -436,6 +702,11 @@
         let possessoLoro = 0;
         let currentPossesso = null;
         let possessoStartTime = 0;
+        let golNoi = 0;
+        let golLoro = 0;
+        let xgNoi = 0;
+        let xgLoro = 0;
+        let eventi = [];
 
         // Elementi DOM
         const timerDisplay = document.getElementById('timer-display');
@@ -446,14 +717,20 @@
         const btnSecondoTempo = document.getElementById('secondo-tempo');
         const btnPossessoNoi = document.getElementById('btn-possesso-noi');
         const btnPossessoLoro = document.getElementById('btn-possesso-loro');
-        const possessoNoiBar = document.getElementById('possesso-noi-bar');
-        const possessoLoroBar = document.getElementById('possesso-loro-bar');
-        const possessoNoiPercentage = document.getElementById('possesso-noi-percentage');
-        const possessoLoroPercentage = document.getElementById('possesso-loro-percentage');
         const btnPossessoNoiPercentage = document.getElementById('btn-possesso-noi-percentage');
         const btnPossessoLoroPercentage = document.getElementById('btn-possesso-loro-percentage');
         const possessoNoiTime = document.getElementById('possesso-noi-time');
         const possessoLoroTime = document.getElementById('possesso-loro-time');
+        const golNoiDisplay = document.getElementById('gol-noi');
+        const golLoroDisplay = document.getElementById('gol-loro');
+        const xgNoiDisplay = document.getElementById('xg-noi');
+        const xgLoroDisplay = document.getElementById('xg-loro');
+        const xgStatusNoi = document.getElementById('xg-status-noi');
+        const xgStatusLoro = document.getElementById('xg-status-loro');
+        const timelineMarkers = document.getElementById('timeline-markers');
+        const eventiList = document.getElementById('eventi-list');
+        const btnGolPlus = document.querySelectorAll('.btn-gol-plus');
+        const btnGolMinus = document.querySelectorAll('.btn-gol-minus');
 
         // Funzioni Timer
         function formatTime(seconds) {
@@ -511,7 +788,6 @@
             const now = totalSeconds;
             
             if (currentPossesso && currentPossesso !== team) {
-                // Aggiorna il tempo del possesso precedente
                 const elapsed = now - possessoStartTime;
                 if (currentPossesso === 'noi') {
                     possessoNoi += elapsed;
@@ -523,7 +799,6 @@
             currentPossesso = team;
             possessoStartTime = now;
             
-            // Aggiorna UI bottoni
             if (team === 'noi') {
                 btnPossessoNoi.classList.add('active');
                 btnPossessoLoro.classList.remove('active');
@@ -545,7 +820,6 @@
             let tempNoiPossesso = possessoNoi;
             let tempLoroPossesso = possessoLoro;
             
-            // Aggiungi il tempo corrente se c'è un possesso attivo
             if (currentPossesso && isRunning) {
                 const elapsed = totalSeconds - possessoStartTime;
                 if (currentPossesso === 'noi') {
@@ -561,19 +835,11 @@
                 const noiPercentage = (tempNoiPossesso / total) * 100;
                 const loroPercentage = (tempLoroPossesso / total) * 100;
                 
-                possessoNoiBar.style.width = noiPercentage + '%';
-                possessoLoroBar.style.width = loroPercentage + '%';
-                possessoNoiPercentage.textContent = Math.round(noiPercentage) + '%';
-                possessoLoroPercentage.textContent = Math.round(loroPercentage) + '%';
                 btnPossessoNoiPercentage.textContent = Math.round(noiPercentage) + '%';
                 btnPossessoLoroPercentage.textContent = Math.round(loroPercentage) + '%';
                 possessoNoiTime.textContent = formatTime(tempNoiPossesso);
                 possessoLoroTime.textContent = formatTime(tempLoroPossesso);
             } else {
-                possessoNoiBar.style.width = '50%';
-                possessoLoroBar.style.width = '50%';
-                possessoNoiPercentage.textContent = '50%';
-                possessoLoroPercentage.textContent = '50%';
                 btnPossessoNoiPercentage.textContent = '50%';
                 btnPossessoLoroPercentage.textContent = '50%';
                 possessoNoiTime.textContent = '00:00';
@@ -581,38 +847,87 @@
             }
         }
 
-        // Event Listeners
-        btnStart.addEventListener('click', startTimer);
-        btnPause.addEventListener('click', pauseTimer);
-        btnStop.addEventListener('click', stopTimer);
-
-        btnPrimoTempo.addEventListener('click', () => {
-            currentTempo = 1;
-            btnPrimoTempo.classList.add('active');
-            btnSecondoTempo.classList.remove('active');
-        });
-
-        btnSecondoTempo.addEventListener('click', () => {
-            currentTempo = 2;
-            btnSecondoTempo.classList.add('active');
-            btnPrimoTempo.classList.remove('active');
-        });
-
-        btnPossessoNoi.addEventListener('click', () => {
-            if (isRunning) {
-                setPossesso('noi');
+        // Funzioni Punteggio
+        function addGol(team) {
+            if (team === 'noi') {
+                golNoi++;
+                golNoiDisplay.textContent = golNoi;
+            } else {
+                golLoro++;
+                golLoroDisplay.textContent = golLoro;
             }
-        });
+            
+            const time = formatTime(totalSeconds);
+            const evento = {
+                type: 'gol',
+                team: team,
+                time: time,
+                minute: totalSeconds,
+                timestamp: Date.now()
+            };
+            eventi.push(evento);
+            
+            updateTimeline();
+            updateEventiList();
+            updateXgStatus();
+        }
 
-        btnPossessoLoro.addEventListener('click', () => {
-            if (isRunning) {
-                setPossesso('loro');
+        function removeGol(team) {
+            if (team === 'noi' && golNoi > 0) {
+                golNoi--;
+                golNoiDisplay.textContent = golNoi;
+                
+                for (let i = eventi.length - 1; i >= 0; i--) {
+                    if (eventi[i].type === 'gol' && eventi[i].team === 'noi') {
+                        eventi.splice(i, 1);
+                        break;
+                    }
+                }
+            } else if (team === 'loro' && golLoro > 0) {
+                golLoro--;
+                golLoroDisplay.textContent = golLoro;
+                
+                for (let i = eventi.length - 1; i >= 0; i--) {
+                    if (eventi[i].type === 'gol' && eventi[i].team === 'loro') {
+                        eventi.splice(i, 1);
+                        break;
+                    }
+                }
             }
-        });
+            
+            updateTimeline();
+            updateEventiList();
+            updateXgStatus();
+        }
 
-        // Inizializzazione
-        updatePossessoDisplay();
-    </script>
-</body>
-</html>
+        function updateXG(team, value) {
+            if (team === 'noi') {
+                xgNoi += value;
+                xgNoiDisplay.textContent = xgNoi.toFixed(2);
+            } else {
+                xgLoro += value;
+                xgLoroDisplay.textContent = xgLoro.toFixed(2);
+            }
+            updateXgStatus();
+        }
 
+        function updateXgStatus() {
+            const statusNoiBadge = xgStatusNoi.querySelector('.status-badge');
+            if (xgNoi > golNoi) {
+                statusNoiBadge.textContent = 'Underperformance';
+                statusNoiBadge.className = 'status-badge under';
+            } else if (xgNoi < golNoi) {
+                statusNoiBadge.textContent = 'Overperformance';
+                statusNoiBadge.className = 'status-badge over';
+            } else {
+                statusNoiBadge.textContent = 'OK';
+                statusNoiBadge.className = 'status-badge ok';
+            }
+            
+            const statusLoroBadge = xgStatusLoro.querySelector('.status-badge');
+            if (xgLoro > golLoro) {
+                statusLoroBadge.textContent = 'Underperformance';
+                statusLoroBadge.className = 'status-badge under';
+            } else if (xgLoro < golLoro) {
+                statusLoroBadge.textContent = 'Overperformance';
+                statusLoroBadge.className = 'status-badge over';
