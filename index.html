@@ -748,18 +748,32 @@
             </section>
 
             <!-- PUNTO 2: PUNTEGGIO -->
-            <section class="punteggio-section">
-                <h2>PUNTEGGIO</h2>
+            <div class="analysis-card">
+    <h3>PUNTEGGIO</h3>
 
-                <div class="gol-container">
-                    <div class="gol-team">
-                        <span class="gol-label">NOI</span>
-                        <div class="gol-controls">
-                            <button class="btn-gol btn-gol-minus" data-team="noi">-</button>
-                            <span class="gol-value" id="gol-noi">0</span>
-                            <button class="btn-gol btn-gol-plus" data-team="noi">+</button>
-                        </div>
-                    </div>
+    <div class="scoreboard">
+
+        <div class="team-score" data-team="noi">
+            <span class="team-label">NOI</span>
+            <div class="score-controls">
+                <button class="score-minus">Elimina</button>
+                <span class="score-value" id="score-noi">0</span>
+                <button class="score-plus">+</button>
+            </div>
+        </div>
+
+        <div class="team-score" data-team="loro">
+            <span class="team-label">LORO</span>
+            <div class="score-controls">
+                <button class="score-minus">Elimina</button>
+                <span class="score-value" id="score-loro">0</span>
+                <button class="score-plus">+</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 
                     <div class="gol-separator">-</div>
 
@@ -1312,5 +1326,25 @@
         });
         updatePossessoDisplay();
     </script>
+    <script>
+document.querySelectorAll('.team-score').forEach(team => {
+    const plusBtn = team.querySelector('.score-plus');
+    const minusBtn = team.querySelector('.score-minus');
+    const valueEl = team.querySelector('.score-value');
+
+    plusBtn.addEventListener('click', () => {
+        let value = parseInt(valueEl.textContent);
+        valueEl.textContent = value + 1;
+    });
+
+    minusBtn.addEventListener('click', () => {
+        let value = parseInt(valueEl.textContent);
+        if (value > 0) {
+            valueEl.textContent = value - 1;
+        }
+    });
+});
+</script>
+
 </body>
 </html>
