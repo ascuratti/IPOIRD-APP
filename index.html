@@ -9,106 +9,42 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     
     <style>
-        :root {
-            --bg: #0f172a; --card: #1e293b; --accent: #38bdf8;
-            --text: #f1f5f9; --win: #10b981; --loss: #ef4444; 
-            --gray: #94a3b8; --warning: #f59e0b; --border: #334155;
-        }
-        
-        body { 
-            font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); 
-            margin: 0; padding: 15px; display: flex; flex-direction: column; min-height: 100vh;
-            -webkit-tap-highlight-color: transparent;
-        }
+    :root {
+        --bg: #0f172a; --card: #1e293b; --accent: #38bdf8;
+        --text: #f1f5f9; --win: #10b981; --loss: #ef4444; 
+        --gray: #94a3b8; --warning: #f59e0b; --border: #334155;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; }
 
-        /* Header & Timer - Aspetto Pro */
-        .header-box { 
-            background: linear-gradient(145deg, var(--card), #111827); 
-            border-radius: 24px; padding: 25px; border: 1px solid var(--border); 
-            margin-bottom: 15px; text-align: center; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.4);
-        }
-        #timer-display { font-size: 4rem; font-weight: 900; color: #fff; text-shadow: 0 0 20px rgba(56, 189, 248, 0.3); font-variant-numeric: tabular-nums; }
-        .period-label { color: var(--accent); font-weight: 800; letter-spacing: 3px; font-size: 0.8rem; margin-bottom: 10px; text-transform: uppercase; }
-        
-        /* Score UI - Integrato e rifinito */
-        .score-row { display: flex; justify-content: center; align-items: center; gap: 20px; margin: 15px 0; }
-        .score-control { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .score-box { background: rgba(15, 23, 42, 0.8); padding: 12px 22px; border-radius: 16px; border: 2px solid var(--border); min-width: 70px; }
-        .score-val { font-size: 2.5rem; font-weight: 900; color: #fff; line-height: 1; }
-        .score-btn { background: var(--border); border: none; color: white; width: 32px; height: 32px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .score-btn:active { background: var(--accent); transform: scale(0.9); }
-        
-        /* Performance Badges Professionali */
-        .perf-badge { font-size: 0.6rem; font-weight: 800; padding: 5px 10px; border-radius: 8px; text-transform: uppercase; margin-top: 8px; border: 1px solid transparent; }
-        .under { background: rgba(239, 68, 68, 0.1); color: #f87171; border-color: rgba(239, 68, 68, 0.3); }
-        .over { background: rgba(16, 185, 129, 0.1); color: #34d399; border-color: rgba(16, 185, 129, 0.3); }
-        .ok { background: rgba(245, 158, 11, 0.1); color: #fbbf24; border-color: rgba(245, 158, 11, 0.3); }
+    /* Header e Score */
+    .header-box { background: linear-gradient(145deg, var(--card), #111827); border-radius: 20px; padding: 25px; border: 1px solid var(--border); margin-bottom: 15px; text-align: center; }
+    #timer-display { font-size: 3.5rem; font-weight: 900; color: #fff; }
+    .score-row { display: flex; justify-content: center; align-items: center; gap: 20px; margin: 15px 0; }
+    .score-box { background: #0f172a; padding: 10px 20px; border-radius: 12px; border: 1px solid var(--border); min-width: 60px; }
+    .score-val { font-size: 2.2rem; font-weight: 900; color: #fff; }
+    .score-btn { background: var(--border); border: none; color: white; width: 35px; height: 35px; border-radius: 50%; font-weight: bold; cursor: pointer; }
 
-        /* Possession */
-        .possession-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
-        .pos-btn { 
-            padding: 16px; border: 2px solid transparent; border-radius: 14px; 
-            color: white; font-weight: 800; opacity: 0.4; transition: all 0.3s ease;
-            filter: grayscale(0.4);
-        }
-        .pos-btn.active { 
-            opacity: 1; border-color: white; transform: translateY(-2px); 
-            filter: grayscale(0); box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
+    /* Badge Performance Professionali */
+    .perf-badge { font-size: 0.65rem; font-weight: 800; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; margin-top: 8px; display: inline-block; }
+    .under { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid var(--loss); }
+    .over { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid var(--win); }
+    .ok { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid var(--warning); }
 
-        /* KPI Display */
-        .kpi-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
-        .kpi-card { 
-            background: var(--card); padding: 20px; border-radius: 20px; 
-            text-align: center; border: 1px solid var(--border);
-        }
-        .kpi-value { font-size: 2.2rem; font-weight: 900; color: var(--accent); display: block; }
-        .kpi-label { font-size: 0.65rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-top: 8px; display: block; font-weight: 700;}
+    /* KPI e Matrix */
+    .kpi-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
+    .kpi-card { background: var(--card); padding: 20px; border-radius: 18px; text-align: center; border: 1px solid var(--border); }
+    .kpi-value { font-size: 2.2rem; font-weight: 900; color: var(--accent); }
+    .kpi-label { font-size: 0.7rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; display: block; }
+    .matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    .macro-btn { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px 10px; text-align: center; cursor: pointer; }
+    .macro-title { font-weight: 800; color: #fff; display: block; }
+    .macro-count { font-size: 0.7rem; color: var(--accent); font-weight: bold; }
 
-        /* Grid Matrix - Mantenuta e pulita */
-        .matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .macro-btn { 
-            background: var(--card); border: 1px solid var(--border); border-radius: 18px; 
-            padding: 24px 10px; text-align: center; cursor: pointer; transition: 0.2s;
-        }
-        .macro-btn:active { transform: scale(0.96); background: #2d3748; }
-        .macro-title { font-weight: 800; font-size: 0.8rem; color: #fff; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
-        .macro-count { font-size: 0.75rem; color: var(--accent); font-weight: 800; margin-top: 10px; display: block; opacity: 0.8; }
-
-        /* Actions & Logs */
-        .log-container { 
-            background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border); 
-            border-radius: 16px; height: 110px; overflow-y: auto; padding: 15px; 
-            margin-bottom: 20px; font-family: 'Inter', sans-serif; font-size: 0.75rem;
-        }
-        .log-entry { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: #cbd5e1; }
-
-        /* Modal - Mantenuto e rifinito */
-        #modal-overlay { 
-            display: none; position: fixed; inset: 0; background: rgba(2, 6, 23, 0.98); 
-            z-index: 2000; flex-direction: column; padding: 25px; overflow-y: auto; 
-        }
-        .micro-group { background: var(--card); border-radius: 20px; padding: 20px; margin-bottom: 15px; border-left: 4px solid var(--accent); }
-        .btn-action { 
-            flex: 1; min-width: 130px; padding: 18px 10px; border: none; border-radius: 12px; 
-            background: #334155; color: white; font-size: 0.75rem; font-weight: 800; text-transform: uppercase;
-        }
-        
-        /* Buttons */
-        .control-btns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .btn-main-sm { padding: 14px; border-radius: 12px; border: none; font-weight: 800; font-size: 0.7rem; cursor: pointer; color: white; background: #475569; text-transform: uppercase; }
-        
-        .action-btn { 
-            background: var(--accent); color: var(--bg); padding: 20px; border-radius: 16px; 
-            border: none; font-weight: 900; width: 100%; margin: 6px 0; font-size: 0.9rem;
-            cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s;
-        }
-        .action-btn:active { transform: scale(0.98); }
-        .pdf-btn { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
-        .mail-btn { background: var(--loss); color: white; }
-        
-        .report-section { background: #fff; border-radius: 28px; padding: 25px; margin-top: 20px; display: none; color: #000; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-    </style>
+    /* Modali e bottoni */
+    #modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; padding: 25px; flex-direction: column; overflow-y: auto; }
+    .btn-action { background: #334155; color: white; padding: 15px; border: none; border-radius: 10px; margin: 5px; font-weight: 700; }
+    .action-btn { background: var(--accent); color: var(--bg); padding: 18px; border-radius: 14px; border: none; font-weight: 900; width: 100%; margin: 5px 0; cursor: pointer; }
+</style>
 </head>
 <body>
 
@@ -247,93 +183,44 @@
             updatePerformance();
         } // <--- Questa graffa chiude correttamente logE
 
-        function changeScore(team, val) {
-            if (team === 'N') stats.goalsN = Math.max(0, stats.goalsN + val);
-            else stats.goalsL = Math.max(0, stats.goalsL + val);
-            
-            document.getElementById('scoreN').innerText = stats.goalsN;
-            document.getElementById('scoreL').innerText = stats.goalsL;
-            updatePerformance();
-        } // <--- Questa graffa chiude correttamente changeScore
+       function changeScore(team, val) {
+    if (team === 'N') stats.goalsN = Math.max(0, stats.goalsN + val);
+    else stats.goalsL = Math.max(0, stats.goalsL + val);
+    
+    document.getElementById('scoreN').innerText = stats.goalsN;
+    document.getElementById('scoreL').innerText = stats.goalsL;
+    updatePerformance();
+}
 
-        function changeScore(team, val) {
-            if (team === 'N') stats.goalsN = Math.max(0, stats.goalsN + val);
-            else stats.goalsL = Math.max(0, stats.goalsL + val);
-            
-            document.getElementById('scoreN').innerText = stats.goalsN;
-            document.getElementById('scoreL').innerText = stats.goalsL;
-            updatePerformance();
+function updatePerformance() {
+    const teams = [
+        { id: 'perfN', xg: stats.ptN, goals: stats.goalsN },
+        { id: 'perfL', xg: stats.ptL, goals: stats.goalsL }
+    ];
+    teams.forEach(t => {
+        const badge = document.getElementById(t.id);
+        if (!badge) return;
+        badge.classList.remove('under', 'over', 'ok');
+        if (t.xg > (t.goals + 0.4)) {
+            badge.innerText = "underperformance"; badge.classList.add('under');
+        } else if (t.xg < (t.goals - 0.1)) {
+            badge.innerText = "overperformance"; badge.classList.add('over');
+        } else {
+            badge.innerText = "OK"; badge.classList.add('ok');
         }
+    });
+}
 
-        function changeScore(team, val) {
-            if (team === 'N') stats.goalsN = Math.max(0, stats.goalsN + val);
-            else stats.goalsL = Math.max(0, stats.goalsL + val);
-            
-            document.getElementById('scoreN').innerText = stats.goalsN;
-            document.getElementById('scoreL').innerText = stats.goalsL;
-            updatePerformance(); // Aggiorna il badge quando cambi il risultato reale
-        }
-
-        function updatePerformance() {
-            const teams = [
-                { id: 'perfN', xg: stats.ptN, goals: stats.goalsN },
-                { id: 'perfL', xg: stats.ptL, goals: stats.goalsL }
-            ];
-
-            teams.forEach(t => {
-                const badge = document.getElementById(t.id);
-                if (!badge) return;
-                
-                badge.classList.remove('under', 'over', 'ok');
-                
-                if (t.xg > t.goals + 0.5) {
-                    badge.innerText = "underperformance";
-                    badge.classList.add('under');
-                } else if (t.xg < t.goals - 0.1) {
-                    badge.innerText = "overperformance";
-                    badge.classList.add('over');
-                } else {
-                    badge.innerText = "OK";
-                    badge.classList.add('ok');
-                }
-            });
-        }
-
-        function updatePerformance() {
-            const teams = [
-                { id: 'perfN', xg: stats.ptN, goals: stats.goalsN },
-                { id: 'perfL', xg: stats.ptL, goals: stats.goalsL }
-            ];
-
-            teams.forEach(t => {
-                const badge = document.getElementById(t.id);
-                const roundedXG = Math.round(t.xg);
-                
-                badge.classList.remove('under', 'over', 'ok');
-                
-                if (t.xg > t.goals + 0.5) { // xG sensibilmente superiori ai gol
-                    badge.innerText = "underperformance";
-                    badge.classList.add('under');
-                } else if (t.xg < t.goals - 0.1) { // gol superiori agli xG
-                    badge.innerText = "overperformance";
-                    badge.classList.add('over');
-                } else {
-                    badge.innerText = "OK";
-                    badge.classList.add('ok');
-                }
-            });
-        }
-            closeModal();
-        }
-
-        function switchToSecondPeriod() {
-            if(period === 1 && confirm("Confermi la fine del primo tempo?")) {
-                matchData.t1 = { ptN: stats.ptN.toFixed(2), ptL: stats.ptL.toFixed(2), pos: document.getElementById('percA').innerText + "/" + document.getElementById('percB').innerText };
-                period = 2; seconds = 0; timeN = 0; timeL = 0; stats.ptN = 0; stats.ptL = 0;
-                document.getElementById('period-display').innerText = "2° TEMPO";
-                updateUI();
-            }
-        }
+function logE(type, val, macro, label) {
+    if(type === 'xgN') stats.ptN += val; 
+    if(type === 'xgL') stats.ptL += val;
+    stats.counts[macro]++;
+    document.getElementById('xg-prod').innerText = stats.ptN.toFixed(2);
+    document.getElementById('xg-conc').innerText = stats.ptL.toFixed(2);
+    document.getElementById(`count-${macro}`).innerText = stats.counts[macro];
+    closeModal();
+    updatePerformance();
+}
 
         async function downloadPDF() {
             const { jsPDF } = window.jspdf;
@@ -392,6 +279,7 @@
     </script>
 </body>
 </html>
+
 
 
 
