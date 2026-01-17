@@ -136,8 +136,8 @@
     </div>
 
     <div class="kpi-container">
-        <div class="kpi-card"><span class="kpi-value" id="xg-prod">0.00</span><span class="kpi-label">Punti Prodotti</span></div>
-        <div class="kpi-card"><span class="kpi-value" id="xg-conc">0.00</span><span class="kpi-label">Punti Subiti</span></div>
+        <div class="kpi-card"><span class="kpi-value" id="xg-prod">0.00</span><span class="kpi-label">INDICE PERICOLOSITÀ OFFENSIVA</span></div>
+        <div class="kpi-card"><span class="kpi-value" id="xg-conc">0.00</span><span class="kpi-label">INDICE RISCHIO DIFENSIVO</span></div>
     </div>
 
     <div class="log-container" id="main-log">In attesa di analisi...</div>
@@ -231,7 +231,16 @@
             log.innerHTML = `<div class="log-entry"><span style="color:var(--accent)">[${document.getElementById('timer-display').innerText}]</span> ${label}</div>` + log.innerHTML;
             
             closeModal();
-            updatePerformance(); // Aggiorna il badge quando segni un evento xG
+            updatePerformance();
+        }
+
+        function changeScore(team, val) {
+            if (team === 'N') stats.goalsN = Math.max(0, stats.goalsN + val);
+            else stats.goalsL = Math.max(0, stats.goalsL + val);
+            
+            document.getElementById('scoreN').innerText = stats.goalsN;
+            document.getElementById('scoreL').innerText = stats.goalsL;
+            updatePerformance();
         }
 
         function changeScore(team, val) {
@@ -361,4 +370,5 @@
     </script>
 </body>
 </html>
+
 
