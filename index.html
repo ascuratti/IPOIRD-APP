@@ -4,6 +4,288 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPOIRD Tactical Analyzer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            padding: 0;
+            color: #1a1a1a;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #ffffff;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 32px 48px;
+        }
+
+        header h1 {
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: #1a1a1a;
+        }
+
+        main {
+            padding: 48px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .tempo-section h2 {
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        /* Indicatori Tempo */
+        .tempo-indicators {
+            display: inline-flex;
+            gap: 0;
+            margin-bottom: 40px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .tempo-btn {
+            padding: 10px 24px;
+            font-size: 13px;
+            font-weight: 500;
+            border: none;
+            background: #ffffff;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            border-right: 1px solid #e5e7eb;
+        }
+
+        .tempo-btn:last-child {
+            border-right: none;
+        }
+
+        .tempo-btn:hover {
+            background: #f9fafb;
+            color: #1a1a1a;
+        }
+
+        .tempo-btn.active {
+            background: #1a1a1a;
+            color: #ffffff;
+        }
+
+        /* Cronometro */
+        .cronometro {
+            background: #fafafa;
+            padding: 56px 48px;
+            border-radius: 2px;
+            margin-bottom: 40px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .timer-display {
+            font-size: 72px;
+            font-weight: 300;
+            color: #1a1a1a;
+            margin-bottom: 40px;
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            letter-spacing: -3px;
+            text-align: center;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-family: inherit;
+            background: #ffffff;
+            color: #1a1a1a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover:not(:disabled) {
+            background: #f9fafb;
+            border-color: #1a1a1a;
+        }
+
+        .btn-start {
+            background: #1a1a1a;
+            color: #ffffff;
+            border-color: #1a1a1a;
+        }
+
+        .btn-start:hover:not(:disabled) {
+            background: #000000;
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Possesso Palla */
+        .possesso-container {
+            background: #fafafa;
+            padding: 40px;
+            border-radius: 2px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .possesso-container h3 {
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 24px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .possesso-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .btn-possesso {
+            flex: 1;
+            padding: 20px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            background: #ffffff;
+            color: #6b7280;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-possesso:hover {
+            border-color: #1a1a1a;
+            color: #1a1a1a;
+        }
+
+        .btn-possesso.active {
+            border-color: #1a1a1a;
+            background: #1a1a1a;
+            color: #ffffff;
+        }
+
+        .btn-possesso-percentage {
+            font-size: 24px;
+            font-weight: 300;
+            font-family: 'SF Mono', monospace;
+        }
+
+        /* Statistiche Possesso */
+        .possesso-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .possesso-item {
+            display: grid;
+            grid-template-columns: 60px 1fr 80px;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .team-name {
+            font-weight: 500;
+            font-size: 12px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .possesso-bar {
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .possesso-fill {
+            height: 100%;
+            transition: width 0.3s ease;
+            background: #1a1a1a;
+        }
+
+        .possesso-time {
+            font-size: 13px;
+            color: #1a1a1a;
+            font-family: 'SF Mono', monospace;
+            font-weight: 400;
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 32px 24px;
+            }
+
+            header {
+                padding: 24px;
+            }
+
+            .timer-display {
+                font-size: 56px;
+            }
+            
+            .cronometro {
+                padding: 40px 24px;
+            }
+
+            .possesso-container {
+                padding: 24px;
+            }
+
+            .btn-possesso {
+                flex-direction: column;
+                gap: 8px;
+                text-align: center;
+            }
+
+            .tempo-indicators {
+                width: 100%;
+            }
+
+            .tempo-btn {
+                flex: 1;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -39,9 +321,11 @@
                     <div class="possesso-controls">
                         <button class="btn-possesso btn-noi" id="btn-possesso-noi">
                             <span class="team-label">NOI</span>
+                            <span class="btn-possesso-percentage" id="btn-possesso-noi-percentage">50%</span>
                         </button>
                         <button class="btn-possesso btn-loro" id="btn-possesso-loro">
                             <span class="team-label">LORO</span>
+                            <span class="btn-possesso-percentage" id="btn-possesso-loro-percentage">50%</span>
                         </button>
                     </div>
 
@@ -68,5 +352,193 @@
             </section>
         </main>
     </div>
+
+    <script>
+        // Variabili globali
+        let timerInterval = null;
+        let totalSeconds = 0;
+        let isRunning = false;
+        let currentTempo = 1;
+        let possessoNoi = 0;
+        let possessoLoro = 0;
+        let currentPossesso = null;
+        let possessoStartTime = 0;
+
+        // Elementi DOM
+        const timerDisplay = document.getElementById('timer-display');
+        const btnStart = document.getElementById('btn-start');
+        const btnPause = document.getElementById('btn-pause');
+        const btnStop = document.getElementById('btn-stop');
+        const btnPrimoTempo = document.getElementById('primo-tempo');
+        const btnSecondoTempo = document.getElementById('secondo-tempo');
+        const btnPossessoNoi = document.getElementById('btn-possesso-noi');
+        const btnPossessoLoro = document.getElementById('btn-possesso-loro');
+        const possessoNoiBar = document.getElementById('possesso-noi-bar');
+        const possessoLoroBar = document.getElementById('possesso-loro-bar');
+        const possessoNoiPercentage = document.getElementById('possesso-noi-percentage');
+        const possessoLoroPercentage = document.getElementById('possesso-loro-percentage');
+        const btnPossessoNoiPercentage = document.getElementById('btn-possesso-noi-percentage');
+        const btnPossessoLoroPercentage = document.getElementById('btn-possesso-loro-percentage');
+        const possessoNoiTime = document.getElementById('possesso-noi-time');
+        const possessoLoroTime = document.getElementById('possesso-loro-time');
+
+        // Funzioni Timer
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        function updateTimer() {
+            totalSeconds++;
+            timerDisplay.textContent = formatTime(totalSeconds);
+            updatePossesso();
+        }
+
+        function startTimer() {
+            if (!isRunning) {
+                isRunning = true;
+                timerInterval = setInterval(updateTimer, 1000);
+                btnStart.disabled = true;
+                btnPause.disabled = false;
+                btnStop.disabled = false;
+                btnStart.textContent = 'IN CORSO...';
+            }
+        }
+
+        function pauseTimer() {
+            if (isRunning) {
+                clearInterval(timerInterval);
+                isRunning = false;
+                btnStart.disabled = false;
+                btnPause.disabled = true;
+                btnStart.textContent = 'RIPRENDI';
+            }
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            totalSeconds = 0;
+            possessoNoi = 0;
+            possessoLoro = 0;
+            currentPossesso = null;
+            timerDisplay.textContent = '00:00';
+            btnStart.disabled = false;
+            btnPause.disabled = true;
+            btnStop.disabled = true;
+            btnStart.textContent = 'START';
+            updatePossessoDisplay();
+            btnPossessoNoi.classList.remove('active');
+            btnPossessoLoro.classList.remove('active');
+        }
+
+        // Funzioni Possesso
+        function setPossesso(team) {
+            const now = totalSeconds;
+            
+            if (currentPossesso && currentPossesso !== team) {
+                // Aggiorna il tempo del possesso precedente
+                const elapsed = now - possessoStartTime;
+                if (currentPossesso === 'noi') {
+                    possessoNoi += elapsed;
+                } else {
+                    possessoLoro += elapsed;
+                }
+            }
+            
+            currentPossesso = team;
+            possessoStartTime = now;
+            
+            // Aggiorna UI bottoni
+            if (team === 'noi') {
+                btnPossessoNoi.classList.add('active');
+                btnPossessoLoro.classList.remove('active');
+            } else {
+                btnPossessoLoro.classList.add('active');
+                btnPossessoNoi.classList.remove('active');
+            }
+            
+            updatePossessoDisplay();
+        }
+
+        function updatePossesso() {
+            if (currentPossesso && isRunning) {
+                updatePossessoDisplay();
+            }
+        }
+
+        function updatePossessoDisplay() {
+            let tempNoiPossesso = possessoNoi;
+            let tempLoroPossesso = possessoLoro;
+            
+            // Aggiungi il tempo corrente se c'è un possesso attivo
+            if (currentPossesso && isRunning) {
+                const elapsed = totalSeconds - possessoStartTime;
+                if (currentPossesso === 'noi') {
+                    tempNoiPossesso += elapsed;
+                } else {
+                    tempLoroPossesso += elapsed;
+                }
+            }
+            
+            const total = tempNoiPossesso + tempLoroPossesso;
+            
+            if (total > 0) {
+                const noiPercentage = (tempNoiPossesso / total) * 100;
+                const loroPercentage = (tempLoroPossesso / total) * 100;
+                
+                possessoNoiBar.style.width = noiPercentage + '%';
+                possessoLoroBar.style.width = loroPercentage + '%';
+                possessoNoiPercentage.textContent = Math.round(noiPercentage) + '%';
+                possessoLoroPercentage.textContent = Math.round(loroPercentage) + '%';
+                btnPossessoNoiPercentage.textContent = Math.round(noiPercentage) + '%';
+                btnPossessoLoroPercentage.textContent = Math.round(loroPercentage) + '%';
+                possessoNoiTime.textContent = formatTime(tempNoiPossesso);
+                possessoLoroTime.textContent = formatTime(tempLoroPossesso);
+            } else {
+                possessoNoiBar.style.width = '50%';
+                possessoLoroBar.style.width = '50%';
+                possessoNoiPercentage.textContent = '50%';
+                possessoLoroPercentage.textContent = '50%';
+                btnPossessoNoiPercentage.textContent = '50%';
+                btnPossessoLoroPercentage.textContent = '50%';
+                possessoNoiTime.textContent = '00:00';
+                possessoLoroTime.textContent = '00:00';
+            }
+        }
+
+        // Event Listeners
+        btnStart.addEventListener('click', startTimer);
+        btnPause.addEventListener('click', pauseTimer);
+        btnStop.addEventListener('click', stopTimer);
+
+        btnPrimoTempo.addEventListener('click', () => {
+            currentTempo = 1;
+            btnPrimoTempo.classList.add('active');
+            btnSecondoTempo.classList.remove('active');
+        });
+
+        btnSecondoTempo.addEventListener('click', () => {
+            currentTempo = 2;
+            btnSecondoTempo.classList.add('active');
+            btnPrimoTempo.classList.remove('active');
+        });
+
+        btnPossessoNoi.addEventListener('click', () => {
+            if (isRunning) {
+                setPossesso('noi');
+            }
+        });
+
+        btnPossessoLoro.addEventListener('click', () => {
+            if (isRunning) {
+                setPossesso('loro');
+            }
+        });
+
+        // Inizializzazione
+        updatePossessoDisplay();
+    </script>
 </body>
 </html>
