@@ -350,6 +350,79 @@
                     </div>
                 </div>
             </section>
+            <!-- PUNTO 2: PUNTEGGIO -->
+<section class="punteggio-section">
+    <h2>PUNTEGGIO</h2>
+
+    <!-- Gol -->
+    <div class="gol-container">
+        <div class="gol-team">
+            <span class="gol-label">NOI</span>
+            <div class="gol-controls">
+                <button class="btn-gol btn-gol-minus" data-team="noi">-</button>
+                <span class="gol-value" id="gol-noi">0</span>
+                <button class="btn-gol btn-gol-plus" data-team="noi">+</button>
+            </div>
+        </div>
+
+        <div class="gol-separator">-</div>
+
+        <div class="gol-team">
+            <span class="gol-label">LORO</span>
+            <div class="gol-controls">
+                <button class="btn-gol btn-gol-minus" data-team="loro">-</button>
+                <span class="gol-value" id="gol-loro">0</span>
+                <button class="btn-gol btn-gol-plus" data-team="loro">+</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- xG e Performance -->
+    <div class="xg-container">
+        <div class="xg-team">
+            <div class="xg-header">
+                <span class="xg-label">xG NOI</span>
+                <span class="xg-value" id="xg-noi">0.00</span>
+            </div>
+            <div class="xg-status" id="xg-status-noi">
+                <span class="status-badge">OK</span>
+            </div>
+        </div>
+
+        <div class="xg-team">
+            <div class="xg-header">
+                <span class="xg-label">xG LORO</span>
+                <span class="xg-value" id="xg-loro">0.00</span>
+            </div>
+            <div class="xg-status" id="xg-status-loro">
+                <span class="status-badge">OK</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timeline Eventi -->
+    <div class="timeline-container">
+        <h3>TIMELINE EVENTI</h3>
+        <div class="timeline-wrapper">
+            <div class="timeline-bar">
+                <div class="timeline-line"></div>
+                <div class="timeline-markers" id="timeline-markers"></div>
+            </div>
+            <div class="timeline-scale">
+                <span>0'</span>
+                <span>15'</span>
+                <span>30'</span>
+                <span>45'</span>
+                <span>60'</span>
+                <span>75'</span>
+                <span>90'</span>
+            </div>
+        </div>
+        <div class="eventi-list" id="eventi-list">
+            <p class="no-eventi">Nessun evento registrato</p>
+        </div>
+    </div>
+</section>
         </main>
     </div>
 
@@ -542,3 +615,4 @@
     </script>
 </body>
 </html>
+
