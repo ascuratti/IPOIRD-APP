@@ -931,3 +931,104 @@
             } else if (xgLoro < golLoro) {
                 statusLoroBadge.textContent = 'Overperformance';
                 statusLoroBadge.className = 'status-badge over';
+                } else if (xgLoro < golLoro) {
+    statusLoroBadge.textContent = 'Overperformance';
+    statusLoroBadge.className = 'status-badge over';
+        } else {
+            statusLoroBadge.textContent = 'OK';
+            statusLoroBadge.className = 'status-badge ok';
+        }
+    }
+        function updateTimeline() {
+            timelineMarkers.innerHTML = '';
+
+            eventi.forEach(evento => {
+                if (evento.type === 'gol') {
+                    const marker = document.createElement('div');
+                    marker.classList.add('timeline-marker');
+                    marker.classList.add(evento.team === 'noi' ? 'gol-noi' : 'gol-loro');
+
+                    const percent = Math.min((evento.minute / 5400) * 100, 100);
+                    marker.style.left = percent + '%';
+
+                    timelineMarkers.appendChild(marker);
+                }
+            });
+        }
+
+        function updateEventiList() {
+            eventiList.innerHTML = '';
+
+            if (eventi.length === 0) {
+                eventiList.innerHTML = `<p class="no-eventi">Nessun evento registrato</p>`;
+                return;
+            }
+
+            eventi
+                .slice()
+                .reverse()
+                .forEach((evento, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'evento-item';
+
+                    item.innerHTML = `
+                        <div class="evento-info">
+                            <span class="evento-time">${evento.time}</span>
+                            <span class="evento-team">${evento.team}</span>
+                            <span class="evento-desc">Gol</span>
+                        </div>
+                        <button class="evento-delete" data-index="${eventi.length - 1 - index}">
+                            Elimina
+                        </button>
+                    `;
+
+                    eventiList.appendChild(item);
+                });
+
+            document.querySelectorAll('.evento-delete').forEach(btn => {
+                btn.addEventListener('click', e => {
+                    const idx = parseInt(e.target.dataset.index);
+                    eventi.splice(idx, 1);
+                    updateTimeline();
+                    updateEventiList();
+                });
+            });
+        }
+        // TIMER
+        btnStart.addEventListener('click', startTimer);
+        btnPause.addEventListener('click', pauseTimer);
+        btnStop.addEventListener('click', stopTimer);
+
+        // POSSESSO
+        btnPossessoNoi.addEventListener('click', () => setPossesso('noi'));
+        btnPossessoLoro.addEventListener('click', () => setPossesso('loro'));
+
+        // TEMPI
+        btnPrimoTempo.addEventListener('click', () => {
+            currentTempo = 1;
+            btnPrimoTempo.classList.add('active');
+            btnSecondoTempo.classList.remove('active');
+        });
+
+        btnSecondoTempo.addEventListener('click', () => {
+            currentTempo = 2;
+            btnSecondoTempo.classList.add('active');
+            btnPrimoTempo.classList.remove('active');
+        });
+
+        // GOL
+        btnGolPlus.forEach(btn => {
+            btn.addEventListener('click', () => {
+                addGol(btn.dataset.team);
+            });
+        });
+
+        btnGolMinus.forEach(btn => {
+            btn.addEventListener('click', () => {
+                removeGol(btn.dataset.team);
+            });
+        });
+        updatePossessoDisplay();
+    </script>
+</body>
+</html>
