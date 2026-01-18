@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
+    <link rel="stylesheet" href="apple-style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPOIRD Tactical Analyzer</title>
@@ -101,7 +102,8 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Bahnschrift';
+  
             background: #ffffff;
             min-height: 100vh;
             padding: 0;
@@ -152,7 +154,7 @@
             display: inline-flex;
             gap: 0;
             margin-bottom: 40px;
-            border: 1px solid #e5e7eb;
+            border: 1px solid #ffffff00;
             border-radius: 6px;
             overflow: hidden;
         }
@@ -385,7 +387,7 @@
             font-size: 64px;
             font-weight: 300;
             color: #1a1a1a;
-            font-family: 'SF Mono', monospace;
+            font-family: 'Bahnschrift';
             min-width: 80px;
             text-align: center;
         }
@@ -429,7 +431,7 @@
             font-size: 28px;
             font-weight: 300;
             color: #1a1a1a;
-            font-family: 'SF Mono', monospace;
+            font-family: 'Bahnschrift';
         }
 
         .xg-status {
@@ -537,7 +539,7 @@
             justify-content: space-between;
             font-size: 10px;
             color: #9ca3af;
-            font-family: 'SF Mono', monospace;
+            font-family: 'Bahnschrift';
         }
 
         .eventi-list {
@@ -575,7 +577,7 @@
             font-size: 13px;
             font-weight: 600;
             color: #1a1a1a;
-            font-family: 'SF Mono', monospace;
+            font-family: 'Bahnschrift';
             min-width: 40px;
         }
 
@@ -732,105 +734,77 @@
                         </button>
                     </div>
 
-                    <div class="possesso-stats">
-                        <div class="possesso-summary">
-                            <div class="possesso-summary-item">
-                                <span class="summary-label">Tempo NOI</span>
-                                <span class="summary-value" id="possesso-noi-time">00:00</span>
-                            </div>
-                            <div class="possesso-summary-item">
-                                <span class="summary-label">Tempo LORO</span>
-                                <span class="summary-value" id="possesso-loro-time">00:00</span>
-                            </div>
-                        </div>
-                    </div>
+                   
                 </div>
             </section>
 
             <!-- PUNTO 2: PUNTEGGIO -->
-            <div class="analysis-card">
-    <h3>PUNTEGGIO</h3>
-
-    <div class="scoreboard">
-
-        <div class="team-score" data-team="noi">
-            <span class="team-label">NOI</span>
-            <div class="score-controls">
-                <button class="score-minus">Elimina</button>
-                <span class="score-value" id="score-noi">0</span>
-                <button class="score-plus">+</button>
+           <!-- PUNTO 2: PUNTEGGIO -->
+<section>
+    <h2>PUNTEGGIO</h2>
+    
+    <div style="background: #ffffff; border-radius: 24px; padding: 40px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04); border: 1px solid #f2f2f7; margin-bottom: 24px;">
+        <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 40px; align-items: start;">
+            
+            <!-- NOI -->
+            <div style="text-align: center;">
+                <h3 style="font-size: 12px; color: #8e8e93; margin-bottom: 20px;">NOI</h3>
+                
+                <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 32px;">
+                    <button class="btn-gol btn-gol-minus" data-team="noi">−</button>
+                    <span class="gol-value" id="gol-noi-new">0</span>
+                    <button class="btn-gol btn-gol-plus" data-team="noi">+</button>
+                </div>
+                
+                <!-- xG e xPts -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <div style="padding: 14px 16px; background: rgba(0, 122, 255, 0.08); border-radius: 12px; border: 1px solid rgba(0, 122, 255, 0.2);">
+                        <div style="font-size: 10px; color: #8e8e93; margin-bottom: 6px;">xG</div>
+                        <div style="font-size: 24px; color: #007aff;" id="xg-noi-new">0.00</div>
+                    </div>
+                    <div style="padding: 14px 16px; background: rgba(0, 122, 255, 0.08); border-radius: 12px; border: 1px solid rgba(0, 122, 255, 0.2);">
+                        <div style="font-size: 10px; color: #8e8e93; margin-bottom: 6px;">xPts</div>
+                        <div style="font-size: 24px; color: #007aff;" id="xpts-noi">1.00</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 24px; padding: 12px 20px; background: rgba(0, 122, 255, 0.15); border-radius: 12px; border: 1px solid rgba(0, 122, 255, 0.3);">
+                    <span style="font-size: 14px; font-weight: 600; color: #007aff;" id="perf-noi">OK</span>
+                </div>
+            </div>
+            
+            <!-- VS -->
+            <div style="font-size: 20px; color: #c7c7cc; padding-top: 60px;">VS</div>
+            
+            <!-- LORO -->
+            <div style="text-align: center;">
+                <h3 style="font-size: 12px; color: #8e8e93; margin-bottom: 20px;">LORO</h3>
+                
+                <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 32px;">
+                    <button class="btn-gol btn-gol-minus" data-team="loro">−</button>
+                    <span class="gol-value" id="gol-loro-new">0</span>
+                    <button class="btn-gol btn-gol-plus" data-team="loro">+</button>
+                </div>
+                
+                <!-- xG e xPts -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <div style="padding: 14px 16px; background: rgba(0, 122, 255, 0.08); border-radius: 12px; border: 1px solid rgba(0, 122, 255, 0.2);">
+                        <div style="font-size: 10px; color: #8e8e93; margin-bottom: 6px;">xG</div>
+                        <div style="font-size: 24px; color: #007aff;" id="xg-loro-new">0.00</div>
+                    </div>
+                    <div style="padding: 14px 16px; background: rgba(0, 122, 255, 0.08); border-radius: 12px; border: 1px solid rgba(0, 122, 255, 0.2);">
+                        <div style="font-size: 10px; color: #8e8e93; margin-bottom: 6px;">xPts</div>
+                        <div style="font-size: 24px; color: #007aff;" id="xpts-loro">1.00</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 24px; padding: 12px 20px; background: rgba(0, 122, 255, 0.15); border-radius: 12px; border: 1px solid rgba(0, 122, 255, 0.3);">
+                    <span style="font-size: 14px; font-weight: 600; color: #007aff;" id="perf-loro">OK</span>
+                </div>
             </div>
         </div>
-
-        <div class="team-score" data-team="loro">
-            <span class="team-label">LORO</span>
-            <div class="score-controls">
-                <button class="score-minus">Elimina</button>
-                <span class="score-value" id="score-loro">0</span>
-                <button class="score-plus">+</button>
-            </div>
-        </div>
-
     </div>
-</div>
-
-
-                    <div class="gol-separator">-</div>
-
-                    <div class="gol-team">
-                        <span class="gol-label">LORO</span>
-                        <div class="gol-controls">
-                            <button class="btn-gol btn-gol-minus" data-team="loro">-</button>
-                            <span class="gol-value" id="gol-loro">0</span>
-                            <button class="btn-gol btn-gol-plus" data-team="loro">+</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="xg-container">
-                    <div class="xg-team">
-                        <div class="xg-header">
-                            <span class="xg-label">xG NOI</span>
-                            <span class="xg-value" id="xg-noi">0.00</span>
-                        </div>
-                        <div class="xg-status" id="xg-status-noi">
-                            <span class="status-badge">OK</span>
-                        </div>
-                    </div>
-
-                    <div class="xg-team">
-                        <div class="xg-header">
-                            <span class="xg-label">xG LORO</span>
-                            <span class="xg-value" id="xg-loro">0.00</span>
-                        </div>
-                        <div class="xg-status" id="xg-status-loro">
-                            <span class="status-badge">OK</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="timeline-container">
-                    <h3>TIMELINE EVENTI</h3>
-                    <div class="timeline-wrapper">
-                        <div class="timeline-bar">
-                            <div class="timeline-line"></div>
-                            <div class="timeline-markers" id="timeline-markers"></div>
-                        </div>
-                        <div class="timeline-scale">
-                            <span>0'</span>
-                            <span>15'</span>
-                            <span>30'</span>
-                            <span>45'</span>
-                            <span>60'</span>
-                            <span>75'</span>
-                            <span>90'</span>
-                        </div>
-                    </div>
-                    <div class="eventi-list" id="eventi-list">
-                        <p class="no-eventi">Nessun evento registrato</p>
-                    </div>
-                </div>
-            </section>
+</section>
             <!-- PUNTO 3: ANALISI TATTICA -->
 <section class="analisi-section">
     <h2>ANALISI TATTICA</h2>
@@ -1345,6 +1319,230 @@ document.querySelectorAll('.team-score').forEach(team => {
     });
 });
 </script>
+<script>
+// ===== PUNTEGGIO CON xG E xPTS =====
+(function() {
+    let golNoi = 0;
+    let golLoro = 0;
+    let xgNoiValue = 0;
+    let xgLoroValue = 0;
 
+    const golNoiEl = document.getElementById('gol-noi-new');
+    const golLoroEl = document.getElementById('gol-loro-new');
+    const xgNoiEl = document.getElementById('xg-noi-new');
+    const xgLoroEl = document.getElementById('xg-loro-new');
+    const xptsNoiEl = document.getElementById('xpts-noi');
+    const xptsLoroEl = document.getElementById('xpts-loro');
+    const perfNoiEl = document.getElementById('perf-noi');
+    const perfLoroEl = document.getElementById('perf-loro');
+
+    // Calcolo xPoints
+    function calculateXPoints(ourXg, theirXg) {
+        const diff = ourXg - theirXg;
+        let winProb, drawProb;
+        
+        if (diff > 1.5) {
+            winProb = 0.75;
+            drawProb = 0.20;
+        } else if (diff > 0.8) {
+            winProb = 0.60;
+            drawProb = 0.25;
+        } else if (diff > 0.3) {
+            winProb = 0.45;
+            drawProb = 0.30;
+        } else if (diff > -0.3) {
+            winProb = 0.33;
+            drawProb = 0.34;
+        } else if (diff > -0.8) {
+            winProb = 0.25;
+            drawProb = 0.30;
+        } else if (diff > -1.5) {
+            winProb = 0.15;
+            drawProb = 0.25;
+        } else {
+            winProb = 0.05;
+            drawProb = 0.20;
+        }
+        
+        return (winProb * 3 + drawProb * 1).toFixed(2);
+    }
+
+    // Animazione contatore
+    function animateValue(element, start, end, duration) {
+        const range = end - start;
+        const increment = range / (duration / 16);
+        let current = start;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                current = end;
+                clearInterval(timer);
+            }
+            element.textContent = Math.round(current);
+        }, 16);
+    }
+
+    // Update display con animazioni
+    function updateDisplay() {
+        // Anima i gol
+        const oldGolNoi = parseInt(golNoiEl.textContent);
+        const oldGolLoro = parseInt(golLoroEl.textContent);
+        
+        if (oldGolNoi !== golNoi) {
+            animateValue(golNoiEl, oldGolNoi, golNoi, 300);
+        }
+        if (oldGolLoro !== golLoro) {
+            animateValue(golLoroEl, oldGolLoro, golLoro, 300);
+        }
+
+        // Update xG
+        xgNoiEl.textContent = xgNoiValue.toFixed(2);
+        xgLoroEl.textContent = xgLoroValue.toFixed(2);
+
+        // Calcola xPoints
+        const xptsNoi = calculateXPoints(xgNoiValue, xgLoroValue);
+        const xptsLoro = calculateXPoints(xgLoroValue, xgNoiValue);
+        xptsNoiEl.textContent = xptsNoi;
+        xptsLoroEl.textContent = xptsLoro;
+
+        // Formattazione condizionale xG NOI
+        const xgNoiBox = xgNoiEl.parentElement;
+        if (xgNoiValue > xgLoroValue) {
+            xgNoiBox.style.background = 'rgba(0, 212, 170, 0.08)';
+            xgNoiBox.style.borderColor = 'rgba(0, 212, 170, 0.2)';
+            xgNoiEl.style.color = '#00d4aa';
+        } else if (xgNoiValue < xgLoroValue) {
+            xgNoiBox.style.background = 'rgba(255, 59, 48, 0.08)';
+            xgNoiBox.style.borderColor = 'rgba(255, 59, 48, 0.2)';
+            xgNoiEl.style.color = '#ff3b30';
+        } else {
+            xgNoiBox.style.background = 'rgba(0, 122, 255, 0.08)';
+            xgNoiBox.style.borderColor = 'rgba(0, 122, 255, 0.2)';
+            xgNoiEl.style.color = '#007aff';
+        }
+
+        // Formattazione condizionale xG LORO
+        const xgLoroBox = xgLoroEl.parentElement;
+        if (xgLoroValue > xgNoiValue) {
+            xgLoroBox.style.background = 'rgba(0, 212, 170, 0.08)';
+            xgLoroBox.style.borderColor = 'rgba(0, 212, 170, 0.2)';
+            xgLoroEl.style.color = '#00d4aa';
+        } else if (xgLoroValue < xgNoiValue) {
+            xgLoroBox.style.background = 'rgba(255, 59, 48, 0.08)';
+            xgLoroBox.style.borderColor = 'rgba(255, 59, 48, 0.2)';
+            xgLoroEl.style.color = '#ff3b30';
+        } else {
+            xgLoroBox.style.background = 'rgba(0, 122, 255, 0.08)';
+            xgLoroBox.style.borderColor = 'rgba(0, 122, 255, 0.2)';
+            xgLoroEl.style.color = '#007aff';
+        }
+
+        // Formattazione condizionale xPts NOI
+        const xptsNoiBox = xptsNoiEl.parentElement;
+        if (parseFloat(xptsNoi) > 1.5) {
+            xptsNoiBox.style.background = 'rgba(0, 212, 170, 0.08)';
+            xptsNoiBox.style.borderColor = 'rgba(0, 212, 170, 0.2)';
+            xptsNoiEl.style.color = '#00d4aa';
+        } else if (parseFloat(xptsNoi) < 1) {
+            xptsNoiBox.style.background = 'rgba(255, 59, 48, 0.08)';
+            xptsNoiBox.style.borderColor = 'rgba(255, 59, 48, 0.2)';
+            xptsNoiEl.style.color = '#ff3b30';
+        } else {
+            xptsNoiBox.style.background = 'rgba(0, 122, 255, 0.08)';
+            xptsNoiBox.style.borderColor = 'rgba(0, 122, 255, 0.2)';
+            xptsNoiEl.style.color = '#007aff';
+        }
+
+        // Formattazione condizionale xPts LORO
+        const xptsLoroBox = xptsLoroEl.parentElement;
+        if (parseFloat(xptsLoro) > 1.5) {
+            xptsLoroBox.style.background = 'rgba(0, 212, 170, 0.08)';
+            xptsLoroBox.style.borderColor = 'rgba(0, 212, 170, 0.2)';
+            xptsLoroEl.style.color = '#00d4aa';
+        } else if (parseFloat(xptsLoro) < 1) {
+            xptsLoroBox.style.background = 'rgba(255, 59, 48, 0.08)';
+            xptsLoroBox.style.borderColor = 'rgba(255, 59, 48, 0.2)';
+            xptsLoroEl.style.color = '#ff3b30';
+        } else {
+            xptsLoroBox.style.background = 'rgba(0, 122, 255, 0.08)';
+            xptsLoroBox.style.borderColor = 'rgba(0, 122, 255, 0.2)';
+            xptsLoroEl.style.color = '#007aff';
+        }
+
+        // Performance NOI
+        const perfNoiBox = perfNoiEl.parentElement;
+        const diff = golNoi - xgNoiValue;
+        if (diff > 0.3) {
+            perfNoiEl.textContent = 'Overperformance';
+            perfNoiBox.style.background = 'rgba(0, 212, 170, 0.15)';
+            perfNoiBox.style.borderColor = 'rgba(0, 212, 170, 0.3)';
+            perfNoiEl.style.color = '#00d4aa';
+        } else if (diff < -0.3) {
+            perfNoiEl.textContent = 'Underperformance';
+            perfNoiBox.style.background = 'rgba(255, 59, 48, 0.15)';
+            perfNoiBox.style.borderColor = 'rgba(255, 59, 48, 0.3)';
+            perfNoiEl.style.color = '#ff3b30';
+        } else {
+            perfNoiEl.textContent = 'OK';
+            perfNoiBox.style.background = 'rgba(0, 122, 255, 0.15)';
+            perfNoiBox.style.borderColor = 'rgba(0, 122, 255, 0.3)';
+            perfNoiEl.style.color = '#007aff';
+        }
+
+        // Performance LORO
+        const perfLoroBox = perfLoroEl.parentElement;
+        const diffLoro = golLoro - xgLoroValue;
+        if (diffLoro > 0.3) {
+            perfLoroEl.textContent = 'Overperformance';
+            perfLoroBox.style.background = 'rgba(0, 212, 170, 0.15)';
+            perfLoroBox.style.borderColor = 'rgba(0, 212, 170, 0.3)';
+            perfLoroEl.style.color = '#00d4aa';
+        } else if (diffLoro < -0.3) {
+            perfLoroEl.textContent = 'Underperformance';
+            perfLoroBox.style.background = 'rgba(255, 59, 48, 0.15)';
+            perfLoroBox.style.borderColor = 'rgba(255, 59, 48, 0.3)';
+            perfLoroEl.style.color = '#ff3b30';
+        } else {
+            perfLoroEl.textContent = 'OK';
+            perfLoroBox.style.background = 'rgba(0, 122, 255, 0.15)';
+            perfLoroBox.style.borderColor = 'rgba(0, 122, 255, 0.3)';
+            perfLoroEl.style.color = '#007aff';
+        }
+    }
+
+    // Event listeners per i pulsanti gol (nuova sezione)
+    document.querySelectorAll('.btn-gol-plus').forEach(btn => {
+        if (btn.dataset.team === 'noi' || btn.dataset.team === 'loro') {
+            btn.addEventListener('click', (e) => {
+                const team = e.target.dataset.team;
+                if (team === 'noi') {
+                    golNoi++;
+                } else {
+                    golLoro++;
+                }
+                updateDisplay();
+            });
+        }
+    });
+
+    document.querySelectorAll('.btn-gol-minus').forEach(btn => {
+        if (btn.dataset.team === 'noi' || btn.dataset.team === 'loro') {
+            btn.addEventListener('click', (e) => {
+                const team = e.target.dataset.team;
+                if (team === 'noi' && golNoi > 0) {
+                    golNoi--;
+                } else if (team === 'loro' && golLoro > 0) {
+                    golLoro--;
+                }
+                updateDisplay();
+            });
+        }
+    });
+
+    // Inizializza
+    updateDisplay();
+})();
+</script>
 </body>
 </html>
