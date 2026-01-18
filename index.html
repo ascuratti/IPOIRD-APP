@@ -692,7 +692,173 @@
     font-size: 12px;
     color: #6b7280;
 }
+/* MACRO CATEGORIES - ACCORDION */
+.macro-category {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
+.macro-category:hover {
+    border-color: #d1d5db;
+}
+
+.macro-header {
+    width: 100%;
+    padding: 20px 24px;
+    background: #fafafa;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.macro-header:hover {
+    background: #f3f4f6;
+}
+
+.macro-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #6b7280;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+.macro-arrow {
+    font-size: 20px;
+    color: #9ca3af;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.macro-category.open .macro-arrow {
+    transform: rotate(90deg);
+}
+
+.macro-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.macro-category.open .macro-content {
+    max-height: 2000px;
+}
+
+/* MICRO STATS */
+.micro-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 16px;
+    padding: 16px 24px;
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.team-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #6b7280;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.micro-stat {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 16px;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid #f3f4f6;
+    transition: background 0.2s ease;
+}
+
+.micro-stat:hover {
+    background: #fafafa;
+}
+
+.micro-stat:last-child {
+    border-bottom: none;
+}
+
+.micro-label {
+    font-size: 13px;
+    color: #374151;
+    font-weight: 400;
+}
+
+.micro-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.micro-btn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.micro-btn:hover {
+    border-color: #1a1a1a;
+    color: #1a1a1a;
+    transform: scale(1.05);
+}
+
+.micro-btn:active {
+    transform: scale(0.95);
+}
+
+.micro-btn.plus {
+    background: #1a1a1a;
+    color: #ffffff;
+    border-color: #1a1a1a;
+}
+
+.micro-btn.plus:hover {
+    background: #000000;
+}
+
+.micro-value {
+    font-size: 16px;
+    font-weight: 500;
+    color: #1a1a1a;
+    min-width: 24px;
+    text-align: center;
+    font-family: 'SF Mono', monospace;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .micro-stat {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .micro-header {
+        grid-template-columns: 1fr;
+    }
+    
+    .team-label {
+        text-align: left;
+    }
+}
     </style>
 </head>
 <body>
@@ -805,136 +971,363 @@
         </div>
     </div>
 </section>
-            <!-- PUNTO 3: ANALISI TATTICA -->
+ <!-- PUNTO 3: ANALISI TATTICA -->
 <section class="analisi-section">
     <h2>ANALISI TATTICA</h2>
 
     <!-- FINALIZZAZIONE -->
-    <div class="analysis-block">
-        <h3>FINALIZZAZIONE</h3>
+    <div class="macro-category">
+        <button class="macro-header">
+            <span class="macro-title">FINALIZZAZIONE</span>
+            <span class="macro-arrow">›</span>
+        </button>
+        <div class="macro-content">
+            <div class="micro-header">
+                <span></span>
+                <span class="team-label">A FAVORE</span>
+                <span class="team-label">AVVERSARI</span>
+            </div>
+            
+            <div class="micro-stat" data-category="finalizzazione" data-item="rete" data-xg="10">
+                <span class="micro-label">Rete realizzata</span>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="noi">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="noi">+</button>
+                </div>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="loro">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="loro">+</button>
+                </div>
+            </div>
 
-        <div class="analysis-row">
-            <label>Tiri totali</label>
-            <input type="number" placeholder="Tot">
-            <input type="number" placeholder="In porta">
-            <input type="number" placeholder="Fuori">
-            <input type="number" placeholder="Bloccati">
-        </div>
+            <div class="micro-stat" data-category="finalizzazione" data-item="tiro-specchio" data-xg="5">
+                <span class="micro-label">Tiro nello specchio</span>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="noi">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="noi">+</button>
+                </div>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="loro">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="loro">+</button>
+                </div>
+            </div>
 
-        <div class="analysis-row">
-            <label>Tiri da area</label>
-            <input type="number" placeholder="Dentro">
-            <input type="number" placeholder="Fuori">
-        </div>
+            <div class="micro-stat" data-category="finalizzazione" data-item="tiro-no-specchio-area" data-xg="4">
+                <span class="micro-label">Tiro non nello specchio in area</span>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="noi">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="noi">+</button>
+                </div>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="loro">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="loro">+</button>
+                </div>
+            </div>
 
-        <div class="analysis-row">
-            <label>Gol segnati</label>
-            <input type="number">
-        </div>
-
-        <div class="analysis-row">
-            <label>Assistenze</label>
-            <input type="number">
-        </div>
-
-        <div class="analysis-row">
-            <label>Cross</label>
-            <input type="number" placeholder="Riusciti">
-            <input type="number" placeholder="Tentati">
-        </div>
-    </div>
-
-    <!-- PALLA INATTIVA -->
-    <div class="analysis-block">
-        <h3>SITUAZIONI DA PALLA INATTIVA</h3>
-
-        <div class="analysis-row">
-            <label>Corner</label>
-            <input type="number" placeholder="A favore">
-            <input type="number" placeholder="Contro">
-        </div>
-
-        <div class="analysis-row">
-            <label>Punizioni pericolose</label>
-            <input type="number">
-        </div>
-
-        <div class="analysis-row">
-            <label>Gol / Tiri da p.i.</label>
-            <input type="number" placeholder="Gol">
-            <input type="number" placeholder="Tiri">
-        </div>
-    </div>
-
-    <!-- TRANSIZIONI OFFENSIVE -->
-    <div class="analysis-block">
-        <h3>TRANSIZIONI OFFENSIVE</h3>
-
-        <div class="analysis-row">
-            <label>Contropiedi completati</label>
-            <input type="number">
-        </div>
-
-        <div class="analysis-row">
-            <label>Attacchi diretti</label>
-            <input type="number">
-        </div>
-    </div>
-
-    <!-- CONTRASTO E RECUPERO -->
-    <div class="analysis-block">
-        <h3>CONTRASTO E RECUPERO</h3>
-
-        <div class="analysis-row">
-            <label>Contrasti</label>
-            <input type="number" placeholder="Vinti">
-            <input type="number" placeholder="Tentati">
-        </div>
-
-        <div class="analysis-row">
-            <label>Intercettazioni</label>
-            <input type="number">
-        </div>
-
-        <div class="analysis-row">
-            <label>Duelli aerei vinti</label>
-            <input type="number">
+            <div class="micro-stat" data-category="finalizzazione" data-item="tiro-no-specchio-fuori" data-xg="2">
+                <span class="micro-label">Tiro non nello specchio fuori area</span>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="noi">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="noi">+</button>
+                </div>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="loro">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="loro">+</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- PROGRESSIONE -->
-    <div class="analysis-block">
-        <h3>PROGRESSIONE</h3>
+    <!-- OCCASIONI CREATE -->
+    <div class="macro-category">
+        <button class="macro-header">
+            <span class="macro-title">OCCASIONI CREATE</span>
+            <span class="macro-arrow">›</span>
+        </button>
+        <div class="macro-content">
+            <div class="micro-header">
+                <span></span>
+                <span class="team-label">A FAVORE</span>
+                <span class="team-label">AVVERSARI</span>
+            </div>
 
-        <div class="analysis-row">
-            <label>Dribbling</label>
-            <input type="number" placeholder="Riusciti">
-            <input type="number" placeholder="Tentati">
-        </div>
+            <div class="micro-stat" data-category="occasioni" data-item="occasione-rete" data-xg="7">
+                <span class="micro-label">Occasione da rete non realizzata</span>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="noi">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="noi">+</button>
+                </div>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="loro">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="loro">+</button>
+                </div>
+            </div>
 
-        <div class="analysis-row">
-            <label>Passaggi in profondità</label>
-            <input type="number">
+            <div class="micro-stat" data-category="occasioni" data-item="azione-gol" data-xg="3">
+                <span class="micro-label">Azione potenzialmente da gol</span>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="noi">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="noi">+</button>
+                </div>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="loro">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="loro">+</button>
+                </div>
+            </div>
+
+            <div class="micro-stat" data-category="occasioni" data-item="transizione" data-xg="5">
+                <span class="micro-label">Transizione offensiva favorevole</span>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="noi">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="noi">+</button>
+                </div>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="loro">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="loro">+</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- TRANSIZIONI DIFENSIVE -->
-    <div class="analysis-block">
-        <h3>TRANSIZIONI DIFENSIVE</h3>
+    <!-- CALCI D'ANGOLO -->
+    <div class="macro-category">
+        <button class="macro-header">
+            <span class="macro-title">CALCI D'ANGOLO</span>
+            <span class="macro-arrow">›</span>
+        </button>
+        <div class="macro-content">
+            <div class="micro-header">
+                <span></span>
+                <span class="team-label">A FAVORE</span>
+                <span class="team-label">AVVERSARI</span>
+            </div>
 
-        <div class="analysis-row">
-            <label>Contropiedi subiti</label>
-            <input type="number">
+            <div class="micro-stat" data-category="corner" data-item="corto" data-xg="1">
+                <span class="micro-label">Corto, non sviluppato</span>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="noi">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="noi">+</button>
+                </div>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="loro">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="loro">+</button>
+                </div>
+            </div>
+
+            <div class="micro-stat" data-category="corner" data-item="sviluppo" data-xg="2">
+                <span class="micro-label">Con sviluppo ma senza finalizzazione</span>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="noi">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="noi">+</button>
+                </div>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="loro">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="loro">+</button>
+                </div>
+            </div>
+
+            <div class="micro-stat" data-category="corner" data-item="occasione" data-xg="4">
+                <span class="micro-label">Con tiro / occasione gol in area</span>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="noi">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="noi">+</button>
+                </div>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="loro">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="loro">+</button>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <div class="analysis-row">
-            <label>Perdite palla zona pericolosa</label>
-            <input type="number">
+    <!-- PUNIZIONI -->
+    <div class="macro-category">
+        <button class="macro-header">
+            <span class="macro-title">PUNIZIONI</span>
+            <span class="macro-arrow">›</span>
+        </button>
+        <div class="macro-content">
+            <div class="micro-header">
+                <span></span>
+                <span class="team-label">A FAVORE</span>
+                <span class="team-label">AVVERSARI</span>
+            </div>
+
+            <div class="micro-stat" data-category="punizioni" data-item="laterale-senza" data-xg="2">
+                <span class="micro-label">Laterale, cross in area, senza esito</span>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="noi">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="noi">+</button>
+                </div>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="loro">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="loro">+</button>
+                </div>
+            </div>
+
+            <div class="micro-stat" data-category="punizioni" data-item="laterale-occasione" data-xg="2">
+                <span class="micro-label">Laterale, crea occasione / tiro</span>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="noi">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="noi">+</button>
+                </div>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="loro">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="loro">+</button>
+                </div>
+            </div>
+
+            <div class="micro-stat" data-category="punizioni" data-item="diretta-specchio" data-xg="5">
+                <span class="micro-label">Diretta, nello specchio</span>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="noi">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="noi">+</button>
+                </div>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="loro">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="loro">+</button>
+                </div>
+            </div>
+
+            <div class="micro-stat" data-category="punizioni" data-item="diretta-fuori" data-xg="3">
+                <span class="micro-label">Diretta fuori</span>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="noi">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="noi">+</button>
+                </div>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="loro">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="loro">+</button>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <div class="analysis-row">
-            <label>Falli tattici</label>
-            <input type="number">
+    <!-- RIMESSA LATERALE -->
+    <div class="macro-category">
+        <button class="macro-header">
+            <span class="macro-title">RIMESSA LATERALE</span>
+            <span class="macro-arrow">›</span>
+        </button>
+        <div class="macro-content">
+            <div class="micro-header">
+                <span></span>
+                <span class="team-label">A FAVORE</span>
+                <span class="team-label">AVVERSARI</span>
+            </div>
+
+            <div class="micro-stat" data-category="rimessa" data-item="pericolosa" data-xg="3">
+                <span class="micro-label">Laterale con sviluppo pericoloso / 2ª palla</span>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="noi">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="noi">+</button>
+                </div>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="loro">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="loro">+</button>
+                </div>
+            </div>
+
+            <div class="micro-stat" data-category="rimessa" data-item="non-efficace" data-xg="1">
+                <span class="micro-label">Laterale non efficace</span>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="noi">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="noi">+</button>
+                </div>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="loro">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="loro">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ERRORI DIFENSIVI -->
+    <div class="macro-category">
+        <button class="macro-header">
+            <span class="macro-title">ERRORI DIFENSIVI</span>
+            <span class="macro-arrow">›</span>
+        </button>
+        <div class="macro-content">
+            <div class="micro-header">
+                <span></span>
+                <span class="team-label">A FAVORE</span>
+                <span class="team-label">AVVERSARI</span>
+            </div>
+
+            <div class="micro-stat" data-category="errori" data-item="tecnico" data-xg="5">
+                <span class="micro-label">Tecnico in costruzione, porta palla gol</span>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="noi">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="noi">+</button>
+                </div>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="loro">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="loro">+</button>
+                </div>
+            </div>
+
+            <div class="micro-stat" data-category="errori" data-item="tattico" data-xg="6">
+                <span class="micro-label">Tattico / posizionamento, porta palla gol</span>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="noi">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="noi">+</button>
+                </div>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="loro">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="loro">+</button>
+                </div>
+            </div>
+
+            <div class="micro-stat" data-category="errori" data-item="grave" data-xg="8">
+                <span class="micro-label">Errore grave / non forzato</span>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="noi">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="noi">+</button>
+                </div>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="loro">−</button>
+                    <span class="micro-value">0</span>
+                    <button class="micro-btn plus" data-team="loro">+</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1542,6 +1935,89 @@ document.querySelectorAll('.team-score').forEach(team => {
 
     // Inizializza
     updateDisplay();
+})();
+</script>
+<script>
+// ===== ANALISI TATTICA - ACCORDION E CONTATORI =====
+(function() {
+    // Accordion toggle
+    document.querySelectorAll('.macro-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const category = header.parentElement;
+            category.classList.toggle('open');
+        });
+    });
+
+    // Contatori e xG
+    let xgNoiTotal = 0;
+    let xgLoroTotal = 0;
+
+    // Funzione per aggiornare xG globali
+    function updateGlobalXG() {
+        // Prendi gli elementi dal punteggio
+        const xgNoiEl = document.getElementById('xg-noi-new');
+        const xgLoroEl = document.getElementById('xg-loro-new');
+        
+        if (xgNoiEl && xgLoroEl) {
+            xgNoiEl.textContent = xgNoiTotal.toFixed(2);
+            xgLoroEl.textContent = xgLoroTotal.toFixed(2);
+            
+            // Trigghera l'update del display del punteggio
+            if (window.updateScoreDisplay) {
+                window.updateScoreDisplay();
+            }
+        }
+    }
+
+    // Event listeners per tutti i pulsanti
+    document.querySelectorAll('.micro-stat').forEach(stat => {
+        const xgValue = parseFloat(stat.dataset.xg);
+        const controls = stat.querySelectorAll('.micro-controls');
+        
+        // NOI (prima colonna)
+        const noiControls = controls[0];
+        const noiValue = noiControls.querySelector('.micro-value');
+        const noiPlus = noiControls.querySelector('.plus');
+        const noiMinus = noiControls.querySelector('.minus');
+        
+        noiPlus.addEventListener('click', () => {
+            let current = parseInt(noiValue.textContent);
+            noiValue.textContent = current + 1;
+            xgNoiTotal += xgValue;
+            updateGlobalXG();
+        });
+        
+        noiMinus.addEventListener('click', () => {
+            let current = parseInt(noiValue.textContent);
+            if (current > 0) {
+                noiValue.textContent = current - 1;
+                xgNoiTotal -= xgValue;
+                updateGlobalXG();
+            }
+        });
+        
+        // LORO (seconda colonna)
+        const loroControls = controls[1];
+        const loroValue = loroControls.querySelector('.micro-value');
+        const loroPlus = loroControls.querySelector('.plus');
+        const loroMinus = loroControls.querySelector('.minus');
+        
+        loroPlus.addEventListener('click', () => {
+            let current = parseInt(loroValue.textContent);
+            loroValue.textContent = current + 1;
+            xgLoroTotal += xgValue;
+            updateGlobalXG();
+        });
+        
+        loroMinus.addEventListener('click', () => {
+            let current = parseInt(loroValue.textContent);
+            if (current > 0) {
+                loroValue.textContent = current - 1;
+                xgLoroTotal -= xgValue;
+                updateGlobalXG();
+            }
+        });
+    });
 })();
 </script>
 </body>
