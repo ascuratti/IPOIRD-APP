@@ -2024,5 +2024,512 @@
         loadMatchData();
     }
 </script>
+<!-- PUNTO 5: GRAFICI E ESPORTAZIONE PDF -->
+<section class="grafici-section">
+    <h2>ANALISI GRAFICA</h2>
+    
+    <!-- Bottone Download PDF -->
+    <div style="text-align: center; margin-bottom: 40px;">
+        <button class="btn btn-start" id="btn-download-pdf" style="padding: 14px 28px; font-size: 13px;">
+            SCARICA PDF
+        </button>
+    </div>
+
+    <!-- Container Grafici -->
+    <div class="grafici-grid">
+        
+        <!-- Piano Cartesiano -->
+        <div class="analysis-block">
+            <h3>PIANO CARTESIANO - IPO-IRD vs POSSESSO</h3>
+            <div class="canvas-wrapper">
+                <canvas id="pianoCartesianoCanvas" width="500" height="500"></canvas>
+            </div>
+        </div>
+
+        <!-- Grafico Radar -->
+        <div class="analysis-block">
+            <h3>GRAFICO RADAR - MACROCATEGORIE</h3>
+            <div class="canvas-wrapper">
+                <canvas id="radarCanvas" width="500" height="500"></canvas>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+// ===== FUNZIONI CALCOLO MACROCATEGORIE =====
+function getMacrocategoryStats() {
+    const macros = {
+        'FINALIZZAZIONE': ['rete-realizzata', 'tiro-specchio', 'tiro-non-specchio-area', 'tiro-non-specchio-fuori'],
+        'OCCASIONI CREATE': ['occasione-non-realizzata', 'azione-potenziale', 'transizione-offensiva'],
+        'CALCI D\'ANGOLO': ['angolo-corto', 'angolo-sviluppato', 'angolo-tiro'],
+        'PUNIZIONI': ['punizione-laterale-senza', 'punizione-laterale-occasione', 'punizione-diretta-specchio', 'punizione-diretta-fuori'],
+        'RIMESSE LATERALI': ['rimessa-pericolosa', 'rimessa-non-efficace'],
+        'ERRORI DIFENSIVI': ['errore-tecnico', 'errore-tattico', 'errore-grave']
+    };
+
+    const results = {};
+
+    for (const [macroName, microItems] of Object.entries(macros)) {
+        let noiTotal = 0;
+        let loroTotal = 0;
+
+        microItems.forEach(item => {
+            const stat = document.querySelector(`[data-item="${item}"]`);
+            if (stat) {
+                const controls = stat.querySelectorAll('.micro-controls');
+                if (controls.length >= 2) {
+                    noiTotal += parseInt(controls[0].querySelector('.micro-value').textContent) || 0;
+                    loroTotal += parseInt(controls[1].querySelector('.micro-value').textContent) || 0;
+                }
+            }
+        });
+
+        const total = noiTotal + loroTotal;
+        const noiPercent = total > 0 ? (noiTotal / total) * 100 : 0;
+        const loroPercent = total > 0 ? (loroTotal / total) * 100 : 0;
+
+        results[macroName] = {
+            noi: noiPercent,
+            loro: loroPercent,
+            noiCount: noiTotal,
+            loroCount: loroTotal
+        };
+    }
+
+    return results;
+}
+
+// ===== DISEGNA PIANO CARTESIANO =====
+function drawPianoCartesiano() {
+    const canvas = document.getElementById('pianoCartesianoCanvas');
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width;
+    const h = canvas.height;
+
+    // Sfondo bianco
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, w, h);
+
+    // Bordo sottile
+    ctx.strokeStyle = '#e5e7eb';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(0, 0, w, h);
+
+    // Quadranti colorati (più leggeri e coerenti)
+    ctx.globalAlpha = 0.08;
+    
+    // In alto a destra (VERDE) - Ottima prestazione
+    ctx.fillStyle = '#059669';
+    ctx.fillRect(w / 2, 0, w / 2, h / 2);
+    
+    // In basso a sinistra (ROSSO) - Pessima prestazione
+    ctx.fillStyle = '#dc2626';
+    ctx.fillRect(0, h / 2, w / 2, h / 2);
+    
+    // In basso a destra (ARANCIONE) - Buon controllo ma pericolosità negativa
+    ctx.fillStyle = '#f59e0b';
+    ctx.fillRect(w / 2, h / 2, w / 2, h / 2);
+    
+    // In alto a sinistra (BLU CHIARO) - Poco dominio ma buona pericolosità
+    ctx.fillStyle = '#3b82f6';
+    ctx.fillRect(0, 0, w / 2, h / 2);
+
+    ctx.globalAlpha = 1;
+
+    // Assi principali
+    ctx.strokeStyle = '#1a1a1a';
+    ctx.lineWidth = 2;
+    
+    // Asse Y (centro verticale)
+    ctx.beginPath();
+    ctx.moveTo(w / 2, 0);
+    ctx.lineTo(w / 2, h);
+    ctx.stroke();
+
+    // Asse X (centro orizzontale)
+    ctx.beginPath();
+    ctx.moveTo(0, h / 2);
+    ctx.lineTo(w, h / 2);
+    ctx.stroke();
+
+    // Griglia secondaria
+    ctx.strokeStyle = '#f3f4f6';
+    ctx.lineWidth = 1;
+    
+    for (let i = 1; i < 4; i++) {
+        // Linee verticali
+        ctx.beginPath();
+        ctx.moveTo((w / 4) * i, 0);
+        ctx.lineTo((w / 4) * i, h);
+        ctx.stroke();
+        
+        // Linee orizzontali
+        ctx.beginPath();
+        ctx.moveTo(0, (h / 4) * i);
+        ctx.lineTo(w, (h / 4) * i);
+        ctx.stroke();
+    }
+
+    // Etichette assi (stile app)
+    ctx.fillStyle = '#6b7280';
+    ctx.font = '600 10px -apple-system, BlinkMacSystemFont, Bahnschrift';
+    ctx.textAlign = 'center';
+    
+    ctx.fillText('IPO-IRD', w / 2, 20);
+    
+    ctx.save();
+    ctx.translate(20, h / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('POSSESSO %', 0, 0);
+    ctx.restore();
+
+    // Scala asse X (Possesso) - stile minimalista
+    ctx.fillStyle = '#9ca3af';
+    ctx.font = '10px -apple-system, BlinkMacSystemFont, Bahnschrift';
+    for (let i = 0; i <= 100; i += 25) {
+        const x = (i / 100) * w;
+        ctx.fillText(i.toString(), x, h - 10);
+    }
+
+    // Scala asse Y (IPO-IRD da -60 a +60)
+    for (let i = -60; i <= 60; i += 30) {
+        const y = h / 2 - (i / 60) * (h / 2);
+        ctx.textAlign = 'right';
+        ctx.fillText(i > 0 ? '+' + i : i.toString(), w - 10, y + 4);
+    }
+
+    // Calcola punto partita
+    const ipo = state.xg.noi;
+    const ird = state.xg.loro;
+    const ipoIrd = ipo - ird;
+    const possesso = state.possessoNoi;
+
+    // Converte in coordinate canvas
+    const px = (possesso / 100) * w;
+    const py = h / 2 - (ipoIrd / 60) * (h / 2);
+
+    // Disegna punto (stile coerente)
+    ctx.fillStyle = '#1a1a1a';
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.arc(px, py, 14, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // Etichetta punto dettagliata (stile app)
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = '600 11px -apple-system, BlinkMacSystemFont, Bahnschrift';
+    ctx.textAlign = 'left';
+    
+    // Posiziona etichetta intelligentemente
+    const labelX = px > w / 2 ? px - 150 : px + 20;
+    const labelY = py;
+    
+    ctx.fillText(`${possesso}% - IPO-IRD: ${ipoIrd.toFixed(2)}`, labelX, labelY);
+}
+
+// ===== DISEGNA GRAFICO RADAR =====
+function drawRadarChart() {
+    const canvas = document.getElementById('radarCanvas');
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width;
+    const h = canvas.height;
+    const centerX = w / 2;
+    const centerY = h / 2;
+    const radius = Math.min(w, h) / 2 - 80;
+
+    // Sfondo bianco
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, w, h);
+
+    const macroStats = getMacrocategoryStats();
+    const categories = Object.keys(macroStats);
+    const numAxes = categories.length;
+    const angleStep = (Math.PI * 2) / numAxes;
+
+    // Disegna griglia (stile minimalista)
+    ctx.strokeStyle = '#f3f4f6';
+    ctx.lineWidth = 1;
+
+    for (let i = 1; i <= 5; i++) {
+        const r = (radius / 5) * i;
+        ctx.beginPath();
+        for (let j = 0; j <= numAxes; j++) {
+            const angle = j * angleStep - Math.PI / 2;
+            const x = centerX + r * Math.cos(angle);
+            const y = centerY + r * Math.sin(angle);
+            if (j === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.stroke();
+    }
+
+    // Disegna assi
+    ctx.strokeStyle = '#e5e7eb';
+    ctx.lineWidth = 1;
+    for (let i = 0; i < numAxes; i++) {
+        const angle = i * angleStep - Math.PI / 2;
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(centerX + radius * Math.cos(angle), centerY + radius * Math.sin(angle));
+        ctx.stroke();
+    }
+
+    // Disegna poligono LORO (rosso - IRD)
+    ctx.strokeStyle = '#dc2626';
+    ctx.fillStyle = 'rgba(220, 38, 38, 0.15)';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+
+    categories.forEach((cat, i) => {
+        const angle = i * angleStep - Math.PI / 2;
+        const percent = macroStats[cat].loro;
+        const r = (percent / 100) * radius;
+        const x = centerX + r * Math.cos(angle);
+        const y = centerY + r * Math.sin(angle);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+    });
+
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Disegna poligono NOI (blu - IPO)
+    ctx.strokeStyle = '#1a1a1a';
+    ctx.fillStyle = 'rgba(26, 26, 26, 0.1)';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+
+    categories.forEach((cat, i) => {
+        const angle = i * angleStep - Math.PI / 2;
+        const percent = macroStats[cat].noi;
+        const r = (percent / 100) * radius;
+        const x = centerX + r * Math.cos(angle);
+        const y = centerY + r * Math.sin(angle);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+    });
+
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Punti sui vertici
+    categories.forEach((cat, i) => {
+        const angle = i * angleStep - Math.PI / 2;
+        
+        // Punto NOI
+        const percentNoi = macroStats[cat].noi;
+        const rNoi = (percentNoi / 100) * radius;
+        const xNoi = centerX + rNoi * Math.cos(angle);
+        const yNoi = centerY + rNoi * Math.sin(angle);
+        
+        ctx.fillStyle = '#1a1a1a';
+        ctx.beginPath();
+        ctx.arc(xNoi, yNoi, 5, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Punto LORO
+        const percentLoro = macroStats[cat].loro;
+        const rLoro = (percentLoro / 100) * radius;
+        const xLoro = centerX + rLoro * Math.cos(angle);
+        const yLoro = centerY + rLoro * Math.sin(angle);
+        
+        ctx.fillStyle = '#dc2626';
+        ctx.beginPath();
+        ctx.arc(xLoro, yLoro, 5, 0, Math.PI * 2);
+        ctx.fill();
+    });
+
+    // Etichette categorie (stile app)
+    ctx.fillStyle = '#6b7280';
+    ctx.font = '600 9px -apple-system, BlinkMacSystemFont, Bahnschrift';
+    ctx.textAlign = 'center';
+
+    categories.forEach((cat, i) => {
+        const angle = i * angleStep - Math.PI / 2;
+        const labelRadius = radius + 40;
+        const x = centerX + labelRadius * Math.cos(angle);
+        const y = centerY + labelRadius * Math.sin(angle);
+
+        // Testo multi-linea con letterspacing
+        const words = cat.split(' ');
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        if (words.length === 1) {
+            ctx.fillText(cat, x, y);
+        } else {
+            words.forEach((word, idx) => {
+                const offset = (idx - (words.length - 1) / 2) * 11;
+                ctx.fillText(word, x, y + offset);
+            });
+        }
+    });
+
+    // Legenda (stile app)
+    const legendY = h - 30;
+    
+    ctx.fillStyle = '#1a1a1a';
+    ctx.fillRect(w / 2 - 70, legendY - 8, 12, 12);
+    ctx.fillStyle = '#374151';
+    ctx.font = '600 10px -apple-system, BlinkMacSystemFont, Bahnschrift';
+    ctx.textAlign = 'left';
+    ctx.fillText('NOI (IPO)', w / 2 - 52, legendY);
+
+    ctx.fillStyle = '#dc2626';
+    ctx.fillRect(w / 2 + 20, legendY - 8, 12, 12);
+    ctx.fillStyle = '#374151';
+    ctx.fillText('LORO (IRD)', w / 2 + 38, legendY);
+}
+
+// ===== GENERA PDF =====
+async function generatePDF() {
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'mm', 'a4');
+
+    // Ottieni iniziali avversario
+    const avversario = document.getElementById('avversario').value || 'PARTITA';
+    const iniziali = avversario.split(' ').map(word => word.charAt(0).toUpperCase()).join('');
+
+    // INTESTAZIONE
+    pdf.setFontSize(20);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text(iniziali, 105, 20, { align: 'center' });
+
+    pdf.setFontSize(10);
+    pdf.setFont('helvetica', 'normal');
+    const data = document.getElementById('data-partita').value || 'N/A';
+    const posizione = document.getElementById('posizione-partita').value || 'N/A';
+    pdf.text(`Data: ${data} | Posizione: ${posizione.toUpperCase()}`, 105, 28, { align: 'center' });
+
+    // PUNTEGGIO
+    pdf.setFontSize(14);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('PUNTEGGIO', 20, 45);
+    
+    pdf.setFontSize(11);
+    pdf.setFont('helvetica', 'normal');
+    pdf.text(`NOI: ${state.gol.noi} gol | IPO: ${state.xg.noi.toFixed(2)}`, 20, 52);
+    pdf.text(`LORO: ${state.gol.loro} gol | IRD: ${state.xg.loro.toFixed(2)}`, 20, 59);
+    pdf.text(`Possesso Palla: NOI ${state.possessoNoi}% - LORO ${state.possessoLoro}%`, 20, 66);
+
+    // MACROCATEGORIE
+    const macroStats = getMacrocategoryStats();
+    let yPos = 80;
+    
+    pdf.setFontSize(14);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('STATISTICHE MACROCATEGORIE', 20, yPos);
+    yPos += 10;
+
+    pdf.setFontSize(9);
+    pdf.setFont('helvetica', 'normal');
+
+    for (const [macro, stats] of Object.entries(macroStats)) {
+        pdf.text(`${macro}:`, 20, yPos);
+        pdf.text(`NOI: ${stats.noiCount} (${stats.noi.toFixed(1)}%)`, 80, yPos);
+        pdf.text(`LORO: ${stats.loroCount} (${stats.loro.toFixed(1)}%)`, 130, yPos);
+        yPos += 6;
+    }
+
+    // GRAFICI
+    yPos += 10;
+    
+    // Piano Cartesiano
+    const cartesianoCanvas = document.getElementById('pianoCartesianoCanvas');
+    const cartesianoImg = cartesianoCanvas.toDataURL('image/png');
+    pdf.addImage(cartesianoImg, 'PNG', 20, yPos, 80, 80);
+
+    // Grafico Radar
+    const radarCanvas = document.getElementById('radarCanvas');
+    const radarImg = radarCanvas.toDataURL('image/png');
+    pdf.addImage(radarImg, 'PNG', 110, yPos, 80, 80);
+
+    // SALVA
+    pdf.save(`${iniziali}_${data}.pdf`);
+}
+
+// ===== EVENT LISTENERS =====
+document.getElementById('btn-download-pdf').addEventListener('click', () => {
+    drawPianoCartesiano();
+    drawRadarChart();
+    setTimeout(generatePDF, 500);
+});
+
+// Ridisegna grafici quando cambiano i dati
+const originalCalculateXG = calculateXG;
+calculateXG = function() {
+    originalCalculateXG();
+    setTimeout(() => {
+        drawPianoCartesiano();
+        drawRadarChart();
+    }, 100);
+};
+
+// Disegna grafici iniziali
+setTimeout(() => {
+    drawPianoCartesiano();
+    drawRadarChart();
+}, 1000);
+</script>
+
+<style>
+/* ===== SEZIONE GRAFICI - STILE COERENTE ===== */
+.grafici-section {
+    margin-bottom: 64px;
+}
+
+.grafici-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.canvas-wrapper {
+    background: #ffffff;
+    border-radius: 2px;
+    padding: 20px;
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.canvas-wrapper canvas {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+@media (max-width: 1024px) {
+    .grafici-grid {
+        gap: 32px;
+    }
+}
+
+@media (max-width: 768px) {
+    .grafici-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    
+    .canvas-wrapper {
+        padding: 16px;
+    }
+    
+    #pianoCartesianoCanvas, #radarCanvas {
+        width: 100% !important;
+        height: auto !important;
+    }
+}
+</style>
 </body>
 </html>
