@@ -2015,8 +2015,55 @@ document.querySelectorAll('.team-score').forEach(team => {
     });
 });
 </script>
-<script>
-// ===== PUNTEGGIO CON xG E xPTS =====
+// Sostituisci SOLO la sezione Performance nel script "PUNTEGGIO CON xG E xPTS"
+
+        // ===== PERFORMANCE NOI (RETI PRODOTTE - ATTACCO) =====
+        // xG > gol = Underperformance
+        // xG < gol = Overperformance
+        // xG = gol = OK
+        const perfNoiBox = perfNoiEl.parentElement;
+        const diffNoi = xgNoiValue - golNoi;
+        
+        if (diffNoi > 0.3) {
+            perfNoiEl.textContent = 'Underperformance';
+            perfNoiBox.style.background = 'rgba(255, 59, 48, 0.15)';
+            perfNoiBox.style.borderColor = 'rgba(255, 59, 48, 0.3)';
+            perfNoiEl.style.color = '#ff3b30';
+        } else if (diffNoi < -0.3) {
+            perfNoiEl.textContent = 'Overperformance';
+            perfNoiBox.style.background = 'rgba(0, 212, 170, 0.15)';
+            perfNoiBox.style.borderColor = 'rgba(0, 212, 170, 0.3)';
+            perfNoiEl.style.color = '#00d4aa';
+        } else {
+            perfNoiEl.textContent = 'OK';
+            perfNoiBox.style.background = 'rgba(0, 122, 255, 0.15)';
+            perfNoiBox.style.borderColor = 'rgba(0, 122, 255, 0.3)';
+            perfNoiEl.style.color = '#007aff';
+        }
+
+        // ===== PERFORMANCE LORO (RETI SUBITE - DIFESA) =====
+        // xG loro > gol subiti = Overperformance (difesa OK, loro hanno subito più di meritato)
+        // xG loro < gol subiti = Underperformance (difesa male, loro hanno subito meno di meritato)
+        // xG = gol = OK
+        const perfLoroBox = perfLoroEl.parentElement;
+        const diffLoro = xgLoroValue - golLoro;
+        
+        if (diffLoro > 0.3) {
+            perfLoroEl.textContent = 'Overperformance';
+            perfLoroBox.style.background = 'rgba(0, 212, 170, 0.15)';
+            perfLoroBox.style.borderColor = 'rgba(0, 212, 170, 0.3)';
+            perfLoroEl.style.color = '#00d4aa';
+        } else if (diffLoro < -0.3) {
+            perfLoroEl.textContent = 'Underperformance';
+            perfLoroBox.style.background = 'rgba(255, 59, 48, 0.15)';
+            perfLoroBox.style.borderColor = 'rgba(255, 59, 48, 0.3)';
+            perfLoroEl.style.color = '#ff3b30';
+        } else {
+            perfLoroEl.textContent = 'OK';
+            perfLoroBox.style.background = 'rgba(0, 122, 255, 0.15)';
+            perfLoroBox.style.borderColor = 'rgba(0, 122, 255, 0.3)';
+            perfLoroEl.style.color = '#007aff';
+        }// ===== PUNTEGGIO CON xG E xPTS =====
 (function() {
     let golNoi = 0;
     let golLoro = 0;
