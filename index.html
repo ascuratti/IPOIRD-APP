@@ -2248,6 +2248,114 @@ document.querySelectorAll('.team-score').forEach(team => {
     let xgNoiTotal = 0;
     let xgLoroTotal = 0;
 
+    // Funzione per calcolare xPoints
+    function calculateXPoints(ourXg, theirXg) {
+        const diff = ourXg - theirXg;
+        
+        if (diff >= 1.5) {
+            return 2.7;
+        } else if (diff >= 1 && diff < 1.5) {
+            return 2.3;
+        } else if (diff >= 0.5 && diff < 1) {
+            return 2;
+        } else if (diff >= 0 && diff < 0.5) {
+            return 1.5;
+        } else if (diff >= -0.5 && diff < 0) {
+            return 0.7;
+        } else if (diff >= -1 && diff < -0.5) {
+            return 0.5;
+        } else if (diff >= -1.5 && diff < -1) {
+            return 0.3;
+        } else if (diff < -1.5) {
+            return 0.1;
+        }
+    }
+
+    // Funzione per aggiornare xG globali E xPoints
+    function updateGlobalXG() {
+        const xgNoiEl = document.getElementById('xg-noi-new');
+        const xgLoroEl = document.getElementById('xg-loro-new');
+        const xptsNoiEl = document.getElementById('xpts-noi');
+        const xptsLoroEl = document.getElementById('xpts-loro');
+        
+        if (xgNoiEl && xgLoroEl && xptsNoiEl && xptsLoroEl) {
+            // Aggiorna xG
+            xgNoiEl.textContent = xgNoiTotal.toFixed(2);
+            xgLoroEl.textContent = xgLoroTotal.toFixed(2);
+
+            // Calcola e aggiorna xPts
+            const xptsNoi = calculateXPoints(xgNoiTotal, xgLoroTotal);
+            const xptsLoro = calculateXPoints(xgLoroTotal, xgNoiTotal);
+            
+            xptsNoiEl.textContent = xptsNoi.toFixed(2);
+            xptsLoroEl.textContent = xptsLoro.toFixed(2);
+        }
+    }
+
+    // Event listeners per tutti i pulsanti
+    document.querySelectorAll('.micro-stat').forEach(stat => {
+        const xgValue = parseFloat(stat.dataset.xg);
+        const controls = stat.querySelectorAll('.micro-controls');
+        
+        // NOI (prima colonna)
+        const noiControls = controls[0];
+        const noiValue = noiControls.querySelector('.micro-value');
+        const noiPlus = noiControls.querySelector('.plus');
+        const noiMinus = noiControls.querySelector('.minus');
+        
+        noiPlus.addEventListener('click', () => {
+            let current = parseInt(noiValue.textContent);
+            noiValue.textContent = current + 1;
+            xgNoiTotal += xgValue;
+            updateGlobalXG();
+        });
+        
+        noiMinus.addEventListener('click', () => {
+            let current = parseInt(noiValue.textContent);
+            if (current > 0) {
+                noiValue.textContent = current - 1;
+                xgNoiTotal -= xgValue;
+                updateGlobalXG();
+            }
+        });
+        
+        // LORO (seconda colonna)
+        const loroControls = controls[1];
+        const loroValue = loroControls.querySelector('.micro-value');
+        const loroPlus = loroControls.querySelector('.plus');
+        const loroMinus = loroControls.querySelector('.minus');
+        
+        loroPlus.addEventListener('click', () => {
+            let current = parseInt(loroValue.textContent);
+            loroValue.textContent = current + 1;
+            xgLoroTotal += xgValue;
+            updateGlobalXG();
+        });
+        
+        loroMinus.addEventListener('click', () => {
+            let current = parseInt(loroValue.textContent);
+            if (current > 0) {
+                loroValue.textContent = current - 1;
+                xgLoroTotal -= xgValue;
+                updateGlobalXG();
+            }
+        });
+    });
+})();
+</script>// ===== ANALISI TATTICA - ACCORDION E CONTATORI =====
+(function() {
+    // Accordion toggle
+    document.querySelectorAll('.macro-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const category = header.parentElement;
+            category.classList.toggle('open');
+        });
+    });
+
+    // Contatori e xG
+    let xgNoiTotal = 0;
+    let xgLoroTotal = 0;
+
     // Funzione per aggiornare xG globali
     function updateGlobalXG() {
         // Prendi gli elementi dal punteggio
