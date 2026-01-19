@@ -1051,9 +1051,32 @@
 <body>
     <div class="container">
         <header>
-            <h1>IPOIRD TACTICAL ANALYZER</h1>
+            <h1>IPOIRD</h1>
         </header>
 
+<!-- SEZIONE INFORMAZIONI PARTITA -->
+<section class="match-info-section">
+    <div class="match-info-container">
+        <div class="match-info-row">
+            <label>AVVERSARIO</label>
+            <input type="text" id="avversario" placeholder="Es. Inter, Juventus">
+        </div>
+
+        <div class="match-info-row">
+            <label>DATA</label>
+            <input type="date" id="data-partita">
+        </div>
+
+        <div class="match-info-row">
+            <label>POSIZIONE</label>
+            <select id="posizione-partita">
+                <option value="">Seleziona...</option>
+                <option value="casa">IN CASA</option>
+                <option value="fuori">FUORI CASA</option>
+            </select>
+        </div>
+    </div>
+</section>
         <main>
             <!-- PUNTO 1: TEMPO -->
             <section class="tempo-section">
