@@ -3,97 +3,89 @@
 <head>
     <link rel="stylesheet" href="apple-style.css">
     <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPOIRD Tactical Analyzer</title>
     <style>
         /* ============================= */
-/* ANALISI TATTICA – ALLINEAMENTO */
-/* ============================= */
+        /* ANALISI TATTICA – ALLINEAMENTO */
+        /* ============================= */
 
-.analisi-section {
-    margin-bottom: 64px;
-}
+        .analisi-section {
+            margin-bottom: 64px;
+        }
 
-.analisi-section h2 {
-    font-size: 11px;
-    color: #6b7280;
-    margin-bottom: 24px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-}
+        .analisi-section h2 {
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 24px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
 
-/* blocchi come cronometro / possesso / gol */
-.analysis-block {
-    background: #fafafa;
-    border: 1px solid #e5e7eb;
-    border-radius: 2px;
-    padding: 40px;
-    margin-bottom: 40px;
-}
+        .analysis-block {
+            background: #fafafa;
+            border: 1px solid #e5e7eb;
+            border-radius: 2px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
 
-/* titolo macrocategoria */
-.analysis-block h3 {
-    font-size: 11px;
-    color: #6b7280;
-    margin-bottom: 24px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-}
+        .analysis-block h3 {
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 24px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
 
-/* righe dati */
-.analysis-row {
-    display: grid;
-    grid-template-columns: 220px repeat(auto-fit, minmax(90px, 1fr));
-    gap: 12px;
-    align-items: center;
-    margin-bottom: 16px;
-}
+        .analysis-row {
+            display: grid;
+            grid-template-columns: 220px repeat(auto-fit, minmax(90px, 1fr));
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 16px;
+        }
 
-/* label come summary-label */
-.analysis-row label {
-    font-size: 11px;
-    color: #6b7280;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
+        .analysis-row label {
+            font-size: 11px;
+            color: #6b7280;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-/* input coerenti */
-.analysis-row input,
-.analysis-row textarea {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 4px;
-    padding: 10px 12px;
-    font-size: 12px;
-    font-family: inherit;
-    color: #1a1a1a;
-}
+        .analysis-row input,
+        .analysis-row textarea {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            padding: 10px 12px;
+            font-size: 12px;
+            font-family: inherit;
+            color: #1a1a1a;
+        }
 
-/* focus elegante */
-.analysis-row input:focus,
-.analysis-row textarea:focus {
-    outline: none;
-    border-color: #1a1a1a;
-}
+        .analysis-row input:focus,
+        .analysis-row textarea:focus {
+            outline: none;
+            border-color: #1a1a1a;
+        }
 
-/* textarea */
-.analysis-row textarea {
-    resize: vertical;
-}
+        .analysis-row textarea {
+            resize: vertical;
+        }
 
-/* mobile */
-@media (max-width: 768px) {
-    .analysis-block {
-        padding: 24px;
-    }
+        @media (max-width: 768px) {
+            .analysis-block {
+                padding: 24px;
+            }
 
-    .analysis-row {
-        grid-template-columns: 1fr;
-    }
-}
+            .analysis-row {
+                grid-template-columns: 1fr;
+            }
+        }
 
         * {
             margin: 0;
@@ -102,8 +94,7 @@
         }
 
         body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Bahnschrift';
-  
+            font-family: -apple-system, BlinkMacSystemFont, 'Bahnschrift';
             background: #ffffff;
             min-height: 100vh;
             padding: 0;
@@ -111,10 +102,9 @@
         }
 
         .container {
-        
-  max-width: 1200px;
-  width: 100%;
-  margin: 0 auto;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
             background: #ffffff;
             min-height: 100vh;
         }
@@ -151,7 +141,6 @@
             letter-spacing: 1.2px;
         }
 
-        /* TEMPO SECTION */
         .tempo-indicators {
             display: inline-flex;
             gap: 0;
@@ -332,7 +321,6 @@
             font-weight: 400;
         }
 
-        /* PUNTEGGIO SECTION */
         .gol-container {
             display: flex;
             align-items: center;
@@ -656,479 +644,423 @@
                 font-size: 48px;
             }
         }
+
+        /* MACRO CATEGORIES - ACCORDION */
+        .macro-category {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .macro-category:hover {
+            border-color: #d1d5db;
+        }
+
+        .macro-header {
+            width: 100%;
+            padding: 20px 24px;
+            background: #fafafa;
+            border: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .macro-header:hover {
+            background: #f3f4f6;
+        }
+
+        .macro-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: #6b7280;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+
+        .macro-arrow {
+            font-size: 20px;
+            color: #9ca3af;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .macro-category.open .macro-arrow {
+            transform: rotate(90deg);
+        }
+
+        .macro-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .macro-category.open .macro-content {
+            max-height: 2000px;
+        }
+
+        /* MICRO STATS */
+        .micro-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 16px;
+            padding: 16px 24px;
+            background: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .team-label {
+            font-size: 10px;
+            font-weight: 600;
+            color: #6b7280;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
         .micro-stat {
-    display: grid;
-    grid-template-columns: 1fr auto auto;
-    align-items: center;
-    gap: 16px;
-    padding: 8px 0;
-    border-bottom: 1px dashed #e5e7eb;
-}
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 16px;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid #f3f4f6;
+            transition: background 0.2s ease;
+        }
 
-.micro-label {
-    font-size: 13px;
-    color: #374151;
-}
+        .micro-stat:hover {
+            background: #fafafa;
+        }
 
-.micro-controls {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
+        .micro-stat:last-child {
+            border-bottom: none;
+        }
 
-.micro-controls button {
-    width: 28px;
-    height: 28px;
-    border: 1px solid #d1d5db;
-    background: #fff;
-    cursor: pointer;
-}
+        .micro-label {
+            font-size: 13px;
+            color: #374151;
+            font-weight: 400;
+        }
 
-.micro-value {
-    width: 24px;
-    text-align: center;
-    font-weight: 500;
-}
+        .micro-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
 
-.micro-score {
-    font-size: 12px;
-    color: #6b7280;
-}
-/* MACRO CATEGORIES - ACCORDION */
-.macro-category {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 6px;
-    margin-bottom: 12px;
-    overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
+        .micro-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #e5e7eb;
+            background: #ffffff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
-.macro-category:hover {
-    border-color: #d1d5db;
-}
+        .micro-btn:hover {
+            border-color: #1a1a1a;
+            color: #1a1a1a;
+            transform: scale(1.05);
+        }
 
-.macro-header {
-    width: 100%;
-    padding: 20px 24px;
-    background: #fafafa;
-    border: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
+        .micro-btn:active {
+            transform: scale(0.95);
+        }
 
-.macro-header:hover {
-    background: #f3f4f6;
-}
+        .micro-btn.plus {
+            background: #1a1a1a;
+            color: #ffffff;
+            border-color: #1a1a1a;
+        }
 
-.macro-title {
-    font-size: 11px;
-    font-weight: 600;
-    color: #6b7280;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-}
+        .micro-btn.plus:hover {
+            background: #000000;
+        }
 
-.macro-arrow {
-    font-size: 20px;
-    color: #9ca3af;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.macro-category.open .macro-arrow {
-    transform: rotate(90deg);
-}
-
-.macro-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.macro-category.open .macro-content {
-    max-height: 2000px;
-}
-
-/* MICRO STATS */
-.micro-header {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 16px;
-    padding: 16px 24px;
-    background: #f9fafb;
-    border-bottom: 1px solid #e5e7eb;
-}
-
-.team-label {
-    font-size: 10px;
-    font-weight: 600;
-    color: #6b7280;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    text-align: center;
-}
-
-.micro-stat {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 16px;
-    align-items: center;
-    padding: 16px 24px;
-    border-bottom: 1px solid #f3f4f6;
-    transition: background 0.2s ease;
-}
-
-.micro-stat:hover {
-    background: #fafafa;
-}
-
-.micro-stat:last-child {
-    border-bottom: none;
-}
-
-.micro-label {
-    font-size: 13px;
-    color: #374151;
-    font-weight: 400;
-}
-
-.micro-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-}
-
-.micro-btn {
-    width: 32px;
-    height: 32px;
-    border: 1px solid #e5e7eb;
-    background: #ffffff;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-    color: #6b7280;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.micro-btn:hover {
-    border-color: #1a1a1a;
-    color: #1a1a1a;
-    transform: scale(1.05);
-}
-
-.micro-btn:active {
-    transform: scale(0.95);
-}
-
-.micro-btn.plus {
-    background: #1a1a1a;
-    color: #ffffff;
-    border-color: #1a1a1a;
-}
-
-.micro-btn.plus:hover {
-    background: #000000;
-}
-
-.micro-value {
-    font-size: 16px;
-    font-weight: 500;
-    color: #1a1a1a;
-    min-width: 24px;
-    text-align: center;
+        .micro-value {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1a1a1a;
+            min-width: 24px;
+            text-align: center;
             font-family: -apple-system, BlinkMacSystemFont, 'Bahnschrift';
-}
+        }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .micro-stat {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-    
-    .micro-header {
-        grid-template-columns: 1fr;
-    }
-    
-    .team-label {
-        text-align: left;
-    }
-}
-/* ===== SEZIONE PUNTEGGIO - RESPONSIVE ===== */
-.score-section {
-    margin-bottom: 64px;
-}
+        @media (max-width: 768px) {
+            .micro-stat {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .micro-header {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-label {
+                text-align: left;
+            }
+        }
 
-.score-wrapper {
-    background: #ffffff;
-    border-radius: 24px;
-    padding: 40px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
-    border: 1px solid #f2f2f7;
-}
+        /* ===== SEZIONE PUNTEGGIO ===== */
+        .score-section {
+            margin-bottom: 64px;
+        }
 
-.score-grid {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    gap: 40px;
-    align-items: start;
-}
+        .score-wrapper {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+            border: 1px solid #f2f2f7;
+        }
 
-.score-team {
-    text-align: center;
-}
+        .score-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 40px;
+            align-items: start;
+        }
 
-.score-team h3 {
-    font-size: 12px;
-    color: #8e8e93;
-    margin-bottom: 20px;
-    font-weight: 600;
-}
+        .score-team {
+            text-align: center;
+        }
 
-.score-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 32px;
-}
+        .score-team h3 {
+            font-size: 12px;
+            color: #8e8e93;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
 
-.score-boxes {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 24px;
-}
+        .score-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
 
-.score-box {
-    padding: 14px 16px;
-    background: rgba(0, 122, 255, 0.08);
-    border-radius: 12px;
-    border: 1px solid rgba(0, 122, 255, 0.2);
-}
+        .score-boxes {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
 
-.score-label {
-    font-size: 10px;
-    color: #8e8e93;
-    margin-bottom: 6px;
-    font-weight: 600;
-}
+        .score-box {
+            padding: 14px 16px;
+            background: rgba(0, 122, 255, 0.08);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 122, 255, 0.2);
+        }
 
-.score-value-display {
-    font-size: 24px;
-    color: #007aff;
-    font-weight: 400;
-}
+        .score-label {
+            font-size: 10px;
+            color: #8e8e93;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
 
-.score-performance {
-    padding: 12px 20px;
-    background: rgba(0, 122, 255, 0.15);
-    border-radius: 12px;
-    border: 1px solid rgba(0, 122, 255, 0.3);
-}
+        .score-value-display {
+            font-size: 24px;
+            color: #007aff;
+            font-weight: 400;
+        }
 
-.score-performance span {
-    font-size: 14px;
-    font-weight: 600;
-    color: #007aff;
-}
+        .score-performance {
+            padding: 12px 20px;
+            background: rgba(0, 122, 255, 0.15);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 122, 255, 0.3);
+        }
 
-.score-vs {
-    font-size: 20px;
-    color: #c7c7cc;
-    padding-top: 60px;
-}
+        .score-performance span {
+            font-size: 14px;
+            font-weight: 600;
+            color: #007aff;
+        }
 
-/* ===== RESPONSIVE IMPROVEMENTS ===== */
+        .score-vs {
+            font-size: 20px;
+            color: #c7c7cc;
+            padding-top: 60px;
+        }
 
-/* Tablet */
-@media (max-width: 1024px) {
-    main {
-        max-width: 100%;
-        padding: 32px 24px;
-    }
+        @media (max-width: 1024px) {
+            main {
+                max-width: 100%;
+                padding: 32px 24px;
+            }
 
-    .score-wrapper {
-        padding: 32px;
-    }
-}
+            .score-wrapper {
+                padding: 32px;
+            }
+        }
 
-/* Mobile - 768px */
-@media (max-width: 768px) {
-    .score-grid {
-        grid-template-columns: 1fr !important;
-        gap: 24px !important;
-        align-items: center !important;
-    }
+        @media (max-width: 768px) {
+            .score-grid {
+                grid-template-columns: 1fr !important;
+                gap: 24px !important;
+                align-items: center !important;
+            }
 
-    .score-vs {
-        display: none !important;
-    }
+            .score-vs {
+                display: none !important;
+            }
 
-    .score-wrapper {
-        padding: 24px 16px !important;
-        border-radius: 16px !important;
-    }
+            .score-wrapper {
+                padding: 24px 16px !important;
+                border-radius: 16px !important;
+            }
 
-    .score-controls {
-        gap: 16px !important;
-    }
+            .score-controls {
+                gap: 16px !important;
+            }
 
-    .gol-value {
-        font-size: 44px !important;
-        min-width: 60px !important;
-    }
+            .gol-value {
+                font-size: 44px !important;
+                min-width: 60px !important;
+            }
 
-    .btn-gol {
-        width: 36px !important;
-        height: 36px !important;
-        font-size: 18px !important;
-    }
+            .score-boxes {
+                grid-template-columns: 1fr !important;
+            }
 
-    .score-boxes {
-        grid-template-columns: 1fr !important;
-    }
+            .score-box {
+                padding: 12px 14px !important;
+            }
 
-    .score-box {
-        padding: 12px 14px !important;
-    }
+            .score-label {
+                font-size: 9px !important;
+            }
 
-    .score-label {
-        font-size: 9px !important;
-    }
+            .score-value-display {
+                font-size: 20px !important;
+            }
 
-    .score-value-display {
-        font-size: 20px !important;
-    }
+            .score-performance {
+                padding: 10px 16px !important;
+            }
 
-    .score-performance {
-        padding: 10px 16px !important;
-    }
+            .score-performance span {
+                font-size: 12px !important;
+            }
+        }
 
-    .score-performance span {
-        font-size: 12px !important;
-    }
-}
+        @media (max-width: 480px) {
+            .score-wrapper {
+                padding: 16px 12px !important;
+                border-radius: 12px !important;
+            }
 
-/* Mobile piccolo - 480px */
-@media (max-width: 480px) {
-    .score-wrapper {
-        padding: 16px 12px !important;
-        border-radius: 12px !important;
-    }
+            .score-controls {
+                gap: 12px !important;
+            }
 
-    .score-controls {
-        gap: 12px !important;
-    }
+            .gol-value {
+                font-size: 36px !important;
+            }
 
-    .gol-value {
-        font-size: 36px !important;
-    }
+            .score-box {
+                padding: 10px 12px !important;
+            }
 
-    .btn-gol {
-        width: 32px !important;
-        height: 32px !important;
-        font-size: 16px !important;
-    }
+            .score-value-display {
+                font-size: 18px !important;
+            }
+        }
 
-    .score-box {
-        padding: 10px 12px !important;
-    }
+        /* ===== MATCH INFO SECTION ===== */
+        .match-info-section {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 32px 48px;
+        }
 
-    .score-value-display {
-        font-size: 18px !important;
-    }
-}
+        .match-info-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
 
-/* ===== MATCH INFO SECTION ===== */
-.match-info-section {
-    background: #ffffff;
-    border-bottom: 1px solid #e5e7eb;
-    padding: 32px 48px;
-}
+        .match-info-row {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
 
-.match-info-container {
-    max-width: 900px;
-    margin: 0 auto;
-}
+        .match-info-row:last-child {
+            margin-bottom: 0;
+        }
 
-.match-info-row {
-    display: grid;
-    grid-template-columns: 180px 1fr;
-    gap: 16px;
-    align-items: center;
-    margin-bottom: 20px;
-}
+        .match-info-row label {
+            font-size: 11px;
+            color: #6b7280;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
 
-.match-info-row:last-child {
-    margin-bottom: 0;
-}
+        .match-info-row input,
+        .match-info-row select {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 12px 14px;
+            font-size: 13px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            color: #1a1a1a;
+            transition: all 0.2s ease;
+        }
 
-.match-info-row label {
-    font-size: 11px;
-    color: #6b7280;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-}
+        .match-info-row input:focus,
+        .match-info-row select:focus {
+            outline: none;
+            border-color: #1a1a1a;
+            box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.1);
+        }
 
-.match-info-row input,
-.match-info-row select {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 6px;
-    padding: 12px 14px;
-    font-size: 13px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
-    color: #1a1a1a;
-    transition: all 0.2s ease;
-}
+        .match-info-row input::placeholder {
+            color: #d1d5db;
+        }
 
-.match-info-row input:focus,
-.match-info-row select:focus {
-    outline: none;
-    border-color: #1a1a1a;
-    box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.1);
-}
+        .match-info-row select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236b7280' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+        }
 
-.match-info-row input::placeholder {
-    color: #d1d5db;
-}
+        @media (max-width: 768px) {
+            .match-info-section {
+                padding: 24px;
+            }
 
-.match-info-row select {
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236b7280' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 36px;
-}
+            .match-info-row {
+                grid-template-columns: 1fr;
+                gap: 8px;
+                margin-bottom: 16px;
+            }
 
-/* Mobile */
-@media (max-width: 768px) {
-    .match-info-section {
-        padding: 24px;
-    }
-
-    .match-info-row {
-        grid-template-columns: 1fr;
-        gap: 8px;
-        margin-bottom: 16px;
-    }
-
-    .match-info-row input,
-    .match-info-row select {
-        padding: 10px 12px;
-        font-size: 12px;
-    }
-}
+            .match-info-row input,
+            .match-info-row select {
+                padding: 10px 12px;
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1137,29 +1069,30 @@
             <h1>IPOIRD</h1>
         </header>
 
-<!-- SEZIONE INFORMAZIONI PARTITA -->
-<section class="match-info-section">
-    <div class="match-info-container">
-        <div class="match-info-row">
-            <label>AVVERSARIO</label>
-            <input type="text" id="avversario" placeholder="Es. Inter, Juventus">
-        </div>
+        <!-- SEZIONE INFORMAZIONI PARTITA -->
+        <section class="match-info-section">
+            <div class="match-info-container">
+                <div class="match-info-row">
+                    <label>AVVERSARIO</label>
+                    <input type="text" id="avversario" placeholder="Es. Inter, Juventus">
+                </div>
 
-        <div class="match-info-row">
-            <label>DATA</label>
-            <input type="date" id="data-partita">
-        </div>
+                <div class="match-info-row">
+                    <label>DATA</label>
+                    <input type="date" id="data-partita">
+                </div>
 
-        <div class="match-info-row">
-            <label>POSIZIONE</label>
-            <select id="posizione-partita">
-                <option value="">Seleziona...</option>
-                <option value="casa">IN CASA</option>
-                <option value="fuori">FUORI CASA</option>
-            </select>
-        </div>
-    </div>
-</section>
+                <div class="match-info-row">
+                    <label>POSIZIONE</label>
+                    <select id="posizione-partita">
+                        <option value="">Seleziona...</option>
+                        <option value="casa">IN CASA</option>
+                        <option value="fuori">FUORI CASA</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
         <main>
             <!-- PUNTO 1: TEMPO -->
             <section class="tempo-section">
@@ -1192,1284 +1125,833 @@
                             <span class="btn-possesso-percentage" id="btn-possesso-loro-percentage">50%</span>
                         </button>
                     </div>
-
-                   
                 </div>
             </section>
 
             <!-- PUNTO 2: PUNTEGGIO -->
-           <!-- PUNTO 2: PUNTEGGIO -->
-
-<section class="score-section">
-    <h2>PUNTEGGIO</h2>
-    
-    <div class="score-wrapper">
-        <div class="score-grid">
-            
-            <!-- NOI -->
-            <div class="score-team">
-                <h3>NOI</h3>
+            <section class="score-section">
+                <h2>PUNTEGGIO</h2>
                 
-                <div class="score-controls">
-                    <button class="btn-gol btn-gol-minus" data-team="noi">−</button>
-                    <span class="gol-value" id="gol-noi-new">0</span>
-                    <button class="btn-gol btn-gol-plus" data-team="noi">+</button>
-                </div>
-                
-                <!-- xG e xPts -->
-                <div class="score-boxes">
-                    <div class="score-box">
-                        <div class="score-label">xG</div>
-                        <div class="score-value-display" id="xg-noi-new">0.00</div>
+                <div class="score-wrapper">
+                    <div class="score-grid">
+                        
+                        <!-- NOI -->
+                        <div class="score-team">
+                            <h3>NOI</h3>
+                            
+                            <div class="score-controls">
+                                <span class="gol-value" id="gol-noi-new">0</span>
+                            </div>
+                            
+                            <!-- xG e xPts -->
+                            <div class="score-boxes">
+                                <div class="score-box">
+                                    <div class="score-label">xG</div>
+                                    <div class="score-value-display" id="xg-noi-new">0.00</div>
+                                </div>
+                                <div class="score-box">
+                                    <div class="score-label">xPts</div>
+                                    <div class="score-value-display" id="xpts-noi">1.50</div>
+                                </div>
+                            </div>
+                            
+                            <div class="score-performance">
+                                <span id="perf-noi">OK</span>
+                            </div>
+                        </div>
+                        
+                        <!-- VS -->
+                        <div class="score-vs">VS</div>
+                        
+                        <!-- LORO -->
+                        <div class="score-team">
+                            <h3>LORO</h3>
+                            
+                            <div class="score-controls">
+                                <span class="gol-value" id="gol-loro-new">0</span>
+                            </div>
+                            
+                            <!-- xG e xPts -->
+                            <div class="score-boxes">
+                                <div class="score-box">
+                                    <div class="score-label">xG</div>
+                                    <div class="score-value-display" id="xg-loro-new">0.00</div>
+                                </div>
+                                <div class="score-box">
+                                    <div class="score-label">xPts</div>
+                                    <div class="score-value-display" id="xpts-loro">1.50</div>
+                                </div>
+                            </div>
+                            
+                            <div class="score-performance">
+                                <span id="perf-loro">OK</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="score-box">
-                        <div class="score-label">xPts</div>
-                        <div class="score-value-display" id="xpts-noi">1.00</div>
+                </div>
+            </section>
+            <!-- BLOCCO 2: HTML Content (Match Info + Sezioni principali) -->
+
+            <!-- PUNTO 3: ANALISI TATTICA -->
+            <section class="analisi-section">
+                <h2>ANALISI TATTICA</h2>
+
+                <!-- MACRO CATEGORY: ATTACCO -->
+                <div class="macro-category">
+                    <button class="macro-header">
+                        <span class="macro-title">ATTACCO</span>
+                        <span class="macro-arrow">›</span>
+                    </button>
+                    <div class="macro-content">
+                        <div class="micro-header">
+                            <span class="team-label">AZIONI</span>
+                            <span class="team-label">NOI</span>
+                            <span class="team-label">LORO</span>
+                        </div>
+
+                        <div class="micro-stat" data-item="rete" data-xg="1.0">
+                            <span class="micro-label">Rete Realizzata</span>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                        </div>
+
+                        <div class="micro-stat" data-item="tiro-porta" data-xg="0.15">
+                            <span class="micro-label">Tiro in Porta</span>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                        </div>
+
+                        <div class="micro-stat" data-item="tiro-fuori" data-xg="0.08">
+                            <span class="micro-label">Tiro Fuori</span>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                        </div>
+
+                        <div class="micro-stat" data-item="occasione-nitida" data-xg="0.45">
+                            <span class="micro-label">Occasione Nitida</span>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                        </div>
+
+                        <div class="micro-stat" data-item="dribbling" data-xg="0.02">
+                            <span class="micro-label">Dribbling Riuscito</span>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="score-performance">
-                    <span id="perf-noi">OK</span>
-                </div>
-            </div>
-            
-            <!-- VS -->
-            <div class="score-vs">VS</div>
-            
-            <!-- LORO -->
-            <div class="score-team">
-                <h3>LORO</h3>
-                
-                <div class="score-controls">
-                    <button class="btn-gol btn-gol-minus" data-team="loro">−</button>
-                    <span class="gol-value" id="gol-loro-new">0</span>
-                    <button class="btn-gol btn-gol-plus" data-team="loro">+</button>
-                </div>
-                
-                <!-- xG e xPts -->
-                <div class="score-boxes">
-                    <div class="score-box">
-                        <div class="score-label">xG</div>
-                        <div class="score-value-display" id="xg-loro-new">0.00</div>
+
+                <!-- MACRO CATEGORY: DIFESA -->
+                <div class="macro-category">
+                    <button class="macro-header">
+                        <span class="macro-title">DIFESA</span>
+                        <span class="macro-arrow">›</span>
+                    </button>
+                    <div class="macro-content">
+                        <div class="micro-header">
+                            <span class="team-label">AZIONI</span>
+                            <span class="team-label">NOI</span>
+                            <span class="team-label">LORO</span>
+                        </div>
+
+                        <div class="micro-stat" data-item="tackle" data-xg="0.0">
+                            <span class="micro-label">Tackle</span>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                        </div>
+
+                        <div class="micro-stat" data-item="intercetto" data-xg="0.0">
+                            <span class="micro-label">Intercetto</span>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                        </div>
+
+                        <div class="micro-stat" data-item="salvataggio" data-xg="0.0">
+                            <span class="micro-label">Salvataggio</span>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                        </div>
+
+                        <div class="micro-stat" data-item="fuorigioco" data-xg="0.0">
+                            <span class="micro-label">Fuorigioco Catturato</span>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="score-box">
-                        <div class="score-label">xPts</div>
-                        <div class="score-value-display" id="xpts-loro">1.00</div>
+                </div>
+
+                <!-- MACRO CATEGORY: PALLA MORTA -->
+                <div class="macro-category">
+                    <button class="macro-header">
+                        <span class="macro-title">PALLA MORTA</span>
+                        <span class="macro-arrow">›</span>
+                    </button>
+                    <div class="macro-content">
+                        <div class="micro-header">
+                            <span class="team-label">AZIONI</span>
+                            <span class="team-label">NOI</span>
+                            <span class="team-label">LORO</span>
+                        </div>
+
+                        <div class="micro-stat" data-item="calcio-angolo" data-xg="0.05">
+                            <span class="micro-label">Calcio d'Angolo</span>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                        </div>
+
+                        <div class="micro-stat" data-item="calcio-punizione" data-xg="0.08">
+                            <span class="micro-label">Calcio di Punizione</span>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                        </div>
+
+                        <div class="micro-stat" data-item="rimessa-laterale" data-xg="0.01">
+                            <span class="micro-label">Rimessa Laterale Riuscita</span>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="score-performance">
-                    <span id="perf-loro">OK</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
- <!-- PUNTO 3: ANALISI TATTICA -->
-<section class="analisi-section">
-    <h2>ANALISI TATTICA</h2>
 
-    <!-- FINALIZZAZIONE -->
-    <div class="macro-category">
-        <button class="macro-header">
-            <span class="macro-title">FINALIZZAZIONE</span>
-            <span class="macro-arrow">›</span>
-        </button>
-        <div class="macro-content">
-            <div class="micro-header">
-                <span></span>
-                <span class="team-label">A FAVORE</span>
-                <span class="team-label">AVVERSARI</span>
-            </div>
-            
-            <div class="micro-stat" data-category="finalizzazione" data-item="rete" data-xg="1">
-                <span class="micro-label">Rete realizzata</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="noi">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="noi">+</button>
-                </div>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="loro">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="loro">+</button>
-                </div>
-            </div>
+                <!-- MACRO CATEGORY: PASSAGGIO -->
+                <div class="macro-category">
+                    <button class="macro-header">
+                        <span class="macro-title">PASSAGGIO</span>
+                        <span class="macro-arrow">›</span>
+                    </button>
+                    <div class="macro-content">
+                        <div class="micro-header">
+                            <span class="team-label">AZIONI</span>
+                            <span class="team-label">NOI</span>
+                            <span class="team-label">LORO</span>
+                        </div>
 
-            <div class="micro-stat" data-category="finalizzazione" data-item="tiro-specchio" data-xg="0.5">
-                <span class="micro-label">Tiro nello specchio</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="noi">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="noi">+</button>
-                </div>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="loro">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="loro">+</button>
-                </div>
-            </div>
+                        <div class="micro-stat" data-item="passaggio-riuscito" data-xg="0.0">
+                            <span class="micro-label">Passaggio Riuscito</span>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                        </div>
 
-            <div class="micro-stat" data-category="finalizzazione" data-item="tiro-no-specchio-area" data-xg="0.4">
-                <span class="micro-label">Tiro non nello specchio in area</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="noi">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="noi">+</button>
-                </div>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="loro">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="loro">+</button>
-                </div>
-            </div>
+                        <div class="micro-stat" data-item="passaggio-lungo" data-xg="0.0">
+                            <span class="micro-label">Passaggio Lungo Riuscito</span>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                        </div>
 
-            <div class="micro-stat" data-category="finalizzazione" data-item="tiro-no-specchio-fuori" data-xg="0.2">
-                <span class="micro-label">Tiro non nello specchio fuori area</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="noi">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="noi">+</button>
+                        <div class="micro-stat" data-item="passaggio-indietro" data-xg="0.0">
+                            <span class="micro-label">Passaggio Indietro</span>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="loro">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="loro">+</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- OCCASIONI CREATE -->
-    <div class="macro-category">
-        <button class="macro-header">
-            <span class="macro-title">OCCASIONI CREATE</span>
-            <span class="macro-arrow">›</span>
-        </button>
-        <div class="macro-content">
-            <div class="micro-header">
-                <span></span>
-                <span class="team-label">A FAVORE</span>
-                <span class="team-label">AVVERSARI</span>
-            </div>
+                <!-- MACRO CATEGORY: PORTIERE -->
+                <div class="macro-category">
+                    <button class="macro-header">
+                        <span class="macro-title">PORTIERE</span>
+                        <span class="macro-arrow">›</span>
+                    </button>
+                    <div class="macro-content">
+                        <div class="micro-header">
+                            <span class="team-label">AZIONI</span>
+                            <span class="team-label">NOI</span>
+                            <span class="team-label">LORO</span>
+                        </div>
 
-            <div class="micro-stat" data-category="occasioni" data-item="occasione-rete" data-xg="0.7">
-                <span class="micro-label">Occasione da rete non realizzata</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="noi">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="noi">+</button>
-                </div>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="loro">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="loro">+</button>
-                </div>
-            </div>
+                        <div class="micro-stat" data-item="parata" data-xg="0.0">
+                            <span class="micro-label">Parata</span>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                        </div>
 
-            <div class="micro-stat" data-category="occasioni" data-item="azione-gol" data-xg="0.3">
-                <span class="micro-label">Azione potenzialmente da gol</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="noi">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="noi">+</button>
-                </div>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="loro">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="loro">+</button>
-                </div>
-            </div>
+                        <div class="micro-stat" data-item="presa-aerea" data-xg="0.0">
+                            <span class="micro-label">Presa Aerea</span>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                        </div>
 
-            <div class="micro-stat" data-category="occasioni" data-item="transizione" data-xg="0.5">
-                <span class="micro-label">Transizione offensiva favorevole</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="noi">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="noi">+</button>
-                </div>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="loro">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="loro">+</button>
-                </div>
-            </div>
-        </div>
-    </div>
+                        <div class="micro-stat" data-item="uscita-volontaria" data-xg="0.0">
+                            <span class="micro-label">Uscita Volontaria</span>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                        </div>
 
-    <!-- CALCI D'ANGOLO -->
-    <div class="macro-category">
-        <button class="macro-header">
-            <span class="macro-title">CALCI D'ANGOLO</span>
-            <span class="macro-arrow">›</span>
-        </button>
-        <div class="macro-content">
-            <div class="micro-header">
-                <span></span>
-                <span class="team-label">A FAVORE</span>
-                <span class="team-label">AVVERSARI</span>
-            </div>
+                        <div class="micro-stat" data-item="gol-subito" data-xg="0.0">
+                            <span class="micro-label">Gol Subito</span>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                            <div class="micro-controls">
+                                <button class="micro-btn minus">−</button>
+                                <span class="micro-value">0</span>
+                                <button class="micro-btn plus">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-            <div class="micro-stat" data-category="corner" data-item="corto" data-xg="0.1">
-                <span class="micro-label">Corto, non sviluppato</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="noi">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="noi">+</button>
-                </div>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="loro">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="loro">+</button>
-                </div>
-            </div>
+            <!-- PUNTO 4: ANALISI TATTICA AVANZATA -->
+            <section class="analisi-section">
+                <h2>ANALISI TATTICA AVANZATA</h2>
 
-            <div class="micro-stat" data-category="corner" data-item="sviluppo" data-xg="0.2">
-                <span class="micro-label">Con sviluppo ma senza finalizzazione</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="noi">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="noi">+</button>
+                <div class="analysis-block">
+                    <h3>FORMAZIONE E TATTICA</h3>
+                    <div class="analysis-row">
+                        <label>FORMAZIONE NOI</label>
+                        <input type="text" placeholder="Es. 4-3-3">
+                    </div>
+                    <div class="analysis-row">
+                        <label>FORMAZIONE LORO</label>
+                        <input type="text" placeholder="Es. 3-5-2">
+                    </div>
+                    <div class="analysis-row">
+                        <label>NOTE TATTICHE</label>
+                        <textarea placeholder="Descrivi la tattica utilizzata..."></textarea>
+                    </div>
                 </div>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="loro">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="loro">+</button>
-                </div>
-            </div>
 
-            <div class="micro-stat" data-category="corner" data-item="occasione" data-xg="0.4">
-                <span class="micro-label">Con tiro / occasione gol in area</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="noi">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="noi">+</button>
+                <div class="analysis-block">
+                    <h3>GIOCATORI CHIAVE</h3>
+                    <div class="analysis-row">
+                        <label>MIGLIORE NOI</label>
+                        <input type="text" placeholder="Nome giocatore">
+                    </div>
+                    <div class="analysis-row">
+                        <label>MIGLIORE LORO</label>
+                        <input type="text" placeholder="Nome giocatore">
+                    </div>
+                    <div class="analysis-row">
+                        <label>GIOCATORE CRITICO</label>
+                        <input type="text" placeholder="Nome giocatore">
+                    </div>
                 </div>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="loro">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="loro">+</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- PUNIZIONI -->
-    <div class="macro-category">
-        <button class="macro-header">
-            <span class="macro-title">PUNIZIONI</span>
-            <span class="macro-arrow">›</span>
-        </button>
-        <div class="macro-content">
-            <div class="micro-header">
-                <span></span>
-                <span class="team-label">A FAVORE</span>
-                <span class="team-label">AVVERSARI</span>
-            </div>
-
-            <div class="micro-stat" data-category="punizioni" data-item="laterale-senza" data-xg="0.2">
-                <span class="micro-label">Laterale, cross in area, senza esito</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="noi">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="noi">+</button>
+                <div class="analysis-block">
+                    <h3>DECISIONI ARBITRALI</h3>
+                    <div class="analysis-row">
+                        <label>CARTELLINI</label>
+                        <input type="text" placeholder="Es. 2 gialli">
+                    </div>
+                    <div class="analysis-row">
+                        <label>DECISIONI DISCUTIBILI</label>
+                        <textarea placeholder="Descrivi eventuali decisioni arbitrali critiche..."></textarea>
+                    </div>
                 </div>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="loro">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="loro">+</button>
-                </div>
-            </div>
-
-            <div class="micro-stat" data-category="punizioni" data-item="laterale-occasione" data-xg="2">
-                <span class="micro-label">Laterale, crea occasione / tiro</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="noi">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="noi">+</button>
-                </div>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="loro">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="loro">+</button>
-                </div>
-            </div>
-
-            <div class="micro-stat" data-category="punizioni" data-item="diretta-specchio" data-xg="0.5">
-                <span class="micro-label">Diretta, nello specchio</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="noi">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="noi">+</button>
-                </div>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="loro">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="loro">+</button>
-                </div>
-            </div>
-
-            <div class="micro-stat" data-category="punizioni" data-item="diretta-fuori" data-xg="0.3">
-                <span class="micro-label">Diretta fuori</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="noi">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="noi">+</button>
-                </div>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="loro">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="loro">+</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- RIMESSA LATERALE -->
-    <div class="macro-category">
-        <button class="macro-header">
-            <span class="macro-title">RIMESSA LATERALE</span>
-            <span class="macro-arrow">›</span>
-        </button>
-        <div class="macro-content">
-            <div class="micro-header">
-                <span></span>
-                <span class="team-label">A FAVORE</span>
-                <span class="team-label">AVVERSARI</span>
-            </div>
-
-            <div class="micro-stat" data-category="rimessa" data-item="pericolosa" data-xg="0.3">
-                <span class="micro-label">Laterale con sviluppo pericoloso / 2ª palla</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="noi">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="noi">+</button>
-                </div>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="loro">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="loro">+</button>
-                </div>
-            </div>
-
-            <div class="micro-stat" data-category="rimessa" data-item="non-efficace" data-xg="0.1">
-                <span class="micro-label">Laterale non efficace</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="noi">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="noi">+</button>
-                </div>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="loro">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="loro">+</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ERRORI DIFENSIVI -->
-    <div class="macro-category">
-        <button class="macro-header">
-            <span class="macro-title">ERRORI DIFENSIVI</span>
-            <span class="macro-arrow">›</span>
-        </button>
-        <div class="macro-content">
-            <div class="micro-header">
-                <span></span>
-                <span class="team-label">A FAVORE</span>
-                <span class="team-label">AVVERSARI</span>
-            </div>
-
-            <div class="micro-stat" data-category="errori" data-item="tecnico" data-xg="0.5">
-                <span class="micro-label">Tecnico in costruzione, porta palla gol</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="noi">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="noi">+</button>
-                </div>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="loro">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="loro">+</button>
-                </div>
-            </div>
-
-            <div class="micro-stat" data-category="errori" data-item="tattico" data-xg="0.6">
-                <span class="micro-label">Tattico / posizionamento, porta palla gol</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="noi">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="noi">+</button>
-                </div>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="loro">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="loro">+</button>
-                </div>
-            </div>
-
-            <div class="micro-stat" data-category="errori" data-item="grave" data-xg="0.8">
-                <span class="micro-label">Errore grave / non forzato</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="noi">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="noi">+</button>
-                </div>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="loro">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus" data-team="loro">+</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- NOTE AVVERSARIO -->
-    <div class="analysis-block">
-        <h3>NOTE AVVERSARIO</h3>
-
-        <div class="analysis-row">
-            <label>Modulo avversario</label>
-            <input type="text" placeholder="Es. 1-4-3-3">
-        </div>
-
-        <div class="analysis-row">
-            <label>Stile di gioco</label>
-            <input type="text" placeholder="Es. diretto / posizionale / reattivo">
-        </div>
-
-        <div class="analysis-row">
-            <label>Note qualitative</label>
-            <textarea rows="3" placeholder="Osservazioni libere"></textarea>
-        </div>
-    </div>
-</section>
-
+            </section>
         </main>
     </div>
+</body>
+</html>
+<!-- BLOCCO 3: Script (Logica Punteggio + Analisi Tattica) -->
+<script>
+    // ===== STATO GLOBALE =====
+    const state = {
+        gol: { noi: 0, loro: 0 },
+        xg: { noi: 0, loro: 0 },
+        stats: {},
+        timerInterval: null,
+        timerSeconds: 0,
+        isRunning: false,
+        currentTempo: 1,
+        possessoNoi: 50,
+        possessoLoro: 50
+    };
 
-    <script>
-        // Variabili globali
-        let timerInterval = null;
-        let totalSeconds = 0;
-        let isRunning = false;
-        let currentTempo = 1;
-        let possessoNoi = 0;
-        let possessoLoro = 0;
-        let currentPossesso = null;
-        let possessoStartTime = 0;
-        let golNoi = 0;
-        let golLoro = 0;
+    // ===== TIMER =====
+    function updateTimerDisplay() {
+        const minutes = Math.floor(state.timerSeconds / 60);
+        const seconds = state.timerSeconds % 60;
+        const display = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        document.getElementById('timer-display').textContent = display;
+    }
+
+    document.getElementById('btn-start').addEventListener('click', () => {
+        if (!state.isRunning) {
+            state.isRunning = true;
+            document.getElementById('btn-start').disabled = true;
+            document.getElementById('btn-pause').disabled = false;
+            document.getElementById('btn-stop').disabled = false;
+            
+            state.timerInterval = setInterval(() => {
+                state.timerSeconds++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+    });
+
+    document.getElementById('btn-pause').addEventListener('click', () => {
+        state.isRunning = false;
+        clearInterval(state.timerInterval);
+        document.getElementById('btn-start').disabled = false;
+        document.getElementById('btn-pause').disabled = true;
+    });
+
+    document.getElementById('btn-stop').addEventListener('click', () => {
+        state.isRunning = false;
+        clearInterval(state.timerInterval);
+        state.timerSeconds = 0;
+        updateTimerDisplay();
+        document.getElementById('btn-start').disabled = false;
+        document.getElementById('btn-pause').disabled = true;
+        document.getElementById('btn-stop').disabled = true;
+    });
+
+    // ===== TEMPO SWITCH =====
+    document.getElementById('primo-tempo').addEventListener('click', () => {
+        state.currentTempo = 1;
+        document.querySelectorAll('.tempo-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('primo-tempo').classList.add('active');
+    });
+
+    document.getElementById('secondo-tempo').addEventListener('click', () => {
+        state.currentTempo = 2;
+        document.querySelectorAll('.tempo-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('secondo-tempo').classList.add('active');
+    });
+
+    // ===== POSSESSO PALLA =====
+    document.getElementById('btn-possesso-noi').addEventListener('click', () => {
+        state.possessoNoi = 100;
+        state.possessoLoro = 0;
+        updatePossesso();
+    });
+
+    document.getElementById('btn-possesso-loro').addEventListener('click', () => {
+        state.possessoNoi = 0;
+        state.possessoLoro = 100;
+        updatePossesso();
+    });
+
+    function updatePossesso() {
+        document.getElementById('btn-possesso-noi-percentage').textContent = state.possessoNoi + '%';
+        document.getElementById('btn-possesso-loro-percentage').textContent = state.possessoLoro + '%';
+        
+        if (state.possessoNoi > 50) {
+            document.getElementById('btn-possesso-noi').classList.add('active');
+            document.getElementById('btn-possesso-loro').classList.remove('active');
+        } else {
+            document.getElementById('btn-possesso-noi').classList.remove('active');
+            document.getElementById('btn-possesso-loro').classList.add('active');
+        }
+    }
+
+    // ===== PUNTEGGIO =====
+    function calculateXG() {
         let xgNoi = 0;
         let xgLoro = 0;
-        let eventi = [];
+        
+        document.querySelectorAll('.micro-stat').forEach(stat => {
+            const item = stat.getAttribute('data-item');
+            const xgValue = parseFloat(stat.getAttribute('data-xg')) || 0;
+            const controls = stat.querySelectorAll('.micro-controls');
+            
+            if (controls.length >= 2) {
+                const noiVal = parseInt(controls[0].querySelector('.micro-value').textContent) || 0;
+                const loroVal = parseInt(controls[1].querySelector('.micro-value').textContent) || 0;
+                
+                xgNoi += noiVal * xgValue;
+                xgLoro += loroVal * xgValue;
+            }
+        });
+        
+        state.xg.noi = xgNoi;
+        state.xg.loro = xgLoro;
+        
+        document.getElementById('xg-noi-new').textContent = xgNoi.toFixed(2);
+        document.getElementById('xg-loro-new').textContent = xgLoro.toFixed(2);
+        updatePerformance();
+    }
 
-        // Elementi DOM
-        const timerDisplay = document.getElementById('timer-display');
-        const btnStart = document.getElementById('btn-start');
-        const btnPause = document.getElementById('btn-pause');
-        const btnStop = document.getElementById('btn-stop');
-        const btnPrimoTempo = document.getElementById('primo-tempo');
-        const btnSecondoTempo = document.getElementById('secondo-tempo');
-        const btnPossessoNoi = document.getElementById('btn-possesso-noi');
-        const btnPossessoLoro = document.getElementById('btn-possesso-loro');
-        const btnPossessoNoiPercentage = document.getElementById('btn-possesso-noi-percentage');
-        const btnPossessoLoroPercentage = document.getElementById('btn-possesso-loro-percentage');
-        const possessoNoiTime = document.getElementById('possesso-noi-time');
-        const possessoLoroTime = document.getElementById('possesso-loro-time');
-        const golNoiDisplay = document.getElementById('gol-noi');
-        const golLoroDisplay = document.getElementById('gol-loro');
-        const xgNoiDisplay = document.getElementById('xg-noi');
-        const xgLoroDisplay = document.getElementById('xg-loro');
-        const xgStatusNoi = document.getElementById('xg-status-noi');
-        const xgStatusLoro = document.getElementById('xg-status-loro');
-        const timelineMarkers = document.getElementById('timeline-markers');
-        const eventiList = document.getElementById('eventi-list');
-        const btnGolPlus = document.querySelectorAll('.btn-gol-plus');
-        const btnGolMinus = document.querySelectorAll('.btn-gol-minus');
+    function updatePerformance() {
+        const golNoi = state.gol.noi;
+        const golLoro = state.gol.loro;
+        const xgNoi = state.xg.noi;
+        const xgLoro = state.xg.loro;
+        
+        let perfNoi = 'OK';
+        let perfLoro = 'OK';
+        
+        if (golNoi > xgNoi + 0.5) perfNoi = 'OVER';
+        else if (golNoi < xgNoi - 0.5) perfNoi = 'UNDER';
+        
+        if (golLoro > xgLoro + 0.5) perfLoro = 'OVER';
+        else if (golLoro < xgLoro - 0.5) perfLoro = 'UNDER';
+        
+        document.getElementById('perf-noi').textContent = perfNoi;
+        document.getElementById('perf-loro').textContent = perfLoro;
+    }
 
-        // Funzioni Timer
-        function formatTime(seconds) {
-            const mins = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    // ===== MICRO STATS EVENT LISTENERS =====
+    document.querySelectorAll('.micro-stat').forEach(stat => {
+        const controls = stat.querySelectorAll('.micro-controls');
+        
+        controls.forEach((controlGroup, idx) => {
+            const minusBtn = controlGroup.querySelector('.minus');
+            const plusBtn = controlGroup.querySelector('.plus');
+            const valueSpan = controlGroup.querySelector('.micro-value');
+            
+            minusBtn.addEventListener('click', () => {
+                let val = parseInt(valueSpan.textContent) || 0;
+                if (val > 0) {
+                    val--;
+                    valueSpan.textContent = val;
+                    
+                    if (idx === 0) {
+                        // aggiorna gol se è "rete"
+                        if (stat.getAttribute('data-item') === 'rete') {
+                            state.gol.noi = val;
+                            document.getElementById('gol-noi-new').textContent = val;
+                        }
+                    } else {
+                        if (stat.getAttribute('data-item') === 'rete') {
+                            state.gol.loro = val;
+                            document.getElementById('gol-loro-new').textContent = val;
+                        }
+                    }
+                    calculateXG();
+                }
+            });
+            
+            plusBtn.addEventListener('click', () => {
+                let val = parseInt(valueSpan.textContent) || 0;
+                val++;
+                valueSpan.textContent = val;
+                
+                if (idx === 0) {
+                    if (stat.getAttribute('data-item') === 'rete') {
+                        state.gol.noi = val;
+                        document.getElementById('gol-noi-new').textContent = val;
+                    }
+                } else {
+                    if (stat.getAttribute('data-item') === 'rete') {
+                        state.gol.loro = val;
+                        document.getElementById('gol-loro-new').textContent = val;
+                    }
+                }
+                calculateXG();
+            });
+        });
+    });
+
+    // ===== MACRO CATEGORY ACCORDION =====
+    document.querySelectorAll('.macro-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const category = header.closest('.macro-category');
+            category.classList.toggle('open');
+        });
+    });
+
+    // ===== INIZIALIZZAZIONE =====
+    updateTimerDisplay();
+    updatePossesso();
+    calculateXG();
+</script>
+<!-- BLOCCO 4: Storage + Utils -->
+<script>
+    // ===== LOCAL STORAGE =====
+    const STORAGE_KEY = 'ipoird-match-data';
+
+    function saveMatchData() {
+        const matchData = {
+            avversario: document.getElementById('avversario').value,
+            data: document.getElementById('data-partita').value,
+            posizione: document.getElementById('posizione-partita').value,
+            gol: state.gol,
+            xg: state.xg,
+            currentTempo: state.currentTempo,
+            possesso: {
+                noi: state.possessoNoi,
+                loro: state.possessoLoro
+            },
+            stats: {}
+        };
+
+        // Raccogli tutti gli stats
+        document.querySelectorAll('.micro-stat').forEach(stat => {
+            const item = stat.getAttribute('data-item');
+            const controls = stat.querySelectorAll('.micro-controls');
+            
+            if (controls.length >= 2) {
+                matchData.stats[item] = {
+                    noi: parseInt(controls[0].querySelector('.micro-value').textContent) || 0,
+                    loro: parseInt(controls[1].querySelector('.micro-value').textContent) || 0
+                };
+            }
+        });
+
+        // Raccogli analisi avanzate
+        const analysisInputs = document.querySelectorAll('.analysis-row input, .analysis-row textarea');
+        matchData.analysis = {};
+        analysisInputs.forEach((input, idx) => {
+            matchData.analysis[`field_${idx}`] = input.value;
+        });
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(matchData));
+        console.log('✓ Dati salvati');
+    }
+
+    function loadMatchData() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (!saved) return;
+
+        const matchData = JSON.parse(saved);
+
+        // Ripristina info partita
+        if (matchData.avversario) document.getElementById('avversario').value = matchData.avversario;
+        if (matchData.data) document.getElementById('data-partita').value = matchData.data;
+        if (matchData.posizione) document.getElementById('posizione-partita').value = matchData.posizione;
+
+        // Ripristina gol
+        if (matchData.gol) {
+            state.gol = matchData.gol;
+            document.getElementById('gol-noi-new').textContent = matchData.gol.noi;
+            document.getElementById('gol-loro-new').textContent = matchData.gol.loro;
         }
 
-        function updateTimer() {
-            totalSeconds++;
-            timerDisplay.textContent = formatTime(totalSeconds);
+        // Ripristina possesso
+        if (matchData.possesso) {
+            state.possessoNoi = matchData.possesso.noi;
+            state.possessoLoro = matchData.possesso.loro;
             updatePossesso();
         }
 
-        function startTimer() {
-            if (!isRunning) {
-                isRunning = true;
-                timerInterval = setInterval(updateTimer, 1000);
-                btnStart.disabled = true;
-                btnPause.disabled = false;
-                btnStop.disabled = false;
-                btnStart.textContent = 'IN CORSO...';
-            }
-        }
-
-        function pauseTimer() {
-            if (isRunning) {
-                clearInterval(timerInterval);
-                isRunning = false;
-                btnStart.disabled = false;
-                btnPause.disabled = true;
-                btnStart.textContent = 'RIPRENDI';
-            }
-        }
-
-        function stopTimer() {
-    // Chiedi conferma prima di cancellare i dati
-    const confirmed = confirm('Sei sicuro di voler premere STOP? Tutti i dati verranno cancellati.');
-    
-    if (!confirmed) {
-        return; // Annulla se l'utente dice no
-    }
-    
-    clearInterval(timerInterval);
-    isRunning = false;
-    totalSeconds = 0;
-    possessoNoi = 0;
-    possessoLoro = 0;
-    currentPossesso = null;
-    timerDisplay.textContent = '00:00';
-    btnStart.disabled = false;
-    btnPause.disabled = true;
-    btnStop.disabled = true;
-    btnStart.textContent = 'START';
-    updatePossessoDisplay();
-    btnPossessoNoi.classList.remove('active');
-    btnPossessoLoro.classList.remove('active');
-}
-
-        // Funzioni Possesso
-        function setPossesso(team) {
-            const now = totalSeconds;
-            
-            if (currentPossesso && currentPossesso !== team) {
-                const elapsed = now - possessoStartTime;
-                if (currentPossesso === 'noi') {
-                    possessoNoi += elapsed;
-                } else {
-                    possessoLoro += elapsed;
+        // Ripristina stats
+        if (matchData.stats) {
+            let idx = 0;
+            document.querySelectorAll('.micro-stat').forEach(stat => {
+                const item = stat.getAttribute('data-item');
+                if (matchData.stats[item]) {
+                    const controls = stat.querySelectorAll('.micro-controls');
+                    if (controls.length >= 2) {
+                        controls[0].querySelector('.micro-value').textContent = matchData.stats[item].noi;
+                        controls[1].querySelector('.micro-value').textContent = matchData.stats[item].loro;
+                    }
                 }
-            }
-            
-            currentPossesso = team;
-            possessoStartTime = now;
-            
-            if (team === 'noi') {
-                btnPossessoNoi.classList.add('active');
-                btnPossessoLoro.classList.remove('active');
-            } else {
-                btnPossessoLoro.classList.add('active');
-                btnPossessoNoi.classList.remove('active');
-            }
-            
-            updatePossessoDisplay();
+            });
         }
 
-        function updatePossesso() {
-            if (currentPossesso && isRunning) {
-                updatePossessoDisplay();
-            }
+        // Ripristina analisi
+        if (matchData.analysis) {
+            const analysisInputs = document.querySelectorAll('.analysis-row input, .analysis-row textarea');
+            analysisInputs.forEach((input, idx) => {
+                if (matchData.analysis[`field_${idx}`]) {
+                    input.value = matchData.analysis[`field_${idx}`];
+                }
+            });
         }
 
-        // Trova questa funzione e sostituiscila:
+        calculateXG();
+        console.log('✓ Dati caricati');
+    }
 
-function updatePossessoDisplay() {
-    let tempNoiPossesso = possessoNoi;
-    let tempLoroPossesso = possessoLoro;
-    
-    if (currentPossesso && isRunning) {
-        const elapsed = totalSeconds - possessoStartTime;
-        if (currentPossesso === 'noi') {
-            tempNoiPossesso += elapsed;
-        } else {
-            tempLoroPossesso += elapsed;
+    // Salva automaticamente ogni 10 secondi
+    setInterval(saveMatchData, 10000);
+
+    // Salva prima di chiudere
+    window.addEventListener('beforeunload', saveMatchData);
+
+    // ===== ESPORTA DATI =====
+    function exportMatchData() {
+        const matchData = {
+            avversario: document.getElementById('avversario').value,
+            data: document.getElementById('data-partita').value,
+            posizione: document.getElementById('posizione-partita').value,
+            gol: state.gol,
+            xg: state.xg,
+            possesso: {
+                noi: state.possessoNoi,
+                loro: state.possessoLoro
+            }
+        };
+
+        const json = JSON.stringify(matchData, null, 2);
+        const blob = new Blob([json], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `match-${new Date().toISOString().slice(0, 10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    // ===== RESET DATI =====
+    function resetAllData() {
+        if (confirm('Ripristinare tutti i dati? Questa azione non può essere annullata.')) {
+            localStorage.removeItem(STORAGE_KEY);
+            location.reload();
         }
     }
-    
-    const total = tempNoiPossesso + tempLoroPossesso;
-    
-    if (total > 0) {
-        const noiPercentage = (tempNoiPossesso / total) * 100;
-        const loroPercentage = (tempLoroPossesso / total) * 100;
-        
-        btnPossessoNoiPercentage.textContent = Math.round(noiPercentage) + '%';
-        btnPossessoLoroPercentage.textContent = Math.round(loroPercentage) + '%';
-        possessoNoiTime.textContent = formatTime(tempNoiPossesso);
-        possessoLoroTime.textContent = formatTime(tempLoroPossesso);
+
+    // ===== EVENT LISTENERS PER AUTO-SAVE =====
+    document.getElementById('avversario').addEventListener('change', saveMatchData);
+    document.getElementById('data-partita').addEventListener('change', saveMatchData);
+    document.getElementById('posizione-partita').addEventListener('change', saveMatchData);
+    document.getElementById('btn-possesso-noi').addEventListener('click', () => setTimeout(saveMatchData, 100));
+    document.getElementById('btn-possesso-loro').addEventListener('click', () => setTimeout(saveMatchData, 100));
+
+    document.querySelectorAll('.analysis-row input, .analysis-row textarea').forEach(input => {
+        input.addEventListener('change', saveMatchData);
+    });
+
+    // ===== CARICA DATI AL BOOT =====
+    document.addEventListener('DOMContentLoaded', () => {
+        loadMatchData();
+    });
+
+    // Se il documento è già caricato
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadMatchData);
     } else {
-        btnPossessoNoiPercentage.textContent = '50%';
-        btnPossessoLoroPercentage.textContent = '50%';
-        possessoNoiTime.textContent = '00:00';
-        possessoLoroTime.textContent = '00:00';
+        loadMatchData();
     }
-}
-
-        // Funzioni Punteggio
-        function addGol(team) {
-            if (team === 'noi') {
-                golNoi++;
-                golNoiDisplay.textContent = golNoi;
-            } else {
-                golLoro++;
-                golLoroDisplay.textContent = golLoro;
-            }
-            
-            const time = formatTime(totalSeconds);
-            const evento = {
-                type: 'gol',
-                team: team,
-                time: time,
-                minute: totalSeconds,
-                timestamp: Date.now()
-            };
-            eventi.push(evento);
-            
-            updateTimeline();
-            updateEventiList();
-            updateXgStatus();
-        }
-
-        function removeGol(team) {
-            if (team === 'noi' && golNoi > 0) {
-                golNoi--;
-                golNoiDisplay.textContent = golNoi;
-                
-                for (let i = eventi.length - 1; i >= 0; i--) {
-                    if (eventi[i].type === 'gol' && eventi[i].team === 'noi') {
-                        eventi.splice(i, 1);
-                        break;
-                    }
-                }
-            } else if (team === 'loro' && golLoro > 0) {
-                golLoro--;
-                golLoroDisplay.textContent = golLoro;
-                
-                for (let i = eventi.length - 1; i >= 0; i--) {
-                    if (eventi[i].type === 'gol' && eventi[i].team === 'loro') {
-                        eventi.splice(i, 1);
-                        break;
-                    }
-                }
-            }
-            
-            updateTimeline();
-            updateEventiList();
-            updateXgStatus();
-        }
-
-        function updateXG(team, value) {
-            if (team === 'noi') {
-                xgNoi += value;
-                xgNoiDisplay.textContent = xgNoi.toFixed(2);
-            } else {
-                xgLoro += value;
-                xgLoroDisplay.textContent = xgLoro.toFixed(2);
-            }
-            updateXgStatus();
-        }
-
-        function updateXgStatus() {
-            const statusNoiBadge = xgStatusNoi.querySelector('.status-badge');
-            if (xgNoi > golNoi) {
-                statusNoiBadge.textContent = 'Underperformance';
-                statusNoiBadge.className = 'status-badge under';
-            } else if (xgNoi < golNoi) {
-                statusNoiBadge.textContent = 'Overperformance';
-                statusNoiBadge.className = 'status-badge over';
-            } else {
-                statusNoiBadge.textContent = 'OK';
-                statusNoiBadge.className = 'status-badge ok';
-            }
-            
-            const statusLoroBadge = xgStatusLoro.querySelector('.status-badge');
-            if (xgLoro > golLoro) {
-                statusLoroBadge.textContent = 'Underperformance';
-                statusLoroBadge.className = 'status-badge under';
-            } else if (xgLoro < golLoro) {
-                statusLoroBadge.textContent = 'Overperformance';
-                statusLoroBadge.className = 'status-badge over';
-                } else if (xgLoro < golLoro) {
-    statusLoroBadge.textContent = 'Overperformance';
-    statusLoroBadge.className = 'status-badge over';
-        } else {
-            statusLoroBadge.textContent = 'OK';
-            statusLoroBadge.className = 'status-badge ok';
-        }
-    }
-        function updateTimeline() {
-            timelineMarkers.innerHTML = '';
-
-            eventi.forEach(evento => {
-                if (evento.type === 'gol') {
-                    const marker = document.createElement('div');
-                    marker.classList.add('timeline-marker');
-                    marker.classList.add(evento.team === 'noi' ? 'gol-noi' : 'gol-loro');
-
-                    const percent = Math.min((evento.minute / 5400) * 100, 100);
-                    marker.style.left = percent + '%';
-
-                    timelineMarkers.appendChild(marker);
-                }
-            });
-        }
-
-        function updateEventiList() {
-            eventiList.innerHTML = '';
-
-            if (eventi.length === 0) {
-                eventiList.innerHTML = `<p class="no-eventi">Nessun evento registrato</p>`;
-                return;
-            }
-
-            eventi
-                .slice()
-                .reverse()
-                .forEach((evento, index) => {
-                    const item = document.createElement('div');
-                    item.className = 'evento-item';
-
-                    item.innerHTML = `
-                        <div class="evento-info">
-                            <span class="evento-time">${evento.time}</span>
-                            <span class="evento-team">${evento.team}</span>
-                            <span class="evento-desc">Gol</span>
-                        </div>
-                        <button class="evento-delete" data-index="${eventi.length - 1 - index}">
-                            Elimina
-                        </button>
-                    `;
-
-                    eventiList.appendChild(item);
-                });
-
-            document.querySelectorAll('.evento-delete').forEach(btn => {
-                btn.addEventListener('click', e => {
-                    const idx = parseInt(e.target.dataset.index);
-                    eventi.splice(idx, 1);
-                    updateTimeline();
-                    updateEventiList();
-                });
-            });
-        }
-        // TIMER
-        btnStart.addEventListener('click', startTimer);
-        btnPause.addEventListener('click', pauseTimer);
-        btnStop.addEventListener('click', stopTimer);
-
-        // POSSESSO
-        btnPossessoNoi.addEventListener('click', () => setPossesso('noi'));
-        btnPossessoLoro.addEventListener('click', () => setPossesso('loro'));
-
-        // TEMPI
-        btnPrimoTempo.addEventListener('click', () => {
-            currentTempo = 1;
-            btnPrimoTempo.classList.add('active');
-            btnSecondoTempo.classList.remove('active');
-        });
-
-        btnSecondoTempo.addEventListener('click', () => {
-            currentTempo = 2;
-            btnSecondoTempo.classList.add('active');
-            btnPrimoTempo.classList.remove('active');
-        });
-
-        // GOL
-        btnGolPlus.forEach(btn => {
-            btn.addEventListener('click', () => {
-                addGol(btn.dataset.team);
-            });
-        });
-
-        btnGolMinus.forEach(btn => {
-            btn.addEventListener('click', () => {
-                removeGol(btn.dataset.team);
-            });
-        });
-        updatePossessoDisplay();
-    </script>
-    <script>
-document.querySelectorAll('.team-score').forEach(team => {
-    const plusBtn = team.querySelector('.score-plus');
-    const minusBtn = team.querySelector('.score-minus');
-    const valueEl = team.querySelector('.score-value');
-
-    plusBtn.addEventListener('click', () => {
-        let value = parseInt(valueEl.textContent);
-        valueEl.textContent = value + 1;
-    });
-
-    minusBtn.addEventListener('click', () => {
-        let value = parseInt(valueEl.textContent);
-        if (value > 0) {
-            valueEl.textContent = value - 1;
-        }
-    });
-});
-</script>
-// Sostituisci SOLO la sezione Performance nel script "PUNTEGGIO CON xG E xPTS"
-
-        // ===== PERFORMANCE NOI (RETI PRODOTTE - ATTACCO) =====
-        // xG > gol = Underperformance
-        // xG < gol = Overperformance
-        // xG = gol = OK
-        const perfNoiBox = perfNoiEl.parentElement;
-        const diffNoi = xgNoiValue - golNoi;
-        
-        if (diffNoi > 0.3) {
-            perfNoiEl.textContent = 'Underperformance';
-            perfNoiBox.style.background = 'rgba(255, 59, 48, 0.15)';
-            perfNoiBox.style.borderColor = 'rgba(255, 59, 48, 0.3)';
-            perfNoiEl.style.color = '#ff3b30';
-        } else if (diffNoi < -0.3) {
-            perfNoiEl.textContent = 'Overperformance';
-            perfNoiBox.style.background = 'rgba(0, 212, 170, 0.15)';
-            perfNoiBox.style.borderColor = 'rgba(0, 212, 170, 0.3)';
-            perfNoiEl.style.color = '#00d4aa';
-        } else {
-            perfNoiEl.textContent = 'OK';
-            perfNoiBox.style.background = 'rgba(0, 122, 255, 0.15)';
-            perfNoiBox.style.borderColor = 'rgba(0, 122, 255, 0.3)';
-            perfNoiEl.style.color = '#007aff';
-        }
-
-        // ===== PERFORMANCE LORO (RETI SUBITE - DIFESA) =====
-        // xG loro > gol subiti = Overperformance (difesa OK, loro hanno subito più di meritato)
-        // xG loro < gol subiti = Underperformance (difesa male, loro hanno subito meno di meritato)
-        // xG = gol = OK
-        const perfLoroBox = perfLoroEl.parentElement;
-        const diffLoro = xgLoroValue - golLoro;
-        
-        if (diffLoro > 0.3) {
-            perfLoroEl.textContent = 'Overperformance';
-            perfLoroBox.style.background = 'rgba(0, 212, 170, 0.15)';
-            perfLoroBox.style.borderColor = 'rgba(0, 212, 170, 0.3)';
-            perfLoroEl.style.color = '#00d4aa';
-        } else if (diffLoro < -0.3) {
-            perfLoroEl.textContent = 'Underperformance';
-            perfLoroBox.style.background = 'rgba(255, 59, 48, 0.15)';
-            perfLoroBox.style.borderColor = 'rgba(255, 59, 48, 0.3)';
-            perfLoroEl.style.color = '#ff3b30';
-        } else {
-            perfLoroEl.textContent = 'OK';
-            perfLoroBox.style.background = 'rgba(0, 122, 255, 0.15)';
-            perfLoroBox.style.borderColor = 'rgba(0, 122, 255, 0.3)';
-            perfLoroEl.style.color = '#007aff';
-        }// ===== PUNTEGGIO CON xG E xPTS =====
-(function() {
-    let golNoi = 0;
-    let golLoro = 0;
-    let xgNoiValue = 0;
-    let xgLoroValue = 0;
-
-    const golNoiEl = document.getElementById('gol-noi-new');
-    const golLoroEl = document.getElementById('gol-loro-new');
-    const xgNoiEl = document.getElementById('xg-noi-new');
-    const xgLoroEl = document.getElementById('xg-loro-new');
-    const xptsNoiEl = document.getElementById('xpts-noi');
-    const xptsLoroEl = document.getElementById('xpts-loro');
-    const perfNoiEl = document.getElementById('perf-noi');
-    const perfLoroEl = document.getElementById('perf-loro');
-
-    function calculateXPoints(ourXg, theirXg) {
-    const diff = ourXg - theirXg;
-    
-    // Mappa della tabella allegata
-    if (diff >= 1.5) {
-        return 2.7;
-    } else if (diff >= 1 && diff < 1.5) {
-        return 2.3;
-    } else if (diff >= 0.5 && diff < 1) {
-        return 2;
-    } else if (diff >= 0 && diff < 0.5) {
-        return 1.5;
-    } else if (diff >= -0.5 && diff < 0) {
-        return 0.7;
-    } else if (diff >= -1 && diff < -0.5) {
-        return 0.5;
-    } else if (diff >= -1.5 && diff < -1) {
-        return 0.3;
-    } else if (diff < -1.5) {
-        return 0.1;
-    }
-}
-
-
-    // Animazione contatore
-    function animateValue(element, start, end, duration) {
-        const range = end - start;
-        const increment = range / (duration / 16);
-        let current = start;
-        
-        const timer = setInterval(() => {
-            current += increment;
-            if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
-                current = end;
-                clearInterval(timer);
-            }
-            element.textContent = Math.round(current);
-        }, 16);
-    }
-
-    // Update display con animazioni
-    function updateDisplay() {
-        // Anima i gol
-        const oldGolNoi = parseInt(golNoiEl.textContent);
-        const oldGolLoro = parseInt(golLoroEl.textContent);
-        
-        if (oldGolNoi !== golNoi) {
-            animateValue(golNoiEl, oldGolNoi, golNoi, 300);
-        }
-        if (oldGolLoro !== golLoro) {
-            animateValue(golLoroEl, oldGolLoro, golLoro, 300);
-        }
-
-        // Update xG
-        xgNoiEl.textContent = xgNoiValue.toFixed(2);
-        xgLoroEl.textContent = xgLoroValue.toFixed(2);
-
-        // Calcola xPoints
-        const xptsNoi = calculateXPoints(xgNoiValue, xgLoroValue);
-        const xptsLoro = calculateXPoints(xgLoroValue, xgNoiValue);
-        xptsNoiEl.textContent = xptsNoi;
-        xptsLoroEl.textContent = xptsLoro;
-
-        // Formattazione condizionale xG NOI
-        const xgNoiBox = xgNoiEl.parentElement;
-        if (xgNoiValue > xgLoroValue) {
-            xgNoiBox.style.background = 'rgba(0, 212, 170, 0.08)';
-            xgNoiBox.style.borderColor = 'rgba(0, 212, 170, 0.2)';
-            xgNoiEl.style.color = '#00d4aa';
-        } else if (xgNoiValue < xgLoroValue) {
-            xgNoiBox.style.background = 'rgba(255, 59, 48, 0.08)';
-            xgNoiBox.style.borderColor = 'rgba(255, 59, 48, 0.2)';
-            xgNoiEl.style.color = '#ff3b30';
-        } else {
-            xgNoiBox.style.background = 'rgba(0, 122, 255, 0.08)';
-            xgNoiBox.style.borderColor = 'rgba(0, 122, 255, 0.2)';
-            xgNoiEl.style.color = '#007aff';
-        }
-
-        // Formattazione condizionale xG LORO
-        const xgLoroBox = xgLoroEl.parentElement;
-        if (xgLoroValue > xgNoiValue) {
-            xgLoroBox.style.background = 'rgba(0, 212, 170, 0.08)';
-            xgLoroBox.style.borderColor = 'rgba(0, 212, 170, 0.2)';
-            xgLoroEl.style.color = '#00d4aa';
-        } else if (xgLoroValue < xgNoiValue) {
-            xgLoroBox.style.background = 'rgba(255, 59, 48, 0.08)';
-            xgLoroBox.style.borderColor = 'rgba(255, 59, 48, 0.2)';
-            xgLoroEl.style.color = '#ff3b30';
-        } else {
-            xgLoroBox.style.background = 'rgba(0, 122, 255, 0.08)';
-            xgLoroBox.style.borderColor = 'rgba(0, 122, 255, 0.2)';
-            xgLoroEl.style.color = '#007aff';
-        }
-
-        // Formattazione condizionale xPts NOI
-        const xptsNoiBox = xptsNoiEl.parentElement;
-        if (parseFloat(xptsNoi) > 1.5) {
-            xptsNoiBox.style.background = 'rgba(0, 212, 170, 0.08)';
-            xptsNoiBox.style.borderColor = 'rgba(0, 212, 170, 0.2)';
-            xptsNoiEl.style.color = '#00d4aa';
-        } else if (parseFloat(xptsNoi) < 1) {
-            xptsNoiBox.style.background = 'rgba(255, 59, 48, 0.08)';
-            xptsNoiBox.style.borderColor = 'rgba(255, 59, 48, 0.2)';
-            xptsNoiEl.style.color = '#ff3b30';
-        } else {
-            xptsNoiBox.style.background = 'rgba(0, 122, 255, 0.08)';
-            xptsNoiBox.style.borderColor = 'rgba(0, 122, 255, 0.2)';
-            xptsNoiEl.style.color = '#007aff';
-        }
-
-        // Formattazione condizionale xPts LORO
-        const xptsLoroBox = xptsLoroEl.parentElement;
-        if (parseFloat(xptsLoro) > 1.5) {
-            xptsLoroBox.style.background = 'rgba(0, 212, 170, 0.08)';
-            xptsLoroBox.style.borderColor = 'rgba(0, 212, 170, 0.2)';
-            xptsLoroEl.style.color = '#00d4aa';
-        } else if (parseFloat(xptsLoro) < 1) {
-            xptsLoroBox.style.background = 'rgba(255, 59, 48, 0.08)';
-            xptsLoroBox.style.borderColor = 'rgba(255, 59, 48, 0.2)';
-            xptsLoroEl.style.color = '#ff3b30';
-        } else {
-            xptsLoroBox.style.background = 'rgba(0, 122, 255, 0.08)';
-            xptsLoroBox.style.borderColor = 'rgba(0, 122, 255, 0.2)';
-            xptsLoroEl.style.color = '#007aff';
-        }
-
-        // Performance NOI
-        const perfNoiBox = perfNoiEl.parentElement;
-        const diff = golNoi - xgNoiValue;
-        if (diff > 0.3) {
-            perfNoiEl.textContent = 'Overperformance';
-            perfNoiBox.style.background = 'rgba(0, 212, 170, 0.15)';
-            perfNoiBox.style.borderColor = 'rgba(0, 212, 170, 0.3)';
-            perfNoiEl.style.color = '#00d4aa';
-        } else if (diff < -0.3) {
-            perfNoiEl.textContent = 'Underperformance';
-            perfNoiBox.style.background = 'rgba(255, 59, 48, 0.15)';
-            perfNoiBox.style.borderColor = 'rgba(255, 59, 48, 0.3)';
-            perfNoiEl.style.color = '#ff3b30';
-        } else {
-            perfNoiEl.textContent = 'OK';
-            perfNoiBox.style.background = 'rgba(0, 122, 255, 0.15)';
-            perfNoiBox.style.borderColor = 'rgba(0, 122, 255, 0.3)';
-            perfNoiEl.style.color = '#007aff';
-        }
-
-        // Performance LORO
-        const perfLoroBox = perfLoroEl.parentElement;
-        const diffLoro = golLoro - xgLoroValue;
-        if (diffLoro > 0.3) {
-            perfLoroEl.textContent = 'Overperformance';
-            perfLoroBox.style.background = 'rgba(0, 212, 170, 0.15)';
-            perfLoroBox.style.borderColor = 'rgba(0, 212, 170, 0.3)';
-            perfLoroEl.style.color = '#00d4aa';
-        } else if (diffLoro < -0.3) {
-            perfLoroEl.textContent = 'Underperformance';
-            perfLoroBox.style.background = 'rgba(255, 59, 48, 0.15)';
-            perfLoroBox.style.borderColor = 'rgba(255, 59, 48, 0.3)';
-            perfLoroEl.style.color = '#ff3b30';
-        } else {
-            perfLoroEl.textContent = 'OK';
-            perfLoroBox.style.background = 'rgba(0, 122, 255, 0.15)';
-            perfLoroBox.style.borderColor = 'rgba(0, 122, 255, 0.3)';
-            perfLoroEl.style.color = '#007aff';
-        }
-    }
-
-    // Event listeners per i pulsanti gol (nuova sezione)
-    document.querySelectorAll('.btn-gol-plus').forEach(btn => {
-        if (btn.dataset.team === 'noi' || btn.dataset.team === 'loro') {
-            btn.addEventListener('click', (e) => {
-                const team = e.target.dataset.team;
-                if (team === 'noi') {
-                    golNoi++;
-                } else {
-                    golLoro++;
-                }
-                updateDisplay();
-            });
-        }
-    });
-
-    document.querySelectorAll('.btn-gol-minus').forEach(btn => {
-        if (btn.dataset.team === 'noi' || btn.dataset.team === 'loro') {
-            btn.addEventListener('click', (e) => {
-                const team = e.target.dataset.team;
-                if (team === 'noi' && golNoi > 0) {
-                    golNoi--;
-                } else if (team === 'loro' && golLoro > 0) {
-                    golLoro--;
-                }
-                updateDisplay();
-            });
-        }
-    });
-
-    // Inizializza
-    updateDisplay();
-})();
-</script>
-<script>
-// ===== ANALISI TATTICA - ACCORDION E CONTATORI =====
-(function() {
-    // Accordion toggle
-    document.querySelectorAll('.macro-header').forEach(header => {
-        header.addEventListener('click', () => {
-            const category = header.parentElement;
-            category.classList.toggle('open');
-        });
-    });
-
-    // Contatori e xG
-    let xgNoiTotal = 0;
-    let xgLoroTotal = 0;
-
-    // Funzione per calcolare xPoints
-    function calculateXPoints(ourXg, theirXg) {
-        const diff = ourXg - theirXg;
-        
-        if (diff >= 1.5) {
-            return 2.7;
-        } else if (diff >= 1 && diff < 1.5) {
-            return 2.3;
-        } else if (diff >= 0.5 && diff < 1) {
-            return 2;
-        } else if (diff >= 0 && diff < 0.5) {
-            return 1.5;
-        } else if (diff >= -0.5 && diff < 0) {
-            return 0.7;
-        } else if (diff >= -1 && diff < -0.5) {
-            return 0.5;
-        } else if (diff >= -1.5 && diff < -1) {
-            return 0.3;
-        } else if (diff < -1.5) {
-            return 0.1;
-        }
-    }
-
-    // Funzione per aggiornare xG globali E xPoints
-    function updateGlobalXG() {
-        const xgNoiEl = document.getElementById('xg-noi-new');
-        const xgLoroEl = document.getElementById('xg-loro-new');
-        const xptsNoiEl = document.getElementById('xpts-noi');
-        const xptsLoroEl = document.getElementById('xpts-loro');
-        
-        if (xgNoiEl && xgLoroEl && xptsNoiEl && xptsLoroEl) {
-            // Aggiorna xG
-            xgNoiEl.textContent = xgNoiTotal.toFixed(2);
-            xgLoroEl.textContent = xgLoroTotal.toFixed(2);
-
-            // Calcola e aggiorna xPts
-            const xptsNoi = calculateXPoints(xgNoiTotal, xgLoroTotal);
-            const xptsLoro = calculateXPoints(xgLoroTotal, xgNoiTotal);
-            
-            xptsNoiEl.textContent = xptsNoi.toFixed(2);
-            xptsLoroEl.textContent = xptsLoro.toFixed(2);
-        }
-    }
-
-    // Event listeners per tutti i pulsanti
-    document.querySelectorAll('.micro-stat').forEach(stat => {
-        const xgValue = parseFloat(stat.dataset.xg);
-        const controls = stat.querySelectorAll('.micro-controls');
-        
-        // NOI (prima colonna)
-        const noiControls = controls[0];
-        const noiValue = noiControls.querySelector('.micro-value');
-        const noiPlus = noiControls.querySelector('.plus');
-        const noiMinus = noiControls.querySelector('.minus');
-        
-        noiPlus.addEventListener('click', () => {
-            let current = parseInt(noiValue.textContent);
-            noiValue.textContent = current + 1;
-            xgNoiTotal += xgValue;
-            updateGlobalXG();
-        });
-        
-        noiMinus.addEventListener('click', () => {
-            let current = parseInt(noiValue.textContent);
-            if (current > 0) {
-                noiValue.textContent = current - 1;
-                xgNoiTotal -= xgValue;
-                updateGlobalXG();
-            }
-        });
-        
-        // LORO (seconda colonna)
-        const loroControls = controls[1];
-        const loroValue = loroControls.querySelector('.micro-value');
-        const loroPlus = loroControls.querySelector('.plus');
-        const loroMinus = loroControls.querySelector('.minus');
-        
-        loroPlus.addEventListener('click', () => {
-            let current = parseInt(loroValue.textContent);
-            loroValue.textContent = current + 1;
-            xgLoroTotal += xgValue;
-            updateGlobalXG();
-        });
-        
-        loroMinus.addEventListener('click', () => {
-            let current = parseInt(loroValue.textContent);
-            if (current > 0) {
-                loroValue.textContent = current - 1;
-                xgLoroTotal -= xgValue;
-                updateGlobalXG();
-            }
-        });
-    });
-})();
-</script>// ===== ANALISI TATTICA - ACCORDION E CONTATORI =====
-(function() {
-    // Accordion toggle
-    document.querySelectorAll('.macro-header').forEach(header => {
-        header.addEventListener('click', () => {
-            const category = header.parentElement;
-            category.classList.toggle('open');
-        });
-    });
-
-    // Contatori e xG
-    let xgNoiTotal = 0;
-    let xgLoroTotal = 0;
-
-    // Funzione per aggiornare xG globali
-    function updateGlobalXG() {
-        // Prendi gli elementi dal punteggio
-        const xgNoiEl = document.getElementById('xg-noi-new');
-        const xgLoroEl = document.getElementById('xg-loro-new');
-        
-        if (xgNoiEl && xgLoroEl) {
-            xgNoiEl.textContent = xgNoiTotal.toFixed(2);
-            xgLoroEl.textContent = xgLoroTotal.toFixed(2);
-            
-            // Trigghera l'update del display del punteggio
-            if (window.updateScoreDisplay) {
-                window.updateScoreDisplay();
-            }
-        }
-    }
-
-    // Event listeners per tutti i pulsanti
-    document.querySelectorAll('.micro-stat').forEach(stat => {
-        const xgValue = parseFloat(stat.dataset.xg);
-        const controls = stat.querySelectorAll('.micro-controls');
-        
-        // NOI (prima colonna)
-        const noiControls = controls[0];
-        const noiValue = noiControls.querySelector('.micro-value');
-        const noiPlus = noiControls.querySelector('.plus');
-        const noiMinus = noiControls.querySelector('.minus');
-        
-        noiPlus.addEventListener('click', () => {
-            let current = parseInt(noiValue.textContent);
-            noiValue.textContent = current + 1;
-            xgNoiTotal += xgValue;
-            updateGlobalXG();
-        });
-        
-        noiMinus.addEventListener('click', () => {
-            let current = parseInt(noiValue.textContent);
-            if (current > 0) {
-                noiValue.textContent = current - 1;
-                xgNoiTotal -= xgValue;
-                updateGlobalXG();
-            }
-        });
-        
-        // LORO (seconda colonna)
-        const loroControls = controls[1];
-        const loroValue = loroControls.querySelector('.micro-value');
-        const loroPlus = loroControls.querySelector('.plus');
-        const loroMinus = loroControls.querySelector('.minus');
-        
-        loroPlus.addEventListener('click', () => {
-            let current = parseInt(loroValue.textContent);
-            loroValue.textContent = current + 1;
-            xgLoroTotal += xgValue;
-            updateGlobalXG();
-        });
-        
-        loroMinus.addEventListener('click', () => {
-            let current = parseInt(loroValue.textContent);
-            if (current > 0) {
-                loroValue.textContent = current - 1;
-                xgLoroTotal -= xgValue;
-                updateGlobalXG();
-            }
-        });
-    });
-})();
 </script>
 </body>
 </html>
