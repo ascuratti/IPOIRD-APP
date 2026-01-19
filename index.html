@@ -2034,22 +2034,25 @@ document.querySelectorAll('.team-score').forEach(team => {
 
     function calculateXPoints(ourXg, theirXg) {
     const diff = ourXg - theirXg;
-
-    // Probabilità di vittoria (continua)
-    const winProb = 1 / (1 + Math.exp(-1.1 * diff));
-
-    // Probabilità di pareggio (massima vicino a diff = 0)
-    const drawProb = 0.35 * Math.exp(-Math.pow(diff, 2) / 0.8);
-
-    // Normalizzazione
-    const lossProb = Math.max(0, 1 - winProb - drawProb);
-    const total = winProb + drawProb + lossProb;
-
-    const w = winProb / total;
-    const d = drawProb / total;
-
-    // xPoints SOLO PER NOI
-    return +(w * 3 + d).toFixed(2);
+    
+    // Mappa della tabella allegata
+    if (diff >= 1.5) {
+        return 2.7;
+    } else if (diff >= 1 && diff < 1.5) {
+        return 2.3;
+    } else if (diff >= 0.5 && diff < 1) {
+        return 2;
+    } else if (diff >= 0 && diff < 0.5) {
+        return 1.5;
+    } else if (diff >= -0.5 && diff < 0) {
+        return 0.7;
+    } else if (diff >= -1 && diff < -0.5) {
+        return 0.5;
+    } else if (diff >= -1.5 && diff < -1) {
+        return 0.3;
+    } else if (diff < -1.5) {
+        return 0.1;
+    }
 }
 
 
