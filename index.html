@@ -1618,21 +1618,28 @@
         }
 
         function stopTimer() {
-            clearInterval(timerInterval);
-            isRunning = false;
-            totalSeconds = 0;
-            possessoNoi = 0;
-            possessoLoro = 0;
-            currentPossesso = null;
-            timerDisplay.textContent = '00:00';
-            btnStart.disabled = false;
-            btnPause.disabled = true;
-            btnStop.disabled = true;
-            btnStart.textContent = 'START';
-            updatePossessoDisplay();
-            btnPossessoNoi.classList.remove('active');
-            btnPossessoLoro.classList.remove('active');
-        }
+    // Chiedi conferma prima di cancellare i dati
+    const confirmed = confirm('Sei sicuro di voler premere STOP? Tutti i dati verranno cancellati.');
+    
+    if (!confirmed) {
+        return; // Annulla se l'utente dice no
+    }
+    
+    clearInterval(timerInterval);
+    isRunning = false;
+    totalSeconds = 0;
+    possessoNoi = 0;
+    possessoLoro = 0;
+    currentPossesso = null;
+    timerDisplay.textContent = '00:00';
+    btnStart.disabled = false;
+    btnPause.disabled = true;
+    btnStop.disabled = true;
+    btnStart.textContent = 'START';
+    updatePossessoDisplay();
+    btnPossessoNoi.classList.remove('active');
+    btnPossessoLoro.classList.remove('active');
+}
 
         // Funzioni Possesso
         function setPossesso(team) {
@@ -1667,36 +1674,38 @@
             }
         }
 
-        function updatePossessoDisplay() {
-            let tempNoiPossesso = possessoNoi;
-            let tempLoroPossesso = possessoLoro;
-            
-            if (currentPossesso && isRunning) {
-                const elapsed = totalSeconds - possessoStartTime;
-                if (currentPossesso === 'noi') {
-                    tempNoiPossesso += elapsed;
-                } else {
-                    tempLoroPossesso += elapsed;
-                }
-            }
-            
-            const total = tempNoiPossesso + tempLoroPossesso;
-            
-            if (total > 0) {
-                const noiPercentage = (tempNoiPossesso / total) * 100;
-                const loroPercentage = (tempLoroPossesso / total) * 100;
-                
-                btnPossessoNoiPercentage.textContent = Math.round(noiPercentage) + '%';
-                btnPossessoLoroPercentage.textContent = Math.round(loroPercentage) + '%';
-                possessoNoiTime.textContent = formatTime(tempNoiPossesso);
-                possessoLoroTime.textContent = formatTime(tempLoroPossesso);
-            } else {
-                btnPossessoNoiPercentage.textContent = '50%';
-                btnPossessoLoroPercentage.textContent = '50%';
-                possessoNoiTime.textContent = '00:00';
-                possessoLoroTime.textContent = '00:00';
-            }
+        // Trova questa funzione e sostituiscila:
+
+function updatePossessoDisplay() {
+    let tempNoiPossesso = possessoNoi;
+    let tempLoroPossesso = possessoLoro;
+    
+    if (currentPossesso && isRunning) {
+        const elapsed = totalSeconds - possessoStartTime;
+        if (currentPossesso === 'noi') {
+            tempNoiPossesso += elapsed;
+        } else {
+            tempLoroPossesso += elapsed;
         }
+    }
+    
+    const total = tempNoiPossesso + tempLoroPossesso;
+    
+    if (total > 0) {
+        const noiPercentage = (tempNoiPossesso / total) * 100;
+        const loroPercentage = (tempLoroPossesso / total) * 100;
+        
+        btnPossessoNoiPercentage.textContent = Math.round(noiPercentage) + '%';
+        btnPossessoLoroPercentage.textContent = Math.round(loroPercentage) + '%';
+        possessoNoiTime.textContent = formatTime(tempNoiPossesso);
+        possessoLoroTime.textContent = formatTime(tempLoroPossesso);
+    } else {
+        btnPossessoNoiPercentage.textContent = '50%';
+        btnPossessoLoroPercentage.textContent = '50%';
+        possessoNoiTime.textContent = '00:00';
+        possessoLoroTime.textContent = '00:00';
+    }
+}
 
         // Funzioni Punteggio
         function addGol(team) {
