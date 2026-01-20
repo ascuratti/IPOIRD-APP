@@ -1201,15 +1201,19 @@
                             
                             <!-- xG e xPts -->
                             <div class="score-boxes">
-                                <div class="score-box">
-                                    <div class="score-label">xG</div>
-                                    <div class="score-value-display" id="xg-noi-new">0.00</div>
-                                </div>
-                                <div class="score-box">
-                                    <div class="score-label">xPts</div>
-                                    <div class="score-value-display" id="xpts-noi">1.50</div>
-                                </div>
-                            </div>
+    <div class="score-box">
+        <div class="score-label">IPO</div>
+        <div class="score-value-display" id="xg-noi-new">0.00</div>
+    </div>
+    <div class="score-box">
+        <div class="score-label">xPts</div>
+        <div class="score-value-display" id="xpts-noi">1.50</div>
+    </div>
+    <div class="score-box">
+        <div class="score-label">xG</div>
+        <div class="score-value-display" id="xg-noi-display">0.00</div>
+    </div>
+</div>
                             
                             <div class="score-performance">
                                 <span id="perf-noi">OK</span>
@@ -1228,16 +1232,20 @@
                             </div>
                             
                             <!-- xG e xPts -->
-                            <div class="score-boxes">
-                                <div class="score-box">
-                                    <div class="score-label">xG</div>
-                                    <div class="score-value-display" id="xg-loro-new">0.00</div>
-                                </div>
-                                <div class="score-box">
-                                    <div class="score-label">xPts</div>
-                                    <div class="score-value-display" id="xpts-loro">1.50</div>
-                                </div>
-                            </div>
+                           <div class="score-boxes">
+    <div class="score-box">
+        <div class="score-label">IRD</div>
+        <div class="score-value-display" id="xg-loro-new">0.00</div>
+    </div>
+    <div class="score-box">
+        <div class="score-label">xPts</div>
+        <div class="score-value-display" id="xpts-loro">1.50</div>
+    </div>
+    <div class="score-box">
+        <div class="score-label">xG</div>
+        <div class="score-value-display" id="xg-loro-display">0.00</div>
+    </div>
+</div>
                             
                             <div class="score-performance">
                                 <span id="perf-loro">OK</span>
@@ -1814,49 +1822,51 @@ setInterval(() => {
 
     // ===== PUNTEGGIO =====
     function calculateXG() {
-        let xgNoi = 0;
-        let xgLoro = 0;
+    let xgNoi = 0;
+    let xgLoro = 0;
+    
+    document.querySelectorAll('.micro-stat').forEach(stat => {
+        const item = stat.getAttribute('data-item');
+        const xgValue = parseFloat(stat.getAttribute('data-xg')) || 0;
+        const controls = stat.querySelectorAll('.micro-controls');
         
-        document.querySelectorAll('.micro-stat').forEach(stat => {
-            const item = stat.getAttribute('data-item');
-            const xgValue = parseFloat(stat.getAttribute('data-xg')) || 0;
-            const controls = stat.querySelectorAll('.micro-controls');
+        if (controls.length >= 2) {
+            const noiVal = parseInt(controls[0].querySelector('.micro-value').textContent) || 0;
+            const loroVal = parseInt(controls[1].querySelector('.micro-value').textContent) || 0;
             
-            if (controls.length >= 2) {
-                const noiVal = parseInt(controls[0].querySelector('.micro-value').textContent) || 0;
-                const loroVal = parseInt(controls[1].querySelector('.micro-value').textContent) || 0;
-                
-                xgNoi += noiVal * xgValue;
-                xgLoro += loroVal * xgValue;
-            }
-        });
-        
-        state.xg.noi = xgNoi;
-        state.xg.loro = xgLoro;
-        
-        document.getElementById('xg-noi-new').textContent = xgNoi.toFixed(2);
-        document.getElementById('xg-loro-new').textContent = xgLoro.toFixed(2);
-        updatePerformance();
-    }
+            xgNoi += noiVal * xgValue * 10;
+            xgLoro += loroVal * xgValue * 10;
+        }
+    });
+    
+    state.xg.noi = xgNoi;
+    state.xg.loro = xgLoro;
+    
+    document.getElementById('xg-noi-new').textContent = xgNoi.toFixed(2);
+    document.getElementById('xg-loro-new').textContent = xgLoro.toFixed(2);
+    document.getElementById('xg-noi-display').textContent = xgNoi.toFixed(2);
+    document.getElementById('xg-loro-display').textContent = xgLoro.toFixed(2);
+    updatePerformance();
+}
 
     function updatePerformance() {
-        const golNoi = state.gol.noi;
-        const golLoro = state.gol.loro;
-        const xgNoi = state.xg.noi;
-        const xgLoro = state.xg.loro;
-        
-        let perfNoi = 'OK';
-        let perfLoro = 'OK';
-        
-        if (golNoi > xgNoi + 0.5) perfNoi = 'OVER';
-        else if (golNoi < xgNoi - 0.5) perfNoi = 'UNDER';
-        
-        if (golLoro > xgLoro + 0.5) perfLoro = 'OVER';
-        else if (golLoro < xgLoro - 0.5) perfLoro = 'UNDER';
-        
-        document.getElementById('perf-noi').textContent = perfNoi;
-        document.getElementById('perf-loro').textContent = perfLoro;
-    }
+    const golNoi = state.gol.noi;
+    const golLoro = state.gol.loro;
+    const xgNoi = state.xg.noi;
+    const xgLoro = state.xg.loro;
+    
+    let perfNoi = 'OK';
+    let perfLoro = 'OK';
+    
+    if (golNoi > xgNoi) perfNoi = 'OVERPERFORMANCE';
+    else if (golNoi < xgNoi) perfNoi = 'UNDERPERFORMANCE';
+    
+    if (golLoro > xgLoro) perfLoro = 'OVERPERFORMANCE';
+    else if (golLoro < xgLoro) perfLoro = 'UNDERPERFORMANCE';
+    
+    document.getElementById('perf-noi').textContent = perfNoi;
+    document.getElementById('perf-loro').textContent = perfLoro;
+}
 
     // ===== MICRO STATS EVENT LISTENERS =====
     document.querySelectorAll('.micro-stat').forEach(stat => {
