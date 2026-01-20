@@ -1663,6 +1663,37 @@
             </section>
         </main>
     </div>
+    <!-- ... tutto il contenuto ... -->
+
+<!-- Tutti gli script qui in fondo -->
+<script>
+    // ===== STATO GLOBALE =====
+   console.log('Script partito');
+const startBtn = document.getElementById('btn-start');
+console.log('Bottone START trovato?', startBtn !== null);
+
+if (startBtn) {
+    console.log('Aggiungo listener a START');
+    startBtn.addEventListener('click', () => {
+        console.log('START cliccato!');
+        // ... il tuo codice start ...
+    });
+} else {
+    console.error('ERRORE: #btn-start NON TROVATO nel DOM');
+}
+
+    // ... tutto il tuo codice JS ...
+
+    // In fondo al file, dopo tutti i listener e funzioni
+    document.addEventListener('DOMContentLoaded', () => {
+        // Qui puoi mettere chiamate di init se necessario
+        updateTimerDisplay();
+        updatePossessoUI();
+        loadMatchData();  // se ce l'hai
+    });
+</script>
+</body>
+</html>
 </body>
 </html>
 <!-- BLOCCO 3: Script (Logica Punteggio + Analisi Tattica) -->
@@ -2896,4 +2927,5 @@ const attackMomentumChart = new Chart(ctx, config);
 </style>
 </body>
 </html>
+
 
