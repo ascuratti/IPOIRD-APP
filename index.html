@@ -1668,8 +1668,8 @@ function formatPercent(value) {
             document.getElementById('btn-start').disabled = true;
             document.getElementById('btn-pause').disabled = false;
             document.getElementById('btn-stop').disabled = false;
-            state.possessoNoi = 0;
-state.possessoLoro = 0;
+            state.possessoNoi = 50;
+state.possessoLoro = 50;
 state.possessoAttivo = null;
 updatePossessoUI();
 
@@ -1697,8 +1697,8 @@ updatePossessoUI();
             document.getElementById('btn-pause').disabled = true;
             document.getElementById('btn-stop').disabled = true;
             state.possessoAttivo = null;
-state.possessoNoi = 0;
-state.possessoLoro = 0;
+state.possessoNoi = 50;
+state.possessoLoro = 50;
 updatePossessoUI();
 
             // Resetta i valori visibili
@@ -1752,7 +1752,7 @@ btnNoi.addEventListener('click', () => {btnNoi.addEventListener('click', () => {
 
     // PRIMO POSSESSO DOPO START
     if (state.possessoAttivo === null) {
-        state.possessoNoi = 0;
+        state.possessoNoi = 50;
         state.possessoLoro = 0;
     }
 
@@ -1770,7 +1770,7 @@ btnLoro.addEventListener('click', () => {btnLoro.addEventListener('click', () =>
 
     // PRIMO POSSESSO DOPO START
     if (state.possessoAttivo === null) {
-        state.possessoNoi = 0;
+        state.possessoNoi = 50;
         state.possessoLoro = 0;
     }
 
@@ -1803,9 +1803,9 @@ setInterval(() => {
 
     function updatePossessoUI() {
     document.getElementById('btn-possesso-noi-percentage').textContent =
-        state.possessoNoi + '%';
+        state.possessoNoi.toFixed(2) + '%';
     document.getElementById('btn-possesso-loro-percentage').textContent =
-        state.possessoLoro + '%';
+        state.possessoLoro.toFixed(2) + '%';
 
     btnNoi.classList.toggle('active', state.possessoAttivo === 'noi');
     btnLoro.classList.toggle('active', state.possessoAttivo === 'loro');
