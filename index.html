@@ -429,7 +429,7 @@
         }
 
         .status-badge {
-            display: inline-block;
+            display: grid;
             padding: 4px 12px;
             font-size: 10px;
             font-weight: 600;
@@ -442,7 +442,7 @@
 
         .status-badge.ok {
             background: #d1fae5;
-            color: #065f46;
+            color: #1e40af;
         }
 
         .status-badge.under {
@@ -452,7 +452,8 @@
 
         .status-badge.over {
             background: #dbeafe;
-            color: #1e40af;
+            color: #065f46;
+
         }
 
         .timeline-container {
@@ -1859,20 +1860,18 @@ setInterval(() => {
             const microXG = parseFloat(stat.getAttribute('data-xg')) || 0;
             xgNoi += noiVal * microXG;
             xgLoro += loroVal * microXG;
-
-            // Per IPO e IRD: valori tra 0 e 10, quindi moltiplica per 0.1 per ottenere frazione tra 0 e 1
-            if (item === 'IPO' || item === 'IRD') {
-                xgNoi += noiVal * 10;
-                xgLoro += loroVal * 10;
-            }
         }
     });
 
     state.xg.noi = xgNoi;
     state.xg.loro = xgLoro;
 
-    document.getElementById('xg-noi-new').textContent = xgNoi.toFixed(2);
-    document.getElementById('xg-loro-new').textContent = xgLoro.toFixed(2);
+    // IPO e IRD calcolati come xG * 10
+    const ipoNoi = xgNoi * 10;
+    const irdLoro = xgLoro * 10;
+
+    document.getElementById('xg-noi-new').textContent = ipoNoi.toFixed(2);
+    document.getElementById('xg-loro-new').textContent = irdLoro.toFixed(2);
     document.getElementById('xg-noi-display').textContent = xgNoi.toFixed(2);
     document.getElementById('xg-loro-display').textContent = xgLoro.toFixed(2);
     updatePerformance();
@@ -2607,6 +2606,68 @@ setTimeout(() => {
         height: auto !important;
     }
 }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attack Momentum</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    #chart-container
+      width: 90%;
+      max-width: 800px;
+      margin: 50px auto;
+
+  </style>
+</head>
+<body>
+  <div id="chart-container">
+    <canvas id="attackMomentumChart"></canvas>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
+const ctx = document.getElementById('attackMomentumChart').getContext('2d');
+
+// Dati esempio: positivo = squadra 1, negativo = squadra 2
+const data = {
+    labels: Array.from({length: 60}, (_, i) => i+1), // minuti di gioco
+    datasets: [
+        {
+            label: 'NOI
+            data: [2,3,5,6,3,7,4,2,6,7, ...], // dati reali qui
+            backgroundColor: 'rgba(0,200,0,0.7)',
+        },
+        {
+            label: 'LORO',
+            data: [-1,-2,-3,-2,-5,-3,...], // dati negativi per "sotto"
+            backgroundColor: 'rgba(0,0,200,0.7)',
+        }
+    ]
+};
+
+const config = {
+    type: 'bar',
+    data: data,
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false },
+        },
+        scales: {
+            x: {
+                stacked: true,
+                title: { display: true, text: 'Minuto' }
+            },
+            y: {
+                stacked: false,
+                beginAtZero: true
+            }
+        }
+    }
+};
+
+const attackMomentumChart = new Chart(ctx, config);
+
 </style>
 </body>
 </html>
