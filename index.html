@@ -1644,8 +1644,15 @@
         isRunning: false,
         currentTempo: 1,
         possessoNoi: 50,
-        possessoLoro: 50
+possessoLoro: 50,
+possessoAttivo: null // 'noi' | 'loro' | null
+
     };
+    // ===== UTILS =====
+function formatPercent(value) {
+    return parseFloat(value.toFixed(2)).toString();
+}
+
 
     // ===== TIMER =====
     function updateTimerDisplay() {
@@ -1661,7 +1668,11 @@
             document.getElementById('btn-start').disabled = true;
             document.getElementById('btn-pause').disabled = false;
             document.getElementById('btn-stop').disabled = false;
-            
+            state.possessoNoi = 0;
+state.possessoLoro = 0;
+state.possessoAttivo = null;
+updatePossessoUI();
+
             state.timerInterval = setInterval(() => {
                 state.timerSeconds++;
                 updateTimerDisplay();
@@ -1685,7 +1696,11 @@
             document.getElementById('btn-start').disabled = false;
             document.getElementById('btn-pause').disabled = true;
             document.getElementById('btn-stop').disabled = true;
-            
+            state.possessoAttivo = null;
+state.possessoNoi = 0;
+state.possessoLoro = 0;
+updatePossessoUI();
+
             // Resetta i valori visibili
             state.gol.noi = 0;
             state.gol.loro = 0;
@@ -1729,30 +1744,73 @@
     });
 
     // ===== POSSESSO PALLA =====
-    document.getElementById('btn-possesso-noi').addEventListener('click', () => {
-        state.possessoNoi = 100;
-        state.possessoLoro = 0;
-        updatePossesso();
-    });
+   const btnNoi = document.getElementById('btn-possesso-noi');
+const btnLoro = document.getElementById('btn-possesso-loro');
 
-    document.getElementById('btn-possesso-loro').addEventListener('click', () => {
+btnNoi.addEventListener('click', () => {btnNoi.addEventListener('click', () => {
+    if (!state.isRunning) return;
+
+    // PRIMO POSSESSO DOPO START
+    if (state.possessoAttivo === null) {
         state.possessoNoi = 0;
-        state.possessoLoro = 100;
-        updatePossesso();
-    });
-
-    function updatePossesso() {
-        document.getElementById('btn-possesso-noi-percentage').textContent = state.possessoNoi + '%';
-        document.getElementById('btn-possesso-loro-percentage').textContent = state.possessoLoro + '%';
-        
-        if (state.possessoNoi > 50) {
-            document.getElementById('btn-possesso-noi').classList.add('active');
-            document.getElementById('btn-possesso-loro').classList.remove('active');
-        } else {
-            document.getElementById('btn-possesso-noi').classList.remove('active');
-            document.getElementById('btn-possesso-loro').classList.add('active');
-        }
+        state.possessoLoro = 0;
     }
+
+    state.possessoAttivo = 'noi';
+    updatePossessoUI();
+});
+
+    if (!state.isRunning) return;
+    state.possessoAttivo = 'noi';
+    updatePossessoUI();
+});
+
+btnLoro.addEventListener('click', () => {btnLoro.addEventListener('click', () => {
+    if (!state.isRunning) return;
+
+    // PRIMO POSSESSO DOPO START
+    if (state.possessoAttivo === null) {
+        state.possessoNoi = 0;
+        state.possessoLoro = 0;
+    }
+
+    state.possessoAttivo = 'loro';
+    updatePossessoUI();
+});
+
+    if (!state.isRunning) return;
+    state.possessoAttivo = 'loro';
+    updatePossessoUI();
+});
+setInterval(() => {
+    if (!state.isRunning || !state.possessoAttivo) return;
+
+    const delta = 0.2; // 0.2% alla volta
+
+    if (state.possessoAttivo === 'noi') {
+        state.possessoNoi = Math.min(100, state.possessoNoi + delta);
+        state.possessoLoro = 100 - state.possessoNoi;
+    }
+
+    if (state.possessoAttivo === 'loro') {
+        state.possessoLoro = Math.min(100, state.possessoLoro + delta);
+        state.possessoNoi = 100 - state.possessoLoro;
+    }
+
+    updatePossessoUI();
+}, 1000);
+
+
+    function updatePossessoUI() {
+    document.getElementById('btn-possesso-noi-percentage').textContent =
+        state.possessoNoi + '%';
+    document.getElementById('btn-possesso-loro-percentage').textContent =
+        state.possessoLoro + '%';
+
+    btnNoi.classList.toggle('active', state.possessoAttivo === 'noi');
+    btnLoro.classList.toggle('active', state.possessoAttivo === 'loro');
+}
+
 
     // ===== PUNTEGGIO =====
     function calculateXG() {
@@ -1862,7 +1920,6 @@
 
     // ===== INIZIALIZZAZIONE =====
     updateTimerDisplay();
-    updatePossesso();
     calculateXG();
 </script>
 <!-- BLOCCO 4: Storage + Utils -->
