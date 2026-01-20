@@ -1100,23 +1100,46 @@
         justify-content: center;
         gap: 12px;
     }
-}@media (max-width: 768px) {
-            .match-info-section {
-                padding: 24px;
-            }
+/* Mobile: Micro Stats - Layout orizzontale compatto */
+@media (max-width: 768px) {
+    .micro-stat {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px 20px;
+    }
 
-            .match-info-row {
-                grid-template-columns: 1fr;
-                gap: 8px;
-                margin-bottom: 16px;
-            }
+    .micro-label {
+        font-size: 12px;
+        color: #374151;
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
 
-            .match-info-row input,
-            .match-info-row select {
-                padding: 10px 12px;
-                font-size: 12px;
-            }
-        }
+    .micro-stat > div:not(.micro-label) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .micro-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .micro-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+
+    .micro-value {
+        font-size: 14px;
+        min-width: 20px;
+    }
+}
     </style>
 </head>
 <body>
