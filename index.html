@@ -1151,7 +1151,7 @@
         </header>
 
         <!-- SEZIONE INFORMAZIONI PARTITA -->
-        <section class="match-info-section">
+        <section class="match-info-section" title="Informazioni di base sulla partita: avversario, data e posizione (casa/fuori)">
             <div class="match-info-container">
                 <div class="match-info-row">
                     <label>AVVERSARIO</label>
@@ -1176,8 +1176,8 @@
 
         <main>
             <!-- PUNTO 1: TEMPO -->
-            <section class="tempo-section">
-                <h2>TEMPO</h2>
+            <section class="tempo-section" title="Controllo del tempo di gioco: cronometro digitale, selezione primo/secondo tempo, e gestione del possesso palla con progressione automatica">
+                <h2>TEMPO <span style="font-size: 14px; color: #6b7280; margin-left: 8px;">ℹ</span></h2>
                 
                 <div class="tempo-indicators">
                     <button class="tempo-btn active" id="primo-tempo" data-tempo="1">1° TEMPO</button>
@@ -1210,8 +1210,8 @@
             </section>
 
             <!-- PUNTO 2: PUNTEGGIO -->
-            <section class="score-section">
-                <h2>PUNTEGGIO</h2>
+            <section class="score-section" title="Visualizzazione punteggio, expected goals (xG), expected points (xPts) e performance per squadra">
+                <h2>PUNTEGGIO <span style="font-size: 14px; color: #6b7280; margin-left: 8px;">ℹ</span></h2>
                 
                 <div class="score-wrapper">
                     <div class="score-grid">
@@ -1282,8 +1282,8 @@
             <!-- BLOCCO 2: HTML Content (Match Info + Sezioni principali) -->
 
 <!-- PUNTO 3: ANALISI TATTICA -->
-<section class="analisi-section">
-    <h2>ANALISI TATTICA</h2>
+<section class="analisi-section" title="Analisi dettagliata delle azioni di gioco suddivise per macrocategorie: finalizzazione, occasioni create, calci d'angolo, punizioni, rimessa laterale ed errori difensivi">
+    <h2>ANALISI TATTICA <span style="font-size: 14px; color: #6b7280; margin-left: 8px;">ℹ</span></h2>
 
     <!-- MACRO CATEGORY: FINALIZZAZIONE -->
     <div class="macro-category">
@@ -1642,8 +1642,8 @@
     </div>
 </section>
             <!-- PUNTO 4: ANALISI TATTICA AVANZATA -->
-            <section class="analisi-section">
-                <h2>ANALISI TATTICA AVANZATA</h2>
+            <section class="analisi-section" title="Inserimento dettagliato delle formazioni e note tattiche per entrambe le squadre">
+                <h2>ANALISI TATTICA AVANZATA <span style="font-size: 14px; color: #6b7280; margin-left: 8px;">ℹ</span></h2>
 
                 <div class="analysis-block">
                     <h3>FORMAZIONE E TATTICA</h3>
@@ -2131,8 +2131,8 @@ setInterval(() => {
     }
 </script>
 <!-- PUNTO 5: ATTACK MOMENTUM -->
-<section class="attack-momentum-section">
-    <h2>ATTACK MOMENTUM</h2>
+<section class="attack-momentum-section" title="Grafico dell'attacco momentum: visualizzazione dinamica del flusso offensivo per minuto, con indicazione dei gol segnati dalle squadre">
+    <h2>ATTACK MOMENTUM <span style="font-size: 14px; color: #6b7280; margin-left: 8px;">ℹ</span></h2>
     <div class="analysis-block">
         <div class="canvas-wrapper">
             <canvas id="attackMomentumChart" width="800" height="400"></canvas>
@@ -2141,8 +2141,8 @@ setInterval(() => {
 </section>
 
 <!-- PUNTO 6: GRAFICI E ESPORTAZIONE PDF -->
-<section class="grafici-section">
-    <h2>ANALISI GRAFICA</h2>
+<section class="grafici-section" title="Analisi grafica della partita: piano cartesiano IPO-IRD vs possesso palla e grafico radar delle macrocategorie, con possibilità di esportazione PDF">
+    <h2>ANALISI GRAFICA <span style="font-size: 14px; color: #6b7280; margin-left: 8px;">ℹ</span></h2>
     
     <!-- Bottone Download PDF -->
     <div style="text-align: center; margin-bottom: 40px;">
