@@ -1843,52 +1843,39 @@ setInterval(() => {
 }
 
 
-    // ===== PUNTEGGIO =====
     function calculateXG() {
     let xgNoi = 0;
     let xgLoro = 0;
-    
+
     document.querySelectorAll('.micro-stat').forEach(stat => {
         const item = stat.getAttribute('data-item');
-        const xgValue = parseFloat(stat.getAttribute('data-xg')) || 0;
         const controls = stat.querySelectorAll('.micro-controls');
-        
+
         if (controls.length >= 2) {
             const noiVal = parseInt(controls[0].querySelector('.micro-value').textContent) || 0;
             const loroVal = parseInt(controls[1].querySelector('.micro-value').textContent) || 0;
-            
-            xgNoi += noiVal * xgValue * 10;
-            xgLoro += loroVal * xgValue * 10;
+
+            // Per le microcategorie: dati tra 0 e 1 (scala decimale)
+            const microXG = parseFloat(stat.getAttribute('data-xg')) || 0;
+            xgNoi += noiVal * microXG;
+            xgLoro += loroVal * microXG;
+
+            // Per IPO e IRD: valori tra 0 e 10, quindi moltiplica per 0.1 per ottenere frazione tra 0 e 1
+            if (item === 'IPO' || item === 'IRD') {
+                xgNoi += noiVal * 10;
+                xgLoro += loroVal * 10;
+            }
         }
     });
-    
+
     state.xg.noi = xgNoi;
     state.xg.loro = xgLoro;
-    
+
     document.getElementById('xg-noi-new').textContent = xgNoi.toFixed(2);
     document.getElementById('xg-loro-new').textContent = xgLoro.toFixed(2);
     document.getElementById('xg-noi-display').textContent = xgNoi.toFixed(2);
     document.getElementById('xg-loro-display').textContent = xgLoro.toFixed(2);
     updatePerformance();
-}
-
-    function updatePerformance() {
-    const golNoi = state.gol.noi;
-    const golLoro = state.gol.loro;
-    const xgNoi = state.xg.noi;
-    const xgLoro = state.xg.loro;
-    
-    let perfNoi = 'OK';
-    let perfLoro = 'OK';
-    
-    if (golNoi > xgNoi) perfNoi = 'OVERPERFORMANCE';
-    else if (golNoi < xgNoi) perfNoi = 'UNDERPERFORMANCE';
-    
-    if (golLoro > xgLoro) perfLoro = 'OVERPERFORMANCE';
-    else if (golLoro < xgLoro) perfLoro = 'UNDERPERFORMANCE';
-    
-    document.getElementById('perf-noi').textContent = perfNoi;
-    document.getElementById('perf-loro').textContent = perfLoro;
 }
 
     // ===== MICRO STATS EVENT LISTENERS =====
