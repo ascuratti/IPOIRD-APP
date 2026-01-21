@@ -1172,7 +1172,6 @@
         <main>
             <!-- PUNTO 1: TEMPO -->
             <section class="tempo-section" title="Controllo del tempo di gioco: cronometro digitale, selezione primo/secondo tempo, e gestione del possesso palla con progressione automatica">
-                <h2>TEMPO <span style="font-size: 14px; color: #6b7280; margin-left: 8px;">ℹ</span></h2>
                 
                 <div class="tempo-indicators">
                     <button class="tempo-btn active" id="primo-tempo" data-tempo="1">1° TEMPO</button>
@@ -1206,8 +1205,7 @@
 
             <!-- PUNTO 2: PUNTEGGIO -->
             <section class="score-section" title="Visualizzazione punteggio, expected goals (xG), expected points (xPts) e performance per squadra">
-                <h2>PUNTEGGIO <span style="font-size: 14px; color: #6b7280; margin-left: 8px;">ℹ</span></h2>
-                
+
                 <div class="score-wrapper">
                     <div class="score-grid">
                         
@@ -1224,6 +1222,7 @@
     <div class="score-box">
         <div class="score-label">IPO</div>
         <div class="score-value-display" id="xg-noi-new">0.00</div>
+
     </div>
     <div class="score-box">
         <div class="score-label">xPts</div>
@@ -1232,6 +1231,7 @@
     <div class="score-box">
         <div class="score-label">xG</div>
         <div class="score-value-display" id="xg-noi-display">0.00</div>
+
     </div>
 </div>
                             
@@ -1256,6 +1256,7 @@
     <div class="score-box">
         <div class="score-label">IRD</div>
         <div class="score-value-display" id="xg-loro-new">0.00</div>
+
     </div>
     <div class="score-box">
         <div class="score-label">xPts</div>
@@ -1278,13 +1279,13 @@
 
 <!-- PUNTO 3: ANALISI TATTICA -->
 <section class="analisi-section" title="Analisi dettagliata delle azioni di gioco suddivise per macrocategorie: finalizzazione, occasioni create, calci d'angolo, punizioni, rimessa laterale ed errori difensivi">
-    <h2>ANALISI TATTICA <span style="font-size: 14px; color: #6b7280; margin-left: 8px;">ℹ</span></h2>
 
     <!-- MACRO CATEGORY: FINALIZZAZIONE -->
     <div class="macro-category">
         <button class="macro-header">
             <span class="macro-title">FINALIZZAZIONE</span>
             <span class="macro-arrow">›</span>
+
         </button>
         <div class="macro-content">
             <div class="micro-header">
@@ -1356,6 +1357,7 @@
         <button class="macro-header">
             <span class="macro-title">OCCASIONI CREATE</span>
             <span class="macro-arrow">›</span>
+
         </button>
         <div class="macro-content">
             <div class="micro-header">
@@ -1413,6 +1415,7 @@
         <button class="macro-header">
             <span class="macro-title">CALCI D'ANGOLO</span>
             <span class="macro-arrow">›</span>
+
         </button>
         <div class="macro-content">
             <div class="micro-header">
@@ -1470,6 +1473,7 @@
         <button class="macro-header">
             <span class="macro-title">PUNIZIONI</span>
             <span class="macro-arrow">›</span>
+
         </button>
         <div class="macro-content">
             <div class="micro-header">
@@ -1541,6 +1545,7 @@
         <button class="macro-header">
             <span class="macro-title">RIMESSA LATERALE</span>
             <span class="macro-arrow">›</span>
+
         </button>
         <div class="macro-content">
             <div class="micro-header">
@@ -1584,6 +1589,7 @@
         <button class="macro-header">
             <span class="macro-title">ERRORI DIFENSIVI</span>
             <span class="macro-arrow">›</span>
+
         </button>
         <div class="macro-content">
             <div class="micro-header">
@@ -1675,7 +1681,8 @@
         possessoLoro: 50,
         possessoAttivo: null, // 'noi' | 'loro' | null
         attackMomentum: new Array(60).fill(0),
-        goalEvents: []
+        goalEvents: [],
+        savedFirstTempoData: null
     };
     // ===== UTILS =====
 function formatPercent(value) {
@@ -1705,6 +1712,7 @@ updatePossessoUI();
             state.timerInterval = setInterval(() => {
                 state.timerSeconds++;
                 updateTimerDisplay();
+                updateAttackMomentumChart(); // Update chart in real-time
             }, 1000);
         }
     });
@@ -1814,7 +1822,7 @@ btnLoro.addEventListener('click', () => {btnLoro.addEventListener('click', () =>
 setInterval(() => {
     if (!state.isRunning || !state.possessoAttivo) return;
 
-    const delta = 0.2; // 0.2% alla volta
+    const delta = 0.4; // 0.4% alla volta
 
     if (state.possessoAttivo === 'noi') {
         state.possessoNoi = Math.min(100, state.possessoNoi + delta);
@@ -1832,48 +1840,118 @@ setInterval(() => {
 
     function updatePossessoUI() {
     document.getElementById('btn-possesso-noi-percentage').textContent =
-        state.possessoNoi.toFixed(2) + '%';
+        state.possessoNoi.toFixed(1) + '%';
     document.getElementById('btn-possesso-loro-percentage').textContent =
-        state.possessoLoro.toFixed(2) + '%';
+        state.possessoLoro.toFixed(1) + '%';
 
     btnNoi.classList.toggle('active', state.possessoAttivo === 'noi');
     btnLoro.classList.toggle('active', state.possessoAttivo === 'loro');
 }
 
 
-    function calculateXG() {
-    let xgNoi = 0;
-    let xgLoro = 0;
+    // ===== CALCOLO xPOINTS CON POISSON =====
+    function poissonPMF(k, lambda) {
+        if (lambda === 0) return k === 0 ? 1 : 0;
+        return Math.exp(-lambda) * Math.pow(lambda, k) / factorial(k);
+    }
 
-    document.querySelectorAll('.micro-stat').forEach(stat => {
-        const item = stat.getAttribute('data-item');
-        const controls = stat.querySelectorAll('.micro-controls');
-
-        if (controls.length >= 2) {
-            const noiVal = parseInt(controls[0].querySelector('.micro-value').textContent) || 0;
-            const loroVal = parseInt(controls[1].querySelector('.micro-value').textContent) || 0;
-
-            // Per le microcategorie: dati tra 0 e 1 (scala decimale)
-            const microXG = parseFloat(stat.getAttribute('data-xg')) || 0;
-            xgNoi += noiVal * microXG;
-            xgLoro += loroVal * microXG;
+    function factorial(n) {
+        if (n <= 1) return 1;
+        let result = 1;
+        for (let i = 2; i <= n; i++) {
+            result *= i;
         }
-    });
+        return result;
+    }
 
-    state.xg.noi = xgNoi;
-    state.xg.loro = xgLoro;
+    function calculateXPoints(teamXG, opponentXG) {
+        const maxGoals = 10;
+        
+        // Calcola probabilità per ogni numero di gol
+        let teamProbs = [];
+        let opponentProbs = [];
+        
+        for (let i = 0; i <= maxGoals; i++) {
+            teamProbs.push(poissonPMF(i, teamXG));
+            opponentProbs.push(poissonPMF(i, opponentXG));
+        }
+        
+        // Calcola probabilità di vittoria, pareggio, sconfitta
+        let pWin = 0, pDraw = 0, pLoss = 0;
+        
+        for (let i = 0; i <= maxGoals; i++) {
+            for (let j = 0; j <= maxGoals; j++) {
+                const prob = teamProbs[i] * opponentProbs[j];
+                
+                if (i > j) pWin += prob;
+                else if (i === j) pDraw += prob;
+                else pLoss += prob;
+            }
+        }
+        
+        // Formula xPoints: (3 × P_vittoria) + (1 × P_pareggio)
+        const xPoints = (3 * pWin) + (1 * pDraw);
+        
+        return xPoints;
+    }
 
-    // IPO e IRD calcolati come xG * 10
-    const ipoNoi = xgNoi * 10;
-    const irdLoro = xgLoro * 10;
+    function calculateXG() {
+        let xgNoi = 0;
+        let xgLoro = 0;
 
-    document.getElementById('xg-noi-new').textContent = ipoNoi.toFixed(2);
-    document.getElementById('xg-loro-new').textContent = irdLoro.toFixed(2);
-    document.getElementById('xg-noi-display').textContent = xgNoi.toFixed(2);
-    document.getElementById('xg-loro-display').textContent = xgLoro.toFixed(2);
-    updatePerformance();
-}
+        document.querySelectorAll('.micro-stat').forEach(stat => {
+            const item = stat.getAttribute('data-item');
+            const controls = stat.querySelectorAll('.micro-controls');
 
+            if (controls.length >= 2) {
+                const noiVal = parseInt(controls[0].querySelector('.micro-value').textContent) || 0;
+                const loroVal = parseInt(controls[1].querySelector('.micro-value').textContent) || 0;
+
+                const microXG = parseFloat(stat.getAttribute('data-xg')) || 0;
+                xgNoi += noiVal * microXG;
+                xgLoro += loroVal * microXG;
+            }
+        });
+
+        state.xg.noi = xgNoi;
+        state.xg.loro = xgLoro;
+
+        const ipoNoi = xgNoi * 10;
+        const irdLoro = xgLoro * 10;
+
+        // Calcola xPoints usando Poisson
+        const xPtsNoi = calculateXPoints(xgNoi, xgLoro);
+        const xPtsLoro = calculateXPoints(xgLoro, xgNoi);
+
+        // Aggiorna display
+        document.getElementById('xg-noi-new').textContent = ipoNoi.toFixed(2);
+        document.getElementById('xg-loro-new').textContent = irdLoro.toFixed(2);
+        document.getElementById('xg-noi-display').textContent = xgNoi.toFixed(2);
+        document.getElementById('xg-loro-display').textContent = xgLoro.toFixed(2);
+        document.getElementById('xpts-noi').textContent = xPtsNoi.toFixed(2);
+        document.getElementById('xpts-loro').textContent = xPtsLoro.toFixed(2);
+        
+        updatePerformance();
+    }
+// ===== PERFORMANCE STATUS =====
+    function updatePerformance() {
+        const golNoi = state.gol.noi;
+        const golLoro = state.gol.loro;
+        const xgNoi = state.xg.noi;
+        const xgLoro = state.xg.loro;
+
+        let perfNoi = "OK";
+        if (golNoi > xgNoi * 1.2) perfNoi = "OVER";
+        if (golNoi < xgNoi * 0.8) perfNoi = "UNDER";
+        
+        document.getElementById('perf-noi').textContent = perfNoi;
+
+        let perfLoro = "OK";
+        if (golLoro > xgLoro * 1.2) perfLoro = "OVER";
+        if (golLoro < xgLoro * 0.8) perfLoro = "UNDER";
+        
+        document.getElementById('perf-loro').textContent = perfLoro;
+    }
     // ===== MICRO STATS EVENT LISTENERS =====
     document.querySelectorAll('.micro-stat').forEach(stat => {
         const controls = stat.querySelectorAll('.micro-controls');
@@ -2127,7 +2205,6 @@ setInterval(() => {
 </script>
 <!-- PUNTO 5: ATTACK MOMENTUM -->
 <section class="attack-momentum-section" title="Grafico dell'attacco momentum: visualizzazione dinamica del flusso offensivo per minuto, con indicazione dei gol segnati dalle squadre">
-    <h2>ATTACK MOMENTUM <span style="font-size: 14px; color: #6b7280; margin-left: 8px;">ℹ</span></h2>
     <div class="analysis-block">
         <div class="canvas-wrapper">
             <canvas id="attackMomentumChart" width="800" height="400"></canvas>
@@ -2139,19 +2216,13 @@ setInterval(() => {
 <section class="grafici-section" title="Analisi grafica della partita: piano cartesiano IPO-IRD vs possesso palla e grafico radar delle macrocategorie, con possibilità di esportazione PDF">
     <h2>ANALISI GRAFICA <span style="font-size: 14px; color: #6b7280; margin-left: 8px;">ℹ</span></h2>
     
-    <!-- Bottone Download PDF -->
-    <div style="text-align: center; margin-bottom: 40px;">
-        <button class="btn btn-start" id="btn-download-pdf" style="padding: 14px 28px; font-size: 13px;">
-            SCARICA PDF
-        </button>
-    </div>
+
 
     <!-- Container Grafici -->
     <div class="grafici-grid">
         
         <!-- Piano Cartesiano -->
         <div class="analysis-block">
-            <h3>PIANO CARTESIANO - IPO-IRD vs POSSESSO</h3>
             <div class="canvas-wrapper">
                 <canvas id="pianoCartesianoCanvas" width="500" height="500"></canvas>
             </div>
@@ -2159,7 +2230,6 @@ setInterval(() => {
 
         <!-- Grafico Radar -->
         <div class="analysis-block">
-            <h3>GRAFICO RADAR - MACROCATEGORIE</h3>
             <div class="canvas-wrapper">
                 <canvas id="radarCanvas" width="500" height="500"></canvas>
             </div>
@@ -2172,6 +2242,8 @@ setInterval(() => {
 <script>
 // ===== FUNZIONI CALCOLO MACROCATEGORIE =====
 function getMacrocategoryStats() {
+        'OCCASIONI CREATE': ['occasione-non-realizzata', 'azione-potenziale', 'transizione-offensiva'],
+        'CALCI D\'ANGOLO': ['angolo-corto', 'angolo-sviluppato', 'angolo-tiro'],
     const macros = {
         'FINALIZZAZIONE': ['rete-realizzata', 'tiro-specchio', 'tiro-non-specchio-area', 'tiro-non-specchio-fuori'],
         'OCCASIONI CREATE': ['occasione-non-realizzata', 'azione-potenziale', 'transizione-offensiva'],
@@ -2602,24 +2674,13 @@ function initAttackMomentumChart() {
         labels: Array.from({length: 60}, (_, i) => i + 1),
         datasets: [
             {
-                label: 'NOI',
-                data: state.attackMomentum.map(val => val > 0 ? 1 : 0),
-                backgroundColor: 'rgba(5, 150, 105, 0.8)',
-                borderColor: '#059669',
-                borderWidth: 2,
-                fill: true,
-                pointRadius: 0,
-                pointHoverRadius: 0
-            },
-            {
-                label: 'LORO',
-                data: state.attackMomentum.map(val => val < 0 ? -1 : 0),
-                backgroundColor: 'rgba(220, 38, 38, 0.8)',
-                borderColor: '#dc2626',
-                borderWidth: 2,
-                fill: true,
-                pointRadius: 0,
-                pointHoverRadius: 0
+                label: 'Attack Momentum',
+                data: state.attackMomentum,
+                backgroundColor: function(context) {
+                    const value = context.parsed.y;
+                    return value >= 0 ? 'rgba(5, 150, 105, 0.8)' : 'rgba(220, 38, 38, 0.8)';
+                },
+                borderWidth: 0
             },
             {
                 label: 'Gol NOI',
@@ -2627,8 +2688,8 @@ function initAttackMomentumChart() {
                 backgroundColor: '#059669',
                 borderColor: '#ffffff',
                 borderWidth: 2,
-                pointStyle: 'circle',
-                pointRadius: 8,
+                pointStyle: '⚽',
+                pointRadius: 12,
                 showLine: false
             },
             {
@@ -2637,15 +2698,15 @@ function initAttackMomentumChart() {
                 backgroundColor: '#dc2626',
                 borderColor: '#ffffff',
                 borderWidth: 2,
-                pointStyle: 'circle',
-                pointRadius: 8,
+                pointStyle: '⚽',
+                pointRadius: 12,
                 showLine: false
             }
         ]
     };
 
     const config = {
-        type: 'line',
+        type: 'bar',
         data: data,
         options: {
             responsive: true,
@@ -2662,8 +2723,8 @@ function initAttackMomentumChart() {
                 tooltip: {
                     callbacks: {
                         label: function(context) {
-                            if (context.datasetIndex < 2) {
-                                return `${context.dataset.label}: ${context.parsed.y}`;
+                            if (context.datasetIndex === 0) {
+                                return `Momentum: ${context.parsed.y}`;
                             } else {
                                 return `Gol ${context.dataset.label.split(' ')[1]} al minuto ${context.parsed.x}`;
                             }
@@ -2688,7 +2749,9 @@ function initAttackMomentumChart() {
                         display: true,
                         text: 'Momentum'
                     },
-                    beginAtZero: true
+                    suggestedMin: -20,
+                    suggestedMax: 20,
+                    beginAtZero: false
                 }
             },
             interaction: {
@@ -2704,10 +2767,9 @@ function initAttackMomentumChart() {
 function updateAttackMomentumChart() {
     if (!attackMomentumChart) return;
 
-    attackMomentumChart.data.datasets[0].data = state.attackMomentum.map(val => val > 0 ? val : 0);
-    attackMomentumChart.data.datasets[1].data = state.attackMomentum.map(val => val < 0 ? val : 0);
-    attackMomentumChart.data.datasets[2].data = state.goalEvents.filter(g => g.team === 'noi').map(g => ({x: g.minute + 1, y: state.attackMomentum[g.minute] || 0}));
-    attackMomentumChart.data.datasets[3].data = state.goalEvents.filter(g => g.team === 'loro').map(g => ({x: g.minute + 1, y: state.attackMomentum[g.minute] || 0}));
+    attackMomentumChart.data.datasets[0].data = state.attackMomentum;
+    attackMomentumChart.data.datasets[1].data = state.goalEvents.filter(g => g.team === 'noi').map(g => ({x: g.minute + 1, y: state.attackMomentum[g.minute] || 0}));
+    attackMomentumChart.data.datasets[2].data = state.goalEvents.filter(g => g.team === 'loro').map(g => ({x: g.minute + 1, y: state.attackMomentum[g.minute] || 0}));
 
     attackMomentumChart.update();
 }
@@ -2768,69 +2830,6 @@ document.addEventListener('DOMContentLoaded', () => {
         height: auto !important;
     }
 }
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Attack Momentum</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    #chart-container
-      width: 90%;
-      max-width: 800px;
-      margin: 50px auto;
-
-  </style>
-</head>
-<body>
-  <div id="chart-container">
-    <canvas id="attackMomentumChart"></canvas>
-  </div>
-  <script src="app.js"></script>
-</body>
-</html>
-const ctx = document.getElementById('attackMomentumChart').getContext('2d');
-
-// Dati esempio: positivo = squadra 1, negativo = squadra 2
-const data = {
-    labels: Array.from({length: 60}, (_, i) => i+1), // minuti di gioco
-    datasets: [
-        {
-            label: 'NOI
-            data: [2,3,5,6,3,7,4,2,6,7, ...], // dati reali qui
-            backgroundColor: 'rgba(0,200,0,0.7)',
-        },
-        {
-            label: 'LORO',
-            data: [-1,-2,-3,-2,-5,-3,...], // dati negativi per "sotto"
-            backgroundColor: 'rgba(0,0,200,0.7)',
-        }
-    ]
-};
-
-const config = {
-    type: 'bar',
-    data: data,
-    options: {
-        responsive: true,
-        plugins: {
-            legend: { display: false },
-        },
-        scales: {
-            x: {
-                stacked: true,
-                title: { display: true, text: 'Minuto' }
-            },
-            y: {
-                stacked: false,
-                beginAtZero: true
-            }
-        }
-    }
-};
-
-const attackMomentumChart = new Chart(ctx, config);
-
 </style>
 </body>
 </html>
-
