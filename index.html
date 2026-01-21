@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+Miglioramenti UX mobile: Pulsanti flottanti per azioni rapide, layout adattivo per schermi piccoli.<!DOCTYPE html>
 <html lang="it">
 <head>
     <link rel="stylesheet" href="apple-style.css">
@@ -976,6 +976,7 @@
     .score-box {
         padding: 10px 12px !important;
     }
+}
 
         /* ===== MATCH INFO SECTION ===== */
         .match-info-section {
@@ -1041,102 +1042,305 @@
             padding-right: 36px;
         }
 
-        /* Mobile: Micro Stats - Layout verticale con label sopra controlli */
-@media (max-width: 768px) {
-    .micro-header {
-        display: none; /* Nascondi header AZIONI/NOI/LORO */
+    /* ===== TAB NAVIGATION ===== */
+    .tab-navigation {
+        display: flex;
+        justify-content: center;
+        background: #ffffff;
+        border-bottom: 1px solid #e5e7eb;
+        padding: 0 48px;
     }
 
-    .micro-stat {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
+    .tab-button {
         padding: 16px 24px;
-    }
-
-    .micro-label {
         font-size: 13px;
-        color: #374151;
         font-weight: 500;
-        margin-bottom: 8px;
-    }
-
-    .micro-controls {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    /* Wrapper per NOI e LORO allineati orizzontalmente */
-    .micro-stat > .micro-controls {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-        margin-top: 8px;
-    }
-
-    /* Label "NOI" e "LORO" sopra i controlli */
-    .micro-controls::before {
-        content: attr(data-team);
-        font-size: 10px;
-        font-weight: 600;
+        border: none;
+        background: #ffffff;
         color: #6b7280;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        border-bottom: 2px solid transparent;
         text-transform: uppercase;
-        letter-spacing: 0.8px;
-        text-align: center;
-        grid-column: 1;
+        letter-spacing: 0.5px;
     }
 
-    .micro-controls:last-of-type::before {
-        grid-column: 2;
+    .tab-button.active {
+        color: #1a1a1a;
+        border-bottom-color: #1a1a1a;
     }
 
-    .micro-controls {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
+    .tab-button:hover {
+        color: #1a1a1a;
+        background: #f9fafb;
     }
-/* Mobile: Micro Stats - Layout orizzontale compatto */
-@media (max-width: 768px) {
-    .micro-stat {
+
+    .tab-content {
+        display: none;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+
+    @media (max-width: 768px) {
+        .tab-navigation {
+            padding: 0 24px;
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            white-space: nowrap;
+            padding: 12px 16px;
+            font-size: 12px;
+        }
+    }
+
+    /* ===== FLOATING ACTION BUTTONS ===== */
+    .fab-container {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 1000;
         display: flex;
         flex-direction: column;
         gap: 12px;
-        padding: 16px 20px;
     }
 
-    .micro-label {
-        font-size: 12px;
-        color: #374151;
-        font-weight: 500;
-        margin-bottom: 8px;
-    }
-
-    .micro-stat > div:not(.micro-label) {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-    }
-
-    .micro-controls {
+    .fab-main {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: #1a1a1a;
+        border: none;
+        color: #ffffff;
+        font-size: 24px;
+        cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .fab-main:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .fab-main:active {
+        transform: scale(0.95);
+    }
+
+    .fab-menu {
+        display: flex;
+        flex-direction: column;
         gap: 8px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.3s ease;
+        pointer-events: none;
     }
 
-    .micro-btn {
-        width: 28px;
-        height: 28px;
-        font-size: 14px;
+    .fab-container.open .fab-menu {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
     }
 
-    .micro-value {
-        font-size: 14px;
-        min-width: 20px;
+    .fab-item {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: none;
+        color: #ffffff;
+        font-size: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        transition: all 0.2s ease;
+        position: relative;
     }
-}
+
+    .fab-item:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .fab-item:active {
+        transform: scale(0.95);
+    }
+
+    .fab-item.tooltip::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        right: 60px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #1a1a1a;
+        color: #ffffff;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+        z-index: 1001;
+    }
+
+    .fab-item.tooltip:hover::after {
+        opacity: 1;
+    }
+
+    .fab-timer {
+        background: #059669;
+    }
+
+    .fab-goal-noi {
+        background: #1a1a1a;
+    }
+
+    .fab-goal-loro {
+        background: #dc2626;
+    }
+
+    .fab-possesso {
+        background: #7c3aed;
+    }
+
+    /* Mobile: Adjust FAB position and size */
+    @media (max-width: 768px) {
+        .fab-container {
+            bottom: 16px;
+            right: 16px;
+        }
+
+        .fab-main {
+            width: 48px;
+            height: 48px;
+            font-size: 20px;
+        }
+
+        .fab-item {
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+        }
+
+        .fab-item.tooltip::after {
+            display: none; /* Hide tooltips on mobile */
+        }
+    }
+
+    /* Hide FAB on very small screens or when keyboard is open */
+    @media (max-width: 480px) {
+        .fab-container {
+            display: none;
+        }
+    }
+
+        /* Mobile: Micro Stats - Layout verticale con label sopra controlli */
+        @media (max-width: 768px) {
+            .micro-header {
+                display: none; /* Nascondi header AZIONI/NOI/LORO */
+            }
+
+            .micro-stat {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+                padding: 16px 24px;
+            }
+
+            .micro-label {
+                font-size: 13px;
+                color: #374151;
+                font-weight: 500;
+                margin-bottom: 8px;
+            }
+
+            .micro-controls {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            /* Wrapper per NOI e LORO allineati orizzontalmente */
+            .micro-stat > .micro-controls {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+                margin-top: 8px;
+            }
+
+            /* Label "NOI" e "LORO" sopra i controlli */
+            .micro-controls::before {
+                content: attr(data-team);
+                font-size: 10px;
+                font-weight: 600;
+                color: #6b7280;
+                text-transform: uppercase;
+                letter-spacing: 0.8px;
+                text-align: center;
+                grid-column: 1;
+            }
+
+            .micro-controls:last-of-type::before {
+                grid-column: 2;
+            }
+
+            .micro-controls {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 12px;
+            }
+        }
+
+        /* Mobile: Micro Stats - Layout orizzontale compatto */
+        @media (max-width: 768px) {
+            .micro-stat {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                padding: 16px 20px;
+            }
+
+            .micro-label {
+                font-size: 12px;
+                color: #374151;
+                font-weight: 500;
+                margin-bottom: 8px;
+            }
+
+            .micro-stat > div:not(.micro-label) {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .micro-controls {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .micro-btn {
+                width: 28px;
+                height: 28px;
+                font-size: 14px;
+            }
+
+            .micro-value {
+                font-size: 14px;
+                min-width: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1169,16 +1373,26 @@
             </div>
         </section>
 
+        <!-- Tab Navigation -->
+        <div class="tab-navigation" id="tab-navigation">
+            <button class="tab-button active" data-tab="tempo">TEMPO</button>
+            <button class="tab-button" data-tab="punteggio">PUNTEGGIO</button>
+            <button class="tab-button" data-tab="analisi">ANALISI</button>
+            <button class="tab-button" data-tab="grafici">GRAFICI</button>
+        </div>
+
         <main>
             <!-- PUNTO 1: TEMPO -->
-            <section class="tempo-section" title="Controllo del tempo di gioco: cronometro digitale, selezione primo/secondo tempo, e gestione del possesso palla con progressione automatica">
-                
+            <div class="tab-content active" data-tab="tempo">
+            <section class="tempo-section swipe-area" title="Controllo del tempo di gioco: cronometro digitale, selezione primo/secondo tempo, e gestione del possesso palla con progressione automatica">
+
                 <div class="tempo-indicators">
                     <button class="tempo-btn active" id="primo-tempo" data-tempo="1">1° TEMPO</button>
                     <button class="tempo-btn" id="secondo-tempo" data-tempo="2">2° TEMPO</button>
                 </div>
 
-                <div class="cronometro">
+                <div class="cronometro swipe-area">
+                    <div class="swipe-hint">👆👇 Swipe per start/stop</div>
                     <div class="timer-display" id="timer-display">00:00</div>
                     <div class="timer-controls">
                         <button class="btn btn-start" id="btn-start">START</button>
@@ -1187,9 +1401,10 @@
                     </div>
                 </div>
 
-                <div class="possesso-container">
+                <div class="possesso-container swipe-area">
+                    <div class="swipe-hint">👈👉 Swipe per cambio possesso</div>
                     <h3>POSSESSO PALLA</h3>
-                    
+
                     <div class="possesso-controls">
                         <button class="btn-possesso btn-noi" id="btn-possesso-noi">
                             <span class="team-label">NOI</span>
@@ -1202,21 +1417,23 @@
                     </div>
                 </div>
             </section>
+            </div>
 
             <!-- PUNTO 2: PUNTEGGIO -->
+            <div class="tab-content" data-tab="punteggio">
             <section class="score-section" title="Visualizzazione punteggio, expected goals (xG), expected points (xPts) e performance per squadra">
 
                 <div class="score-wrapper">
                     <div class="score-grid">
-                        
+
                         <!-- NOI -->
                         <div class="score-team">
                             <h3>NOI</h3>
-                            
+
                             <div class="score-controls">
                                 <span class="gol-value" id="gol-noi-new">0</span>
                             </div>
-                            
+
                             <!-- xG e xPts -->
                             <div class="score-boxes">
     <div class="score-box">
@@ -1234,23 +1451,23 @@
 
     </div>
 </div>
-                            
+
                             <div class="score-performance">
                                 <span id="perf-noi">OK</span>
                             </div>
                         </div>
-                        
+
                         <!-- VS -->
                         <div class="score-vs">VS</div>
-                        
+
                         <!-- LORO -->
                         <div class="score-team">
                             <h3>LORO</h3>
-                            
+
                             <div class="score-controls">
                                 <span class="gol-value" id="gol-loro-new">0</span>
                             </div>
-                            
+
                             <!-- xG e xPts -->
                            <div class="score-boxes">
     <div class="score-box">
@@ -1267,7 +1484,7 @@
         <div class="score-value-display" id="xg-loro-display">0.00</div>
     </div>
 </div>
-                            
+
                             <div class="score-performance">
                                 <span id="perf-loro">OK</span>
                             </div>
@@ -1275,9 +1492,11 @@
                     </div>
                 </div>
             </section>
+            </div>
             <!-- BLOCCO 2: HTML Content (Match Info + Sezioni principali) -->
 
 <!-- PUNTO 3: ANALISI TATTICA -->
+<div class="tab-content" data-tab="analisi">
 <section class="analisi-section" title="Analisi dettagliata delle azioni di gioco suddivise per macrocategorie: finalizzazione, occasioni create, calci d'angolo, punizioni, rimessa laterale ed errori difensivi">
 
     <!-- MACRO CATEGORY: FINALIZZAZIONE -->
@@ -1682,7 +1901,8 @@
         possessoAttivo: null, // 'noi' | 'loro' | null
         attackMomentum: new Array(60).fill(0),
         goalEvents: [],
-        savedFirstTempoData: null
+        firstTempo: null,
+        secondTempo: null
     };
     // ===== UTILS =====
 function formatPercent(value) {
@@ -1767,58 +1987,121 @@ updatePossessoUI();
             }, 300);
         }
     });
-    // ===== TEMPO SWITCH =====
+// ===== TEMPO SWITCH =====
     document.getElementById('primo-tempo').addEventListener('click', () => {
         state.currentTempo = 1;
         document.querySelectorAll('.tempo-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById('primo-tempo').classList.add('active');
+        if (!state.isRunning) {
+            // reset data
+            state.timerSeconds = 0;
+            updateTimerDisplay();
+            state.gol.noi = 0;
+            state.gol.loro = 0;
+            state.xg.noi = 0;
+            state.xg.loro = 0;
+            document.getElementById('gol-noi-new').textContent = '0';
+            document.getElementById('gol-loro-new').textContent = '0';
+            document.getElementById('xg-noi-new').textContent = '0.00';
+            document.getElementById('xg-loro-new').textContent = '0.00';
+            document.querySelectorAll('.micro-value').forEach(val => val.textContent = '0');
+            state.possessoNoi = 50;
+            state.possessoLoro = 50;
+            state.possessoAttivo = null;
+            updatePossessoUI();
+            state.attackMomentum = new Array(60).fill(0);
+            state.goalEvents = [];
+            // start timer
+            state.isRunning = true;
+            document.getElementById('btn-start').disabled = true;
+            document.getElementById('btn-pause').disabled = false;
+            document.getElementById('btn-stop').disabled = false;
+            state.timerInterval = setInterval(() => {
+                state.timerSeconds++;
+                updateTimerDisplay();
+                updateAttackMomentumChart();
+            }, 1000);
+        }
     });
 
     document.getElementById('secondo-tempo').addEventListener('click', () => {
+        if (state.firstTempo === null) {
+            // save first tempo data
+            state.firstTempo = {
+                gol: {...state.gol},
+                xg: {...state.xg},
+                stats: {},
+                timerSeconds: state.timerSeconds,
+                possessoNoi: state.possessoNoi,
+                possessoLoro: state.possessoLoro,
+                attackMomentum: [...state.attackMomentum],
+                goalEvents: [...state.goalEvents]
+            };
+            // collect stats
+            document.querySelectorAll('.micro-stat').forEach(stat => {
+                const item = stat.getAttribute('data-item');
+                const controls = stat.querySelectorAll('.micro-controls');
+                if (controls.length >= 2) {
+                    state.firstTempo.stats[item] = {
+                        noi: parseInt(controls[0].querySelector('.micro-value').textContent) || 0,
+                        loro: parseInt(controls[1].querySelector('.micro-value').textContent) || 0
+                    };
+                }
+            });
+        }
         state.currentTempo = 2;
         document.querySelectorAll('.tempo-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById('secondo-tempo').classList.add('active');
+        // reset for second tempo
+        state.timerSeconds = 1800; // 30 minutes
+        updateTimerDisplay();
+        state.gol.noi = 0;
+        state.gol.loro = 0;
+        state.xg.noi = 0;
+        state.xg.loro = 0;
+        document.getElementById('gol-noi-new').textContent = '0';
+        document.getElementById('gol-loro-new').textContent = '0';
+        document.getElementById('xg-noi-new').textContent = '0.00';
+        document.getElementById('xg-loro-new').textContent = '0.00';
+        document.querySelectorAll('.micro-value').forEach(val => val.textContent = '0');
+        state.possessoNoi = 50;
+        state.possessoLoro = 50;
+        state.possessoAttivo = null;
+        updatePossessoUI();
+        state.attackMomentum = new Array(60).fill(0);
+        state.goalEvents = [];
+        // do not start timer automatically, user must press start
     });
 
     // ===== POSSESSO PALLA =====
-   const btnNoi = document.getElementById('btn-possesso-noi');
-const btnLoro = document.getElementById('btn-possesso-loro');
+    const btnNoi = document.getElementById('btn-possesso-noi');
+    const btnLoro = document.getElementById('btn-possesso-loro');
 
-btnNoi.addEventListener('click', () => {btnNoi.addEventListener('click', () => {
-    if (!state.isRunning) return;
+    btnNoi.addEventListener('click', () => {
+        if (!state.isRunning) return;
 
-    // PRIMO POSSESSO DOPO START
-    if (state.possessoAttivo === null) {
-        state.possessoNoi = 50;
-        state.possessoLoro = 0;
-    }
+        // PRIMO POSSESSO DOPO START
+        if (state.possessoAttivo === null) {
+            state.possessoNoi = 50;
+            state.possessoLoro = 0;
+        }
 
-    state.possessoAttivo = 'noi';
-    updatePossessoUI();
-});
+        state.possessoAttivo = 'noi';
+        updatePossessoUI();
+    });
 
-    if (!state.isRunning) return;
-    state.possessoAttivo = 'noi';
-    updatePossessoUI();
-});
+    btnLoro.addEventListener('click', () => {
+        if (!state.isRunning) return;
 
-btnLoro.addEventListener('click', () => {btnLoro.addEventListener('click', () => {
-    if (!state.isRunning) return;
+        // PRIMO POSSESSO DOPO START
+        if (state.possessoAttivo === null) {
+            state.possessoNoi = 50;
+            state.possessoLoro = 0;
+        }
 
-    // PRIMO POSSESSO DOPO START
-    if (state.possessoAttivo === null) {
-        state.possessoNoi = 50;
-        state.possessoLoro = 0;
-    }
-
-    state.possessoAttivo = 'loro';
-    updatePossessoUI();
-});
-
-    if (!state.isRunning) return;
-    state.possessoAttivo = 'loro';
-    updatePossessoUI();
-});
+        state.possessoAttivo = 'loro';
+        updatePossessoUI();
+    });
 setInterval(() => {
     if (!state.isRunning || !state.possessoAttivo) return;
 
@@ -2048,6 +2331,7 @@ setInterval(() => {
 <script>
     // ===== LOCAL STORAGE =====
     const STORAGE_KEY = 'ipoird-match-data';
+    const MATCHES_KEY = 'ipoird-saved-matches';
 
     function saveMatchData() {
         const matchData = {
@@ -2061,14 +2345,16 @@ setInterval(() => {
                 noi: state.possessoNoi,
                 loro: state.possessoLoro
             },
-            stats: {}
+            stats: {},
+            firstTempo: state.firstTempo,
+            secondTempo: state.secondTempo
         };
 
         // Raccogli tutti gli stats
         document.querySelectorAll('.micro-stat').forEach(stat => {
             const item = stat.getAttribute('data-item');
             const controls = stat.querySelectorAll('.micro-controls');
-            
+
             if (controls.length >= 2) {
                 matchData.stats[item] = {
                     noi: parseInt(controls[0].querySelector('.micro-value').textContent) || 0,
@@ -2086,6 +2372,70 @@ setInterval(() => {
 
         localStorage.setItem(STORAGE_KEY, JSON.stringify(matchData));
         console.log('✓ Dati salvati');
+    }
+
+    function saveCompletedMatch() {
+        if (!confirm('Vuoi salvare questa partita completata per il confronto?')) return;
+
+        const matchData = {
+            id: Date.now(),
+            avversario: document.getElementById('avversario').value || 'Sconosciuto',
+            data: document.getElementById('data-partita').value || new Date().toISOString().split('T')[0],
+            posizione: document.getElementById('posizione-partita').value || 'N/A',
+            gol: {
+                noi: (state.firstTempo ? state.firstTempo.gol.noi : 0) + state.gol.noi,
+                loro: (state.firstTempo ? state.firstTempo.gol.loro : 0) + state.gol.loro
+            },
+            xg: {
+                noi: (state.firstTempo ? state.firstTempo.xg.noi : 0) + state.xg.noi,
+                loro: (state.firstTempo ? state.firstTempo.xg.loro : 0) + state.xg.loro
+            },
+            possesso: {
+                noi: (state.firstTempo ? (state.firstTempo.possessoNoi + state.possessoNoi) / 2 : state.possessoNoi),
+                loro: (state.firstTempo ? (state.firstTempo.possessoLoro + state.possessoLoro) / 2 : state.possessoLoro)
+            },
+            stats: {},
+            firstTempo: state.firstTempo,
+            secondTempo: state.secondTempo,
+            savedAt: new Date().toISOString()
+        };
+
+        // Raccogli tutti gli stats totali
+        document.querySelectorAll('.micro-stat').forEach(stat => {
+            const item = stat.getAttribute('data-item');
+            const controls = stat.querySelectorAll('.micro-controls');
+
+            if (controls.length >= 2) {
+                const noiVal = parseInt(controls[0].querySelector('.micro-value').textContent) || 0;
+                const loroVal = parseInt(controls[1].querySelector('.micro-value').textContent) || 0;
+
+                // Aggiungi stats del primo tempo se esistono
+                if (state.firstTempo && state.firstTempo.stats[item]) {
+                    noiVal += state.firstTempo.stats[item].noi;
+                    loroVal += state.firstTempo.stats[item].loro;
+                }
+
+                matchData.stats[item] = {
+                    noi: noiVal,
+                    loro: loroVal
+                };
+            }
+        });
+
+        // Carica partite esistenti
+        const savedMatches = JSON.parse(localStorage.getItem(MATCHES_KEY) || '[]');
+
+        // Aggiungi nuova partita
+        savedMatches.push(matchData);
+
+        // Mantieni solo le ultime 20 partite
+        if (savedMatches.length > 20) {
+            savedMatches.shift();
+        }
+
+        localStorage.setItem(MATCHES_KEY, JSON.stringify(savedMatches));
+        alert('Partita salvata per il confronto!');
+        console.log('✓ Partita salvata per confronto');
     }
 
     function loadMatchData() {
@@ -2213,14 +2563,15 @@ setInterval(() => {
 </section>
 
 <!-- PUNTO 6: GRAFICI E ESPORTAZIONE PDF -->
+<div class="tab-content" data-tab="grafici">
 <section class="grafici-section" title="Analisi grafica della partita: piano cartesiano IPO-IRD vs possesso palla e grafico radar delle macrocategorie, con possibilità di esportazione PDF">
     <h2>ANALISI GRAFICA <span style="font-size: 14px; color: #6b7280; margin-left: 8px;">ℹ</span></h2>
-    
+
 
 
     <!-- Container Grafici -->
     <div class="grafici-grid">
-        
+
         <!-- Piano Cartesiano -->
         <div class="analysis-block">
             <div class="canvas-wrapper">
@@ -2235,15 +2586,21 @@ setInterval(() => {
             </div>
         </div>
     </div>
+
+    <!-- Pulsanti esportazione -->
+    <div class="export-controls" style="display: flex; gap: 16px; justify-content: center; margin-top: 32px;">
+        <button class="btn" id="btn-save-match" style="background: #059669; color: white; border-color: #059669;">💾 SALVA PARTITA</button>
+        <button class="btn" id="btn-download-pdf">📄 ESPORTA PDF</button>
+        <button class="btn" id="btn-show-comparison" style="background: #7c3aed; color: white; border-color: #7c3aed;">📊 CONFRONTA PARTITE</button>
+    </div>
 </section>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
 // ===== FUNZIONI CALCOLO MACROCATEGORIE =====
 function getMacrocategoryStats() {
-        'OCCASIONI CREATE': ['occasione-non-realizzata', 'azione-potenziale', 'transizione-offensiva'],
-        'CALCI D\'ANGOLO': ['angolo-corto', 'angolo-sviluppato', 'angolo-tiro'],
     const macros = {
         'FINALIZZAZIONE': ['rete-realizzata', 'tiro-specchio', 'tiro-non-specchio-area', 'tiro-non-specchio-fuori'],
         'OCCASIONI CREATE': ['occasione-non-realizzata', 'azione-potenziale', 'transizione-offensiva'],
@@ -2592,26 +2949,63 @@ async function generatePDF() {
     const posizione = document.getElementById('posizione-partita').value || 'N/A';
     pdf.text(`Data: ${data} | Posizione: ${posizione.toUpperCase()}`, 105, 28, { align: 'center' });
 
-    // PUNTEGGIO
+    let yPos = 45;
+
+    // PRIMO TEMPO
+    if (state.firstTempo) {
+        pdf.setFontSize(14);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text('PRIMO TEMPO', 20, yPos);
+        yPos += 10;
+
+        pdf.setFontSize(11);
+        pdf.setFont('helvetica', 'normal');
+        pdf.text(`NOI: ${state.firstTempo.gol.noi} gol | IPO: ${state.firstTempo.xg.noi.toFixed(2)}`, 20, yPos);
+        pdf.text(`LORO: ${state.firstTempo.gol.loro} gol | IRD: ${state.firstTempo.xg.loro.toFixed(2)}`, 20, yPos + 7);
+        pdf.text(`Possesso Palla: NOI ${state.firstTempo.possessoNoi.toFixed(1)}% - LORO ${state.firstTempo.possessoLoro.toFixed(1)}%`, 20, yPos + 14);
+        yPos += 25;
+    }
+
+    // SECONDO TEMPO
     pdf.setFontSize(14);
     pdf.setFont('helvetica', 'bold');
-    pdf.text('PUNTEGGIO', 20, 45);
-    
+    pdf.text('SECONDO TEMPO', 20, yPos);
+    yPos += 10;
+
     pdf.setFontSize(11);
     pdf.setFont('helvetica', 'normal');
-    pdf.text(`NOI: ${state.gol.noi} gol | IPO: ${state.xg.noi.toFixed(2)}`, 20, 52);
-    pdf.text(`LORO: ${state.gol.loro} gol | IRD: ${state.xg.loro.toFixed(2)}`, 20, 59);
-    pdf.text(`Possesso Palla: NOI ${state.possessoNoi}% - LORO ${state.possessoLoro}%`, 20, 66);
+    pdf.text(`NOI: ${state.gol.noi} gol | IPO: ${state.xg.noi.toFixed(2)}`, 20, yPos);
+    pdf.text(`LORO: ${state.gol.loro} gol | IRD: ${state.xg.loro.toFixed(2)}`, 20, yPos + 7);
+    pdf.text(`Possesso Palla: NOI ${state.possessoNoi.toFixed(1)}% - LORO ${state.possessoLoro.toFixed(1)}%`, 20, yPos + 14);
+    yPos += 25;
+
+    // TOTALE PARTITA
+    pdf.setFontSize(14);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('TOTALE PARTITA', 20, yPos);
+    yPos += 10;
+
+    const totalGolNoi = (state.firstTempo ? state.firstTempo.gol.noi : 0) + state.gol.noi;
+    const totalGolLoro = (state.firstTempo ? state.firstTempo.gol.loro : 0) + state.gol.loro;
+    const totalXGNoi = (state.firstTempo ? state.firstTempo.xg.noi : 0) + state.xg.noi;
+    const totalXGLoro = (state.firstTempo ? state.firstTempo.xg.loro : 0) + state.xg.loro;
+    const avgPossessoNoi = (state.firstTempo ? (state.firstTempo.possessoNoi + state.possessoNoi) / 2 : state.possessoNoi);
+    const avgPossessoLoro = (state.firstTempo ? (state.firstTempo.possessoLoro + state.possessoLoro) / 2 : state.possessoLoro);
+
+    pdf.setFontSize(11);
+    pdf.setFont('helvetica', 'normal');
+    pdf.text(`NOI: ${totalGolNoi} gol | IPO: ${totalXGNoi.toFixed(2)}`, 20, yPos);
+    pdf.text(`LORO: ${totalGolLoro} gol | IRD: ${totalXGLoro.toFixed(2)}`, 20, yPos + 7);
+    pdf.text(`Possesso Palla Medio: NOI ${avgPossessoNoi.toFixed(1)}% - LORO ${avgPossessoLoro.toFixed(1)}%`, 20, yPos + 14);
+    yPos += 25;
 
     // MACROCATEGORIE
-    const macroStats = getMacrocategoryStats();
-    let yPos = 80;
-    
     pdf.setFontSize(14);
     pdf.setFont('helvetica', 'bold');
     pdf.text('STATISTICHE MACROCATEGORIE', 20, yPos);
     yPos += 10;
 
+    const macroStats = getMacrocategoryStats();
     pdf.setFontSize(9);
     pdf.setFont('helvetica', 'normal');
 
@@ -2624,7 +3018,7 @@ async function generatePDF() {
 
     // GRAFICI
     yPos += 10;
-    
+
     // Piano Cartesiano
     const cartesianoCanvas = document.getElementById('pianoCartesianoCanvas');
     const cartesianoImg = cartesianoCanvas.toDataURL('image/png');
@@ -2831,5 +3225,209 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 }
 </style>
+<script>
+// ===== TAB NAVIGATION =====
+document.addEventListener('DOMContentLoaded', () => {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const tabName = button.getAttribute('data-tab');
+
+            // Remove active class from all buttons
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Add active class to clicked button
+            button.classList.add('active');
+
+            // Hide all tab contents
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            // Show the corresponding tab content
+            const activeContent = document.querySelector(`.tab-content[data-tab="${tabName}"]`);
+            if (activeContent) {
+                activeContent.classList.add('active');
+            }
+        });
+    });
+});
+
+// ===== FLOATING ACTION BUTTONS =====
+document.addEventListener('DOMContentLoaded', () => {
+    const fabContainer = document.getElementById('fab-container');
+    const fabMain = document.getElementById('fab-main');
+    const fabTimer = document.getElementById('fab-timer');
+    const fabGoalNoi = document.getElementById('fab-goal-noi');
+    const fabGoalLoro = document.getElementById('fab-goal-loro');
+    const fabPossesso = document.getElementById('fab-possesso');
+
+    // Toggle FAB menu
+    fabMain.addEventListener('click', () => {
+        fabContainer.classList.toggle('open');
+    });
+
+    // Close FAB menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!fabContainer.contains(e.target)) {
+            fabContainer.classList.remove('open');
+        }
+    });
+
+    // FAB Timer action
+    fabTimer.addEventListener('click', () => {
+        if (state.isRunning) {
+            // Stop timer
+            state.isRunning = false;
+            clearInterval(state.timerInterval);
+            document.getElementById('btn-start').disabled = false;
+            document.getElementById('btn-pause').disabled = true;
+            document.getElementById('btn-stop').disabled = true;
+        } else {
+            // Start timer
+            state.isRunning = true;
+            document.getElementById('btn-start').disabled = true;
+            document.getElementById('btn-pause').disabled = false;
+            document.getElementById('btn-stop').disabled = false;
+            state.possessoNoi = 50;
+            state.possessoLoro = 50;
+            state.possessoAttivo = null;
+            updatePossessoUI();
+            state.timerInterval = setInterval(() => {
+                state.timerSeconds++;
+                updateTimerDisplay();
+                updateAttackMomentumChart();
+            }, 1000);
+        }
+        fabContainer.classList.remove('open');
+    });
+
+    // FAB Goal NOI action
+    fabGoalNoi.addEventListener('click', () => {
+        state.gol.noi++;
+        document.getElementById('gol-noi-new').textContent = state.gol.noi;
+        const minute = Math.min(59, Math.floor(state.timerSeconds / 60));
+        state.goalEvents.push({ minute, team: 'noi' });
+        calculateXG();
+        updateAttackMomentumChart();
+        fabContainer.classList.remove('open');
+    });
+
+    // FAB Goal LORO action
+    fabGoalLoro.addEventListener('click', () => {
+        state.gol.loro++;
+        document.getElementById('gol-loro-new').textContent = state.gol.loro;
+        const minute = Math.min(59, Math.floor(state.timerSeconds / 60));
+        state.goalEvents.push({ minute, team: 'loro' });
+        calculateXG();
+        updateAttackMomentumChart();
+        fabContainer.classList.remove('open');
+    });
+
+    // FAB Possesso action
+    fabPossesso.addEventListener('click', () => {
+        if (!state.isRunning) return;
+
+        if (state.possessoAttivo === null) {
+            state.possessoNoi = 50;
+            state.possessoLoro = 0;
+            state.possessoAttivo = 'noi';
+        } else if (state.possessoAttivo === 'noi') {
+            state.possessoAttivo = 'loro';
+        } else {
+            state.possessoAttivo = 'noi';
+        }
+        updatePossessoUI();
+        fabContainer.classList.remove('open');
+    });
+});
+
+// ===== SWIPE GESTURES =====
+let touchStartX = 0;
+let touchStartY = 0;
+
+const swipeAreas = document.querySelectorAll('.swipe-area');
+
+swipeAreas.forEach(area => {
+    area.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+    }, { passive: false });
+
+    area.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const touchEndY = e.changedTouches[0].clientY;
+        const deltaX = touchEndX - touchStartX;
+        const deltaY = touchEndY - touchStartY;
+        const minSwipeDistance = 50;
+
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
+            // Horizontal swipe
+            if (area.classList.contains('possesso-container')) {
+                if (deltaX > 0) {
+                    // Swipe right - set to noi
+                    if (!state.isRunning) return;
+                    state.possessoAttivo = 'noi';
+                    updatePossessoUI();
+                } else {
+                    // Swipe left - set to loro
+                    if (!state.isRunning) return;
+                    state.possessoAttivo = 'loro';
+                    updatePossessoUI();
+                }
+                e.preventDefault();
+            }
+        } else if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > minSwipeDistance) {
+            // Vertical swipe
+            if (area.classList.contains('cronometro')) {
+                if (deltaY < 0) {
+                    // Swipe up - start
+                    if (!state.isRunning) {
+                        state.isRunning = true;
+                        document.getElementById('btn-start').disabled = true;
+                        document.getElementById('btn-pause').disabled = false;
+                        document.getElementById('btn-stop').disabled = false;
+                        state.possessoNoi = 50;
+                        state.possessoLoro = 50;
+                        state.possessoAttivo = null;
+                        updatePossessoUI();
+                        state.timerInterval = setInterval(() => {
+                            state.timerSeconds++;
+                            updateTimerDisplay();
+                            updateAttackMomentumChart();
+                        }, 1000);
+                    }
+                } else {
+                    // Swipe down - stop
+                    state.isRunning = false;
+                    clearInterval(state.timerInterval);
+                    state.timerSeconds = 0;
+                    updateTimerDisplay();
+                    document.getElementById('btn-start').disabled = false;
+                    document.getElementById('btn-pause').disabled = true;
+                    document.getElementById('btn-stop').disabled = true;
+                    state.possessoAttivo = null;
+                    state.possessoNoi = 50;
+                    state.possessoLoro = 50;
+                    updatePossessoUI();
+                }
+                e.preventDefault();
+            }
+        }
+    }, { passive: false });
+});
+</script>
+
+<!-- Floating Action Buttons -->
+<div class="fab-container" id="fab-container">
+    <button class="fab-main" id="fab-main" data-tooltip="Azioni rapide">⚡</button>
+    <div class="fab-menu">
+        <button class="fab-item fab-timer tooltip" id="fab-timer" data-tooltip="Avvia/Ferma timer">⏱️</button>
+        <button class="fab-item fab-goal-noi tooltip" id="fab-goal-noi" data-tooltip="Gol NOI">⚽</button>
+        <button class="fab-item fab-goal-loro tooltip" id="fab-goal-loro" data-tooltip="Gol LORO">🏆</button>
+        <button class="fab-item fab-possesso tooltip" id="fab-possesso" data-tooltip="Cambio possesso">🔄</button>
+    </div>
+</div>
+
 </body>
 </html>
