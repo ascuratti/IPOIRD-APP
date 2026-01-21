@@ -959,28 +959,23 @@
             }
         }
 
-        @media (max-width: 480px) {
-            .score-wrapper {
-                padding: 16px 12px !important;
-                border-radius: 12px !important;
-            }
+@media (max-width: 480px) {
+    .score-wrapper {
+        padding: 16px 12px !important;
+        border-radius: 12px !important;
+    }
 
-            .score-controls {
-                gap: 12px !important;
-            }
+    .score-controls {
+        gap: 12px !important;
+    }
 
-            .gol-value {
-                font-size: 36px !important;
-            }
+    .gol-value {
+        font-size: 36px !important;
+    }
 
-            .score-box {
-                padding: 10px 12px !important;
-            }
-
-            .score-value-display {
-                font-size: 18px !important;
-            }
-        }
+    .score-box {
+        padding: 10px 12px !important;
+    }
 
         /* ===== MATCH INFO SECTION ===== */
         .match-info-section {
@@ -1663,37 +1658,6 @@
             </section>
         </main>
     </div>
-    <!-- ... tutto il contenuto ... -->
-
-<!-- Tutti gli script qui in fondo -->
-<script>
-    // ===== STATO GLOBALE =====
-   console.log('Script partito');
-const startBtn = document.getElementById('btn-start');
-console.log('Bottone START trovato?', startBtn !== null);
-
-if (startBtn) {
-    console.log('Aggiungo listener a START');
-    startBtn.addEventListener('click', () => {
-        console.log('START cliccato!');
-        // ... il tuo codice start ...
-    });
-} else {
-    console.error('ERRORE: #btn-start NON TROVATO nel DOM');
-}
-
-    // ... tutto il tuo codice JS ...
-
-    // In fondo al file, dopo tutti i listener e funzioni
-    document.addEventListener('DOMContentLoaded', () => {
-        // Qui puoi mettere chiamate di init se necessario
-        updateTimerDisplay();
-        updatePossessoUI();
-        loadMatchData();  // se ce l'hai
-    });
-</script>
-</body>
-</html>
 </body>
 </html>
 <!-- BLOCCO 3: Script (Logica Punteggio + Analisi Tattica) -->
@@ -1808,65 +1772,7 @@ updatePossessoUI();
         document.getElementById('secondo-tempo').classList.add('active');
     });
 
-  // ===== POSSESSO PALLA =====
-const btnNoi = document.getElementById('btn-possesso-noi');
-const btnLoro = document.getElementById('btn-possesso-loro');
-
-// Listener per NOI
-btnNoi.addEventListener('click', () => {
-    if (!state.isRunning) return;
-
-    // Primo possesso dopo lo start: la squadra scelta prende tutto
-    if (state.possessoAttivo === null) {
-        state.possessoNoi = 100;
-        state.possessoLoro = 0;
-    }
-
-    state.possessoAttivo = 'noi';
-    updatePossessoUI();
-});
-
-// Listener per LORO
-btnLoro.addEventListener('click', () => {
-    if (!state.isRunning) return;
-
-    // Primo possesso dopo lo start: la squadra scelta prende tutto
-    if (state.possessoAttivo === null) {
-        state.possessoNoi = 0;
-        state.possessoLoro = 100;
-    }
-
-    state.possessoAttivo = 'loro';
-    updatePossessoUI();
-});
-
-// Aggiornamento automatico del possesso ogni secondo
-setInterval(() => {
-    if (!state.isRunning || !state.possessoAttivo) return;
-
-    const delta = 0.4; // percentuale al secondo – puoi regolare (0.3–0.8 consigliato)
-
-    if (state.possessoAttivo === 'noi') {
-        state.possessoNoi = Math.min(100, state.possessoNoi + delta);
-        state.possessoLoro = 100 - state.possessoNoi;
-    } else if (state.possessoAttivo === 'loro') {
-        state.possessoLoro = Math.min(100, state.possessoLoro + delta);
-        state.possessoNoi = 100 - state.possessoLoro;
-    }
-
-    updatePossessoUI();
-}, 1000);
-
-function updatePossessoUI() {
-    document.getElementById('btn-possesso-noi-percentage').textContent = 
-        state.possessoNoi.toFixed(1) + '%';  // 1 decimale è più leggibile
-
-    document.getElementById('btn-possesso-loro-percentage').textContent = 
-        state.possessoLoro.toFixed(1) + '%';
-
-    btnNoi.classList.toggle('active', state.possessoAttivo === 'noi');
-    btnLoro.classList.toggle('active', state.possessoAttivo === 'loro');
-}  // ===== POSSESSO PALLA =====
+    // ===== POSSESSO PALLA =====
    const btnNoi = document.getElementById('btn-possesso-noi');
 const btnLoro = document.getElementById('btn-possesso-loro');
 
@@ -2927,5 +2833,3 @@ const attackMomentumChart = new Chart(ctx, config);
 </style>
 </body>
 </html>
-
-
