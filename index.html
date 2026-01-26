@@ -1376,7 +1376,7 @@
             <div class="match-info-container">
                 <div class="match-info-row">
                     <label>AVVERSARIO</label>
-                    <input type="text" id="avversario" placeholder="Es. Inter, Juventus">
+                    <input type="text" id="avversario" placeholder="Ins. squadra avversaria">
                 </div>
 
                 <div class="match-info-row">
@@ -2280,7 +2280,7 @@ updatePossessoUI();
 setInterval(() => {
     if (!state.isRunning || !state.possessoAttivo) return;
 
-    const delta = 0.25; // 0.4% alla volta
+    const delta = 0.2; // 0.4% alla volta
 
     if (state.possessoAttivo === 'noi') {
         state.possessoNoi = Math.min(100, state.possessoNoi + delta);
@@ -3060,6 +3060,7 @@ setInterval(() => {
 <section class="attack-momentum-section" title="Grafico dell'attacco momentum: visualizzazione dinamica del flusso offensivo per minuto, con indicazione dei gol segnati dalle squadre">
     <div class="analysis-block">
         <div class="canvas-wrapper">
+            <button class="fullscreen-btn" data-chart="attack-momentum" title="Visualizza a schermo intero">⛶</button>
             <canvas id="attackMomentumChart" width="800" height="400"></canvas>
         </div>
     </div>
@@ -3078,6 +3079,7 @@ setInterval(() => {
         <!-- Piano Cartesiano -->
         <div class="analysis-block">
             <div class="canvas-wrapper">
+                <button class="fullscreen-btn" data-chart="piano-cartesiano" title="Visualizza a schermo intero">⛶</button>
                 <canvas id="pianoCartesianoCanvas" width="500" height="500"></canvas>
             </div>
         </div>
@@ -3085,6 +3087,7 @@ setInterval(() => {
         <!-- Grafico Radar -->
         <div class="analysis-block">
             <div class="canvas-wrapper">
+                <button class="fullscreen-btn" data-chart="radar" title="Visualizza a schermo intero">⛶</button>
                 <canvas id="radarCanvas" width="500" height="500"></canvas>
             </div>
         </div>
@@ -3686,33 +3689,130 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <style>
-/* ===== SEZIONE GRAFICI - STILE COERENTE ===== */
-.grafici-section {
-    margin-bottom: 64px;
-}
+    /* ===== SEZIONE GRAFICI - STILE COERENTE ===== */
+    .grafici-section {
+        margin-bottom: 64px;
+    }
 
-.grafici-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    margin-bottom: 40px;
-}
+    .grafici-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        margin-bottom: 40px;
+    }
 
-.canvas-wrapper {
-    background: #ffffff;
-    border-radius: 2px;
-    padding: 20px;
-    margin-top: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    .canvas-wrapper {
+        background: #ffffff;
+        border-radius: 2px;
+        padding: 20px;
+        margin-top: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
 
-.canvas-wrapper canvas {
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
+    .canvas-wrapper canvas {
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .fullscreen-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #1a1a1a;
+        color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        transition: all 0.2s ease;
+        z-index: 10;
+    }
+
+    .fullscreen-btn:hover {
+        background: #000000;
+        transform: scale(1.1);
+    }
+
+    /* ===== FULLSCREEN MODAL ===== */
+    .fullscreen-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .fullscreen-modal.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .fullscreen-content {
+        background: #ffffff;
+        border-radius: 8px;
+        padding: 40px;
+        max-width: 90vw;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
+
+    .fullscreen-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: #dc2626;
+        color: #ffffff;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+
+    .fullscreen-close:hover {
+        background: #b91c1c;
+        transform: scale(1.1);
+    }
+
+    .fullscreen-canvas {
+        max-width: 100%;
+        max-height: 80vh;
+        display: block;
+    }
+
+    .fullscreen-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 20px;
+        text-align: center;
+    }
 
 @media (max-width: 1024px) {
     .grafici-grid {
@@ -3926,6 +4026,100 @@ swipeAreas.forEach(area => {
             }
         }
     }, { passive: false });
+});
+
+// ===== FULLSCREEN MODAL FUNCTIONALITY =====
+document.addEventListener('DOMContentLoaded', () => {
+    const fullscreenBtns = document.querySelectorAll('.fullscreen-btn');
+    const modal = document.createElement('div');
+    modal.className = 'fullscreen-modal';
+    modal.innerHTML = `
+        <div class="fullscreen-content">
+            <button class="fullscreen-close">×</button>
+            <h2 class="fullscreen-title"></h2>
+            <canvas class="fullscreen-canvas"></canvas>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    const modalContent = modal.querySelector('.fullscreen-content');
+    const modalTitle = modal.querySelector('.fullscreen-title');
+    const modalCanvas = modal.querySelector('.fullscreen-canvas');
+    const closeBtn = modal.querySelector('.fullscreen-close');
+
+    // Close modal functions
+    const closeModal = () => {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300);
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Handle fullscreen button clicks
+    fullscreenBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const chartType = btn.getAttribute('data-chart');
+            const originalCanvas = btn.nextElementSibling;
+            const ctx = modalCanvas.getContext('2d');
+
+            // Set modal title
+            switch(chartType) {
+                case 'attack-momentum':
+                    modalTitle.textContent = 'ATTACK MOMENTUM';
+                    break;
+                case 'piano-cartesiano':
+                    modalTitle.textContent = 'PIANO CARTESIANO IPO-IRD';
+                    break;
+                case 'radar':
+                    modalTitle.textContent = 'GRAFICO RADAR MACROCATEGORIE';
+                    break;
+            }
+
+            // Resize modal canvas to match original
+            modalCanvas.width = originalCanvas.width;
+            modalCanvas.height = originalCanvas.height;
+
+            // Copy canvas content
+            ctx.drawImage(originalCanvas, 0, 0);
+
+            // Show modal
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+        });
+    });
+
+    // Update modal canvas in real-time for dynamic charts
+    const updateModalCanvas = () => {
+        if (modal.classList.contains('show')) {
+            const chartType = modalTitle.textContent;
+            const ctx = modalCanvas.getContext('2d');
+
+            if (chartType === 'ATTACK MOMENTUM') {
+                // Redraw attack momentum chart
+                const gradient = ctx.createLinearGradient(0, 0, 0, modalCanvas.height);
+                gradient.addColorStop(0, 'rgba(5, 150, 105, 0.6)');
+                gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.2)');
+                gradient.addColorStop(1, 'rgba(220, 38, 38, 0.6)');
+
+                ctx.clearRect(0, 0, modalCanvas.width, modalCanvas.height);
+                // This would need the full chart drawing logic - for now, just copy the current state
+                const originalCanvas = document.getElementById('attackMomentumChart');
+                ctx.drawImage(originalCanvas, 0, 0);
+            }
+        }
+    };
+
+    // Update modal every second if it's showing a dynamic chart
+    setInterval(updateModalCanvas, 1000);
 });
 </script>
 
