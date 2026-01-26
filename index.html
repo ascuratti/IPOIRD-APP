@@ -749,9 +749,9 @@
 
         .micro-controls {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            gap: 12px;
+            gap: 8px;
         }
 
         .micro-btn {
@@ -796,6 +796,12 @@
             min-width: 24px;
             text-align: center;
             font-family: -apple-system, BlinkMacSystemFont, 'Bahnschrift';
+        }
+        .button-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
         }
 
         @media (max-width: 768px) {
@@ -1488,51 +1494,81 @@
 
             <div class="micro-stat" data-item="rete-realizzata" data-xg="1.0">
                 <span class="micro-label">Rete realizzata</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="NOI">−</button>
-                    <span class="micro-value" data-team="NOI">0</span>
-                    <button class="micro-btn plus" data-team="NOI">+</button>
-                    <button class="micro-btn minus" data-team="LORO">−</button>
-                    <span class="micro-value" data-team="LORO">0</span>
-                    <button class="micro-btn plus" data-team="LORO">+</button>
+                <div class="micro-controls noi">
+                    <span class="team-label">NOI</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="NOI">−</button>
+                        <span class="micro-value" data-team="NOI">0</span>
+                        <button class="micro-btn plus" data-team="NOI">+</button>
+                    </div>
+                </div>
+                <div class="micro-controls loro">
+                    <span class="team-label">LORO</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="LORO">−</button>
+                        <span class="micro-value" data-team="LORO">0</span>
+                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="tiro-specchio" data-xg="0.5">
                 <span class="micro-label">Tiro nello specchio (in area o fuori)</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="NOI">−</button>
-                    <span class="micro-value" data-team="NOI">0</span>
-                    <button class="micro-btn plus" data-team="NOI">+</button>
-                    <button class="micro-btn minus" data-team="LORO">−</button>
-                    <span class="micro-value" data-team="LORO">0</span>
-                    <button class="micro-btn plus" data-team="LORO">+</button>
+                <div class="micro-controls noi">
+                    <span class="team-label">NOI</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="NOI">−</button>
+                        <span class="micro-value" data-team="NOI">0</span>
+                        <button class="micro-btn plus" data-team="NOI">+</button>
+                    </div>
+                </div>
+                <div class="micro-controls loro">
+                    <span class="team-label">LORO</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="LORO">−</button>
+                        <span class="micro-value" data-team="LORO">0</span>
+                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="tiro-non-specchio-area" data-xg="0.4">
                 <span class="micro-label">Tiro non nello specchio in area</span>
-                <div class="micro-controls">
-                    <button class="micro-btn minus" data-team="NOI">−</button>
-                    <span class="micro-value" data-team="NOI">0</span>
-                    <button class="micro-btn plus" data-team="NOI">+</button>
-                    <button class="micro-btn minus" data-team="LORO">−</button>
-                    <span class="micro-value" data-team="LORO">0</span>
-                    <button class="micro-btn plus" data-team="LORO">+</button>
+                <div class="micro-controls noi">
+                    <span class="team-label">NOI</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="NOI">−</button>
+                        <span class="micro-value" data-team="NOI">0</span>
+                        <button class="micro-btn plus" data-team="NOI">+</button>
+                    </div>
+                </div>
+                <div class="micro-controls loro">
+                    <span class="team-label">LORO</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="LORO">−</button>
+                        <span class="micro-value" data-team="LORO">0</span>
+                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="tiro-non-specchio-fuori" data-xg="0.2">
                 <span class="micro-label">Tiro non nello specchio fuori area</span>
-                <div class="micro-controls" data-team="NOI">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls noi">
+                    <span class="team-label">NOI</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="NOI">−</button>
+                        <span class="micro-value" data-team="NOI">0</span>
+                        <button class="micro-btn plus" data-team="NOI">+</button>
+                    </div>
                 </div>
-                <div class="micro-controls" data-team="LORO">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls loro">
+                    <span class="team-label">LORO</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="LORO">−</button>
+                        <span class="micro-value" data-team="LORO">0</span>
+                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1554,43 +1590,61 @@
 
             <div class="micro-stat" data-item="occasione-non-realizzata" data-xg="0.7">
                 <span class="micro-label">Occasione da rete non realizzata</span>
-                <div class="micro-controls" data-team="NOI">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls noi">
+                    <span class="team-label">NOI</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="NOI">−</button>
+                        <span class="micro-value" data-team="NOI">0</span>
+                        <button class="micro-btn plus" data-team="NOI">+</button>
+                    </div>
                 </div>
-                <div class="micro-controls" data-team="LORO">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls loro">
+                    <span class="team-label">LORO</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="LORO">−</button>
+                        <span class="micro-value" data-team="LORO">0</span>
+                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="azione-potenziale" data-xg="0.3">
                 <span class="micro-label">Azione potenzialmente da gol</span>
-                <div class="micro-controls" data-team="NOI">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls noi">
+                    <span class="team-label">NOI</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="NOI">−</button>
+                        <span class="micro-value" data-team="NOI">0</span>
+                        <button class="micro-btn plus" data-team="NOI">+</button>
+                    </div>
                 </div>
-                <div class="micro-controls" data-team="LORO">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls loro">
+                    <span class="team-label">LORO</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="LORO">−</button>
+                        <span class="micro-value" data-team="LORO">0</span>
+                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="transizione-offensiva" data-xg="0.5">
                 <span class="micro-label">Transizione offensiva favorevole</span>
-                <div class="micro-controls" data-team="NOI">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls noi">
+                    <span class="team-label">NOI</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="NOI">−</button>
+                        <span class="micro-value" data-team="NOI">0</span>
+                        <button class="micro-btn plus" data-team="NOI">+</button>
+                    </div>
                 </div>
-                <div class="micro-controls" data-team="LORO">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls loro">
+                    <span class="team-label">LORO</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="LORO">−</button>
+                        <span class="micro-value" data-team="LORO">0</span>
+                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1612,43 +1666,61 @@
 
             <div class="micro-stat" data-item="angolo-corto" data-xg="0.1">
                 <span class="micro-label">Corto, non sviluppato</span>
-                <div class="micro-controls" data-team="NOI">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls noi">
+                    <span class="team-label">NOI</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="NOI">−</button>
+                        <span class="micro-value" data-team="NOI">0</span>
+                        <button class="micro-btn plus" data-team="NOI">+</button>
+                    </div>
                 </div>
-                <div class="micro-controls" data-team="LORO">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls loro">
+                    <span class="team-label">LORO</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="LORO">−</button>
+                        <span class="micro-value" data-team="LORO">0</span>
+                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="angolo-sviluppato" data-xg="0.2">
                 <span class="micro-label">Con sviluppo ma senza finalizzazione</span>
-                <div class="micro-controls" data-team="NOI">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls noi">
+                    <span class="team-label">NOI</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="NOI">−</button>
+                        <span class="micro-value" data-team="NOI">0</span>
+                        <button class="micro-btn plus" data-team="NOI">+</button>
+                    </div>
                 </div>
-                <div class="micro-controls" data-team="LORO">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls loro">
+                    <span class="team-label">LORO</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="LORO">−</button>
+                        <span class="micro-value" data-team="LORO">0</span>
+                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="angolo-tiro" data-xg="0.4">
                 <span class="micro-label">Con tiro / occasione gol in area</span>
-                <div class="micro-controls" data-team="NOI">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls noi">
+                    <span class="team-label">NOI</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="NOI">−</button>
+                        <span class="micro-value" data-team="NOI">0</span>
+                        <button class="micro-btn plus" data-team="NOI">+</button>
+                    </div>
                 </div>
-                <div class="micro-controls" data-team="LORO">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls loro">
+                    <span class="team-label">LORO</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="LORO">−</button>
+                        <span class="micro-value" data-team="LORO">0</span>
+                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1670,57 +1742,81 @@
 
             <div class="micro-stat" data-item="punizione-laterale-senza" data-xg="0.2">
                 <span class="micro-label">Laterale, cross in area, senza esito</span>
-                <div class="micro-controls" data-team="NOI">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls noi">
+                    <span class="team-label">NOI</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="NOI">−</button>
+                        <span class="micro-value" data-team="NOI">0</span>
+                        <button class="micro-btn plus" data-team="NOI">+</button>
+                    </div>
                 </div>
-                <div class="micro-controls" data-team="LORO">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls loro">
+                    <span class="team-label">LORO</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="LORO">−</button>
+                        <span class="micro-value" data-team="LORO">0</span>
+                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="punizione-laterale-occasione" data-xg="0.2">
                 <span class="micro-label">Laterale, crea occasione / tiro</span>
-                <div class="micro-controls" data-team="NOI">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls noi">
+                    <span class="team-label">NOI</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="NOI">−</button>
+                        <span class="micro-value" data-team="NOI">0</span>
+                        <button class="micro-btn plus" data-team="NOI">+</button>
+                    </div>
                 </div>
-                <div class="micro-controls" data-team="LORO">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls loro">
+                    <span class="team-label">LORO</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="LORO">−</button>
+                        <span class="micro-value" data-team="LORO">0</span>
+                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="punizione-diretta-specchio" data-xg="0.5">
                 <span class="micro-label">Diretta, nello specchio</span>
-                <div class="micro-controls" data-team="NOI">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls noi">
+                    <span class="team-label">NOI</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="NOI">−</button>
+                        <span class="micro-value" data-team="NOI">0</span>
+                        <button class="micro-btn plus" data-team="NOI">+</button>
+                    </div>
                 </div>
-                <div class="micro-controls" data-team="LORO">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls loro">
+                    <span class="team-label">LORO</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="LORO">−</button>
+                        <span class="micro-value" data-team="LORO">0</span>
+                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="punizione-diretta-fuori" data-xg="0.3">
                 <span class="micro-label">Diretta fuori</span>
-                <div class="micro-controls" data-team="NOI">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls noi">
+                    <span class="team-label">NOI</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="NOI">−</button>
+                        <span class="micro-value" data-team="NOI">0</span>
+                        <button class="micro-btn plus" data-team="NOI">+</button>
+                    </div>
                 </div>
-                <div class="micro-controls" data-team="LORO">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls loro">
+                    <span class="team-label">LORO</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="LORO">−</button>
+                        <span class="micro-value" data-team="LORO">0</span>
+                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1742,29 +1838,41 @@
 
             <div class="micro-stat" data-item="rimessa-pericolosa" data-xg="0.3">
                 <span class="micro-label">Laterale con sviluppo pericoloso / 2ª palla</span>
-                <div class="micro-controls" data-team="NOI">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls noi">
+                    <span class="team-label">NOI</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="NOI">−</button>
+                        <span class="micro-value" data-team="NOI">0</span>
+                        <button class="micro-btn plus" data-team="NOI">+</button>
+                    </div>
                 </div>
-                <div class="micro-controls" data-team="LORO">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls loro">
+                    <span class="team-label">LORO</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="LORO">−</button>
+                        <span class="micro-value" data-team="LORO">0</span>
+                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="rimessa-non-efficace" data-xg="0.1">
                 <span class="micro-label">Laterale non efficace</span>
-                <div class="micro-controls" data-team="NOI">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls noi">
+                    <span class="team-label">NOI</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="NOI">−</button>
+                        <span class="micro-value" data-team="NOI">0</span>
+                        <button class="micro-btn plus" data-team="NOI">+</button>
+                    </div>
                 </div>
-                <div class="micro-controls" data-team="LORO">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls loro">
+                    <span class="team-label">LORO</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="LORO">−</button>
+                        <span class="micro-value" data-team="LORO">0</span>
+                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1786,43 +1894,61 @@
 
             <div class="micro-stat" data-item="errore-tecnico" data-xg="0.5">
                 <span class="micro-label">Tecnico in costruzione, porta palla gol</span>
-                <div class="micro-controls" data-team="NOI">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls noi">
+                    <span class="team-label">NOI</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="NOI">−</button>
+                        <span class="micro-value" data-team="NOI">0</span>
+                        <button class="micro-btn plus" data-team="NOI">+</button>
+                    </div>
                 </div>
-                <div class="micro-controls" data-team="LORO">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls loro">
+                    <span class="team-label">LORO</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="LORO">−</button>
+                        <span class="micro-value" data-team="LORO">0</span>
+                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="errore-tattico" data-xg="0.6">
                 <span class="micro-label">Tattico / posizionamento, porta palla gol</span>
-                <div class="micro-controls" data-team="NOI">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls noi">
+                    <span class="team-label">NOI</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="NOI">−</button>
+                        <span class="micro-value" data-team="NOI">0</span>
+                        <button class="micro-btn plus" data-team="NOI">+</button>
+                    </div>
                 </div>
-                <div class="micro-controls" data-team="LORO">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls loro">
+                    <span class="team-label">LORO</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="LORO">−</button>
+                        <span class="micro-value" data-team="LORO">0</span>
+                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="errore-grave" data-xg="0.8">
                 <span class="micro-label">Errore grave</span>
-                <div class="micro-controls" data-team="NOI">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls noi">
+                    <span class="team-label">NOI</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="NOI">−</button>
+                        <span class="micro-value" data-team="NOI">0</span>
+                        <button class="micro-btn plus" data-team="NOI">+</button>
+                    </div>
                 </div>
-                <div class="micro-controls" data-team="LORO">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls loro">
+                    <span class="team-label">LORO</span>
+                    <div class="button-row">
+                        <button class="micro-btn minus" data-team="LORO">−</button>
+                        <span class="micro-value" data-team="LORO">0</span>
+                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    </div>
                 </div>
             </div>
         </div>
