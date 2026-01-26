@@ -1264,47 +1264,28 @@
 
             .micro-controls {
                 display: flex;
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            /* Wrapper per NOI e LORO allineati orizzontalmente */
-            .micro-stat > .micro-controls {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 16px;
-                margin-top: 8px;
-            }
-
-            /* Label "NOI" e "LORO" sopra i controlli */
-            .micro-controls::before {
-                content: attr(data-team);
-                font-size: 10px;
-                font-weight: 600;
-                color: #6b7280;
-                text-transform: uppercase;
-                letter-spacing: 0.8px;
-                text-align: center;
-                grid-column: 1;
-            }
-
-            .micro-controls:last-of-type::before {
-                grid-column: 2;
-            }
-
-            .micro-controls {
-                display: flex;
                 align-items: center;
                 justify-content: center;
-                gap: 12px;
+                gap: 8px;
+                flex-wrap: wrap;
+            }
+
+            .micro-btn {
+                width: 28px;
+                height: 28px;
+                font-size: 14px;
+            }
+
+            .micro-value {
+                font-size: 14px;
+                min-width: 20px;
             }
         }
 
-        /* Mobile: Micro Stats - Layout orizzontale compatto */
+        /* Mobile: Micro Stats - Layout orizzontale con label, NOI e LORO sulla stessa linea */
         @media (max-width: 768px) {
             .micro-stat {
-                display: flex;
-                flex-direction: column;
+                grid-template-columns: 2fr 1fr 1fr;
                 gap: 12px;
                 padding: 16px 20px;
             }
@@ -1313,20 +1294,13 @@
                 font-size: 12px;
                 color: #374151;
                 font-weight: 500;
-                margin-bottom: 8px;
-            }
-
-            .micro-stat > div:not(.micro-label) {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 12px;
             }
 
             .micro-controls {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                gap: 8px;
+                gap: 6px;
             }
 
             .micro-btn {
@@ -1514,43 +1488,37 @@
 
             <div class="micro-stat" data-item="rete-realizzata" data-xg="1.0">
                 <span class="micro-label">Rete realizzata</span>
-                <div class="micro-controls" data-team="NOI">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
-                </div>
-                <div class="micro-controls" data-team="LORO">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="NOI">−</button>
+                    <span class="micro-value" data-team="NOI">0</span>
+                    <button class="micro-btn plus" data-team="NOI">+</button>
+                    <button class="micro-btn minus" data-team="LORO">−</button>
+                    <span class="micro-value" data-team="LORO">0</span>
+                    <button class="micro-btn plus" data-team="LORO">+</button>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="tiro-specchio" data-xg="0.5">
                 <span class="micro-label">Tiro nello specchio (in area o fuori)</span>
-                <div class="micro-controls" data-team="NOI">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
-                </div>
-                <div class="micro-controls" data-team="LORO">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="NOI">−</button>
+                    <span class="micro-value" data-team="NOI">0</span>
+                    <button class="micro-btn plus" data-team="NOI">+</button>
+                    <button class="micro-btn minus" data-team="LORO">−</button>
+                    <span class="micro-value" data-team="LORO">0</span>
+                    <button class="micro-btn plus" data-team="LORO">+</button>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="tiro-non-specchio-area" data-xg="0.4">
                 <span class="micro-label">Tiro non nello specchio in area</span>
-                <div class="micro-controls" data-team="NOI">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
-                </div>
-                <div class="micro-controls" data-team="LORO">
-                    <button class="micro-btn minus">−</button>
-                    <span class="micro-value">0</span>
-                    <button class="micro-btn plus">+</button>
+                <div class="micro-controls">
+                    <button class="micro-btn minus" data-team="NOI">−</button>
+                    <span class="micro-value" data-team="NOI">0</span>
+                    <button class="micro-btn plus" data-team="NOI">+</button>
+                    <button class="micro-btn minus" data-team="LORO">−</button>
+                    <span class="micro-value" data-team="LORO">0</span>
+                    <button class="micro-btn plus" data-team="LORO">+</button>
                 </div>
             </div>
 
@@ -2039,11 +2007,12 @@ updatePossessoUI();
             // collect stats
             document.querySelectorAll('.micro-stat').forEach(stat => {
                 const item = stat.getAttribute('data-item');
-                const controls = stat.querySelectorAll('.micro-controls');
-                if (controls.length >= 2) {
+                const noiValue = stat.querySelector('.micro-value[data-team="NOI"]');
+                const loroValue = stat.querySelector('.micro-value[data-team="LORO"]');
+                if (noiValue && loroValue) {
                     state.firstTempo.stats[item] = {
-                        noi: parseInt(controls[0].querySelector('.micro-value').textContent) || 0,
-                        loro: parseInt(controls[1].querySelector('.micro-value').textContent) || 0
+                        noi: parseInt(noiValue.textContent) || 0,
+                        loro: parseInt(loroValue.textContent) || 0
                     };
                 }
             });
@@ -2183,11 +2152,12 @@ setInterval(() => {
 
         document.querySelectorAll('.micro-stat').forEach(stat => {
             const item = stat.getAttribute('data-item');
-            const controls = stat.querySelectorAll('.micro-controls');
+            const noiValue = stat.querySelector('.micro-value[data-team="NOI"]');
+            const loroValue = stat.querySelector('.micro-value[data-team="LORO"]');
 
-            if (controls.length >= 2) {
-                const noiVal = parseInt(controls[0].querySelector('.micro-value').textContent) || 0;
-                const loroVal = parseInt(controls[1].querySelector('.micro-value').textContent) || 0;
+            if (noiValue && loroValue) {
+                const noiVal = parseInt(noiValue.textContent) || 0;
+                const loroVal = parseInt(loroValue.textContent) || 0;
 
                 const microXG = parseFloat(stat.getAttribute('data-xg')) || 0;
                 xgNoi += noiVal * microXG;
@@ -2236,82 +2206,90 @@ setInterval(() => {
     }
     // ===== MICRO STATS EVENT LISTENERS =====
     document.querySelectorAll('.micro-stat').forEach(stat => {
-        const controls = stat.querySelectorAll('.micro-controls');
+        const controlGroup = stat.querySelector('.micro-controls');
 
-        controls.forEach((controlGroup, idx) => {
-            const minusBtn = controlGroup.querySelector('.minus');
-            const plusBtn = controlGroup.querySelector('.plus');
-            const valueSpan = controlGroup.querySelector('.micro-value');
+        if (controlGroup) {
+            const minusBtns = controlGroup.querySelectorAll('.minus');
+            const plusBtns = controlGroup.querySelectorAll('.plus');
+            const valueSpans = controlGroup.querySelectorAll('.micro-value');
 
-            minusBtn.addEventListener('click', () => {
-                let val = parseInt(valueSpan.textContent) || 0;
-                if (val > 0) {
-                    val--;
+            minusBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const team = btn.getAttribute('data-team');
+                    const valueSpan = controlGroup.querySelector(`.micro-value[data-team="${team}"]`);
+                    let val = parseInt(valueSpan.textContent) || 0;
+                    if (val > 0) {
+                        val--;
+                        valueSpan.textContent = val;
+
+                        if (team === 'NOI') {
+                            // aggiorna gol se è "rete"
+                            if (stat.getAttribute('data-item') === 'rete-realizzata') {
+                                state.gol.noi = val;
+                                document.getElementById('gol-noi-new').textContent = val;
+                                // Rimuovi gol dall'array goalEvents
+                                state.goalEvents = state.goalEvents.filter(g => !(g.team === 'noi' && g.minute === Math.floor(state.timerSeconds / 60)));
+                            } else {
+                                // Decrementa momentum per azioni NOI
+                                const minute = Math.min(59, Math.floor(state.timerSeconds / 60));
+                                state.attackMomentum[minute] = Math.max(0, state.attackMomentum[minute] - 1);
+                            }
+                        } else {
+                            if (stat.getAttribute('data-item') === 'rete-realizzata') {
+                                state.gol.loro = val;
+                                document.getElementById('gol-loro-new').textContent = val;
+                                // Rimuovi gol dall'array goalEvents
+                                state.goalEvents = state.goalEvents.filter(g => !(g.team === 'loro' && g.minute === Math.floor(state.timerSeconds / 60)));
+                            } else {
+                                // Decrementa momentum per azioni LORO
+                                const minute = Math.min(59, Math.floor(state.timerSeconds / 60));
+                                state.attackMomentum[minute] = Math.min(0, state.attackMomentum[minute] + 1);
+                            }
+                        }
+                        calculateXG();
+                        updateAttackMomentumChart();
+                    }
+                });
+            });
+
+            plusBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const team = btn.getAttribute('data-team');
+                    const valueSpan = controlGroup.querySelector(`.micro-value[data-team="${team}"]`);
+                    let val = parseInt(valueSpan.textContent) || 0;
+                    val++;
                     valueSpan.textContent = val;
 
-                    if (idx === 0) {
-                        // aggiorna gol se è "rete"
+                    if (team === 'NOI') {
                         if (stat.getAttribute('data-item') === 'rete-realizzata') {
                             state.gol.noi = val;
                             document.getElementById('gol-noi-new').textContent = val;
-                            // Rimuovi gol dall'array goalEvents
-                            state.goalEvents = state.goalEvents.filter(g => !(g.team === 'noi' && g.minute === Math.floor(state.timerSeconds / 60)));
-                        } else {
-                            // Decrementa momentum per azioni NOI
+                            // Aggiungi gol all'array goalEvents
                             const minute = Math.min(59, Math.floor(state.timerSeconds / 60));
-                            state.attackMomentum[minute] = Math.max(0, state.attackMomentum[minute] - 1);
+                            state.goalEvents.push({ minute, team: 'noi' });
+                        } else {
+                            // Incrementa momentum per azioni NOI
+                            const minute = Math.min(59, Math.floor(state.timerSeconds / 60));
+                            state.attackMomentum[minute] += 1;
                         }
                     } else {
                         if (stat.getAttribute('data-item') === 'rete-realizzata') {
                             state.gol.loro = val;
                             document.getElementById('gol-loro-new').textContent = val;
-                            // Rimuovi gol dall'array goalEvents
-                            state.goalEvents = state.goalEvents.filter(g => !(g.team === 'loro' && g.minute === Math.floor(state.timerSeconds / 60)));
+                            // Aggiungi gol all'array goalEvents
+                            const minute = Math.min(59, Math.floor(state.timerSeconds / 60));
+                            state.goalEvents.push({ minute, team: 'loro' });
                         } else {
                             // Decrementa momentum per azioni LORO
                             const minute = Math.min(59, Math.floor(state.timerSeconds / 60));
-                            state.attackMomentum[minute] = Math.min(0, state.attackMomentum[minute] + 1);
+                            state.attackMomentum[minute] -= 1;
                         }
                     }
                     calculateXG();
                     updateAttackMomentumChart();
-                }
+                });
             });
-
-            plusBtn.addEventListener('click', () => {
-                let val = parseInt(valueSpan.textContent) || 0;
-                val++;
-                valueSpan.textContent = val;
-
-                if (idx === 0) {
-                    if (stat.getAttribute('data-item') === 'rete-realizzata') {
-                        state.gol.noi = val;
-                        document.getElementById('gol-noi-new').textContent = val;
-                        // Aggiungi gol all'array goalEvents
-                        const minute = Math.min(59, Math.floor(state.timerSeconds / 60));
-                        state.goalEvents.push({ minute, team: 'noi' });
-                    } else {
-                        // Incrementa momentum per azioni NOI
-                        const minute = Math.min(59, Math.floor(state.timerSeconds / 60));
-                        state.attackMomentum[minute] += 1;
-                    }
-                } else {
-                    if (stat.getAttribute('data-item') === 'rete-realizzata') {
-                        state.gol.loro = val;
-                        document.getElementById('gol-loro-new').textContent = val;
-                        // Aggiungi gol all'array goalEvents
-                        const minute = Math.min(59, Math.floor(state.timerSeconds / 60));
-                        state.goalEvents.push({ minute, team: 'loro' });
-                    } else {
-                        // Decrementa momentum per azioni LORO
-                        const minute = Math.min(59, Math.floor(state.timerSeconds / 60));
-                        state.attackMomentum[minute] -= 1;
-                    }
-                }
-                calculateXG();
-                updateAttackMomentumChart();
-            });
-        });
+        }
     });
 
     // ===== MACRO CATEGORY ACCORDION =====
@@ -2352,12 +2330,13 @@ setInterval(() => {
         // Raccogli tutti gli stats
         document.querySelectorAll('.micro-stat').forEach(stat => {
             const item = stat.getAttribute('data-item');
-            const controls = stat.querySelectorAll('.micro-controls');
+            const noiValue = stat.querySelector('.micro-value[data-team="NOI"]');
+            const loroValue = stat.querySelector('.micro-value[data-team="LORO"]');
 
-            if (controls.length >= 2) {
+            if (noiValue && loroValue) {
                 matchData.stats[item] = {
-                    noi: parseInt(controls[0].querySelector('.micro-value').textContent) || 0,
-                    loro: parseInt(controls[1].querySelector('.micro-value').textContent) || 0
+                    noi: parseInt(noiValue.textContent) || 0,
+                    loro: parseInt(loroValue.textContent) || 0
                 };
             }
         });
@@ -2402,11 +2381,12 @@ setInterval(() => {
         // Raccogli tutti gli stats totali
         document.querySelectorAll('.micro-stat').forEach(stat => {
             const item = stat.getAttribute('data-item');
-            const controls = stat.querySelectorAll('.micro-controls');
+            const noiValue = stat.querySelector('.micro-value[data-team="NOI"]');
+            const loroValue = stat.querySelector('.micro-value[data-team="LORO"]');
 
-            if (controls.length >= 2) {
-                const noiVal = parseInt(controls[0].querySelector('.micro-value').textContent) || 0;
-                const loroVal = parseInt(controls[1].querySelector('.micro-value').textContent) || 0;
+            if (noiValue && loroValue) {
+                let noiVal = parseInt(noiValue.textContent) || 0;
+                let loroVal = parseInt(loroValue.textContent) || 0;
 
                 // Aggiungi stats del primo tempo se esistono
                 if (state.firstTempo && state.firstTempo.stats[item]) {
@@ -2618,10 +2598,11 @@ function getMacrocategoryStats() {
         microItems.forEach(item => {
             const stat = document.querySelector(`[data-item="${item}"]`);
             if (stat) {
-                const controls = stat.querySelectorAll('.micro-controls');
-                if (controls.length >= 2) {
-                    noiTotal += parseInt(controls[0].querySelector('.micro-value').textContent) || 0;
-                    loroTotal += parseInt(controls[1].querySelector('.micro-value').textContent) || 0;
+                const noiValue = stat.querySelector('.micro-value[data-team="NOI"]');
+                const loroValue = stat.querySelector('.micro-value[data-team="LORO"]');
+                if (noiValue && loroValue) {
+                    noiTotal += parseInt(noiValue.textContent) || 0;
+                    loroTotal += parseInt(loroValue.textContent) || 0;
                 }
             }
         });
