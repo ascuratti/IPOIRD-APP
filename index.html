@@ -115,11 +115,45 @@
             padding: 32px 48px;
         }
 
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         header h1 {
             font-size: 16px;
             font-weight: 600;
             letter-spacing: 0.5px;
             color: #1a1a1a;
+            margin: 0;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .header-btn {
+            padding: 8px 16px;
+            font-size: 11px;
+            font-weight: 500;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-family: -apple-system, BlinkMacSystemFont, 'Bahnschrift';
+            background: #ffffff;
+            color: #1a1a1a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header-btn:hover:not(:disabled) {
+            background: #f9fafb;
+            border-color: #1a1a1a;
         }
 
         main {
@@ -1325,7 +1359,16 @@
 <body>
     <div class="container">
         <header>
-            <h1>IPOIRD</h1>
+            <div class="header-content">
+                <h1>IPOIRD</h1>
+                <div class="header-buttons">
+                    <button class="header-btn" id="btn-reset">RESET</button>
+                    <button class="header-btn" id="btn-export">ESPORTA</button>
+                    <button class="header-btn" id="btn-save-match">SALVA PARTITA</button>
+                    <button class="header-btn" id="btn-new-match">NUOVA PARTITA</button>
+                    <button class="header-btn" id="btn-compare">CONFRONTA</button>
+                </div>
+            </div>
         </header>
 
         <!-- SEZIONE INFORMAZIONI PARTITA -->
@@ -1620,40 +1663,44 @@
 
             <div class="micro-stat" data-item="azione-potenziale" data-xg="0.3">
                 <span class="micro-label">Azione potenzialmente da gol</span>
-                <div class="micro-controls noi">
-                    <span class="team-label">NOI</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="NOI">−</button>
-                        <span class="micro-value" data-team="NOI">0</span>
-                        <button class="micro-btn plus" data-team="NOI">+</button>
+                <div class="micro-controls">
+                    <div class="team-section">
+                        <span class="team-label">NOI</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="NOI">−</button>
+                            <span class="micro-value" data-team="NOI">0</span>
+                            <button class="micro-btn plus" data-team="NOI">+</button>
+                        </div>
                     </div>
-                </div>
-                <div class="micro-controls loro">
-                    <span class="team-label">LORO</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="LORO">−</button>
-                        <span class="micro-value" data-team="LORO">0</span>
-                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    <div class="team-section">
+                        <span class="team-label">LORO</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="LORO">−</button>
+                            <span class="micro-value" data-team="LORO">0</span>
+                            <button class="micro-btn plus" data-team="LORO">+</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="transizione-offensiva" data-xg="0.5">
                 <span class="micro-label">Transizione offensiva favorevole</span>
-                <div class="micro-controls noi">
-                    <span class="team-label">NOI</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="NOI">−</button>
-                        <span class="micro-value" data-team="NOI">0</span>
-                        <button class="micro-btn plus" data-team="NOI">+</button>
+                <div class="micro-controls">
+                    <div class="team-section">
+                        <span class="team-label">NOI</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="NOI">−</button>
+                            <span class="micro-value" data-team="NOI">0</span>
+                            <button class="micro-btn plus" data-team="NOI">+</button>
+                        </div>
                     </div>
-                </div>
-                <div class="micro-controls loro">
-                    <span class="team-label">LORO</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="LORO">−</button>
-                        <span class="micro-value" data-team="LORO">0</span>
-                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    <div class="team-section">
+                        <span class="team-label">LORO</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="LORO">−</button>
+                            <span class="micro-value" data-team="LORO">0</span>
+                            <button class="micro-btn plus" data-team="LORO">+</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1676,60 +1723,66 @@
 
             <div class="micro-stat" data-item="angolo-corto" data-xg="0.1">
                 <span class="micro-label">Corto, non sviluppato</span>
-                <div class="micro-controls noi">
-                    <span class="team-label">NOI</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="NOI">−</button>
-                        <span class="micro-value" data-team="NOI">0</span>
-                        <button class="micro-btn plus" data-team="NOI">+</button>
+                <div class="micro-controls">
+                    <div class="team-section">
+                        <span class="team-label">NOI</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="NOI">−</button>
+                            <span class="micro-value" data-team="NOI">0</span>
+                            <button class="micro-btn plus" data-team="NOI">+</button>
+                        </div>
                     </div>
-                </div>
-                <div class="micro-controls loro">
-                    <span class="team-label">LORO</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="LORO">−</button>
-                        <span class="micro-value" data-team="LORO">0</span>
-                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    <div class="team-section">
+                        <span class="team-label">LORO</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="LORO">−</button>
+                            <span class="micro-value" data-team="LORO">0</span>
+                            <button class="micro-btn plus" data-team="LORO">+</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="angolo-sviluppato" data-xg="0.2">
                 <span class="micro-label">Con sviluppo ma senza finalizzazione</span>
-                <div class="micro-controls noi">
-                    <span class="team-label">NOI</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="NOI">−</button>
-                        <span class="micro-value" data-team="NOI">0</span>
-                        <button class="micro-btn plus" data-team="NOI">+</button>
+                <div class="micro-controls">
+                    <div class="team-section">
+                        <span class="team-label">NOI</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="NOI">−</button>
+                            <span class="micro-value" data-team="NOI">0</span>
+                            <button class="micro-btn plus" data-team="NOI">+</button>
+                        </div>
                     </div>
-                </div>
-                <div class="micro-controls loro">
-                    <span class="team-label">LORO</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="LORO">−</button>
-                        <span class="micro-value" data-team="LORO">0</span>
-                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    <div class="team-section">
+                        <span class="team-label">LORO</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="LORO">−</button>
+                            <span class="micro-value" data-team="LORO">0</span>
+                            <button class="micro-btn plus" data-team="LORO">+</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="angolo-tiro" data-xg="0.4">
                 <span class="micro-label">Con tiro / occasione gol in area</span>
-                <div class="micro-controls noi">
-                    <span class="team-label">NOI</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="NOI">−</button>
-                        <span class="micro-value" data-team="NOI">0</span>
-                        <button class="micro-btn plus" data-team="NOI">+</button>
+                <div class="micro-controls">
+                    <div class="team-section">
+                        <span class="team-label">NOI</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="NOI">−</button>
+                            <span class="micro-value" data-team="NOI">0</span>
+                            <button class="micro-btn plus" data-team="NOI">+</button>
+                        </div>
                     </div>
-                </div>
-                <div class="micro-controls loro">
-                    <span class="team-label">LORO</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="LORO">−</button>
-                        <span class="micro-value" data-team="LORO">0</span>
-                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    <div class="team-section">
+                        <span class="team-label">LORO</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="LORO">−</button>
+                            <span class="micro-value" data-team="LORO">0</span>
+                            <button class="micro-btn plus" data-team="LORO">+</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1752,80 +1805,88 @@
 
             <div class="micro-stat" data-item="punizione-laterale-senza" data-xg="0.2">
                 <span class="micro-label">Laterale, cross in area, senza esito</span>
-                <div class="micro-controls noi">
-                    <span class="team-label">NOI</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="NOI">−</button>
-                        <span class="micro-value" data-team="NOI">0</span>
-                        <button class="micro-btn plus" data-team="NOI">+</button>
+                <div class="micro-controls">
+                    <div class="team-section">
+                        <span class="team-label">NOI</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="NOI">−</button>
+                            <span class="micro-value" data-team="NOI">0</span>
+                            <button class="micro-btn plus" data-team="NOI">+</button>
+                        </div>
                     </div>
-                </div>
-                <div class="micro-controls loro">
-                    <span class="team-label">LORO</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="LORO">−</button>
-                        <span class="micro-value" data-team="LORO">0</span>
-                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    <div class="team-section">
+                        <span class="team-label">LORO</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="LORO">−</button>
+                            <span class="micro-value" data-team="LORO">0</span>
+                            <button class="micro-btn plus" data-team="LORO">+</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="punizione-laterale-occasione" data-xg="0.2">
                 <span class="micro-label">Laterale, crea occasione / tiro</span>
-                <div class="micro-controls noi">
-                    <span class="team-label">NOI</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="NOI">−</button>
-                        <span class="micro-value" data-team="NOI">0</span>
-                        <button class="micro-btn plus" data-team="NOI">+</button>
+                <div class="micro-controls">
+                    <div class="team-section">
+                        <span class="team-label">NOI</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="NOI">−</button>
+                            <span class="micro-value" data-team="NOI">0</span>
+                            <button class="micro-btn plus" data-team="NOI">+</button>
+                        </div>
                     </div>
-                </div>
-                <div class="micro-controls loro">
-                    <span class="team-label">LORO</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="LORO">−</button>
-                        <span class="micro-value" data-team="LORO">0</span>
-                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    <div class="team-section">
+                        <span class="team-label">LORO</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="LORO">−</button>
+                            <span class="micro-value" data-team="LORO">0</span>
+                            <button class="micro-btn plus" data-team="LORO">+</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="punizione-diretta-specchio" data-xg="0.5">
                 <span class="micro-label">Diretta, nello specchio</span>
-                <div class="micro-controls noi">
-                    <span class="team-label">NOI</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="NOI">−</button>
-                        <span class="micro-value" data-team="NOI">0</span>
-                        <button class="micro-btn plus" data-team="NOI">+</button>
+                <div class="micro-controls">
+                    <div class="team-section">
+                        <span class="team-label">NOI</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="NOI">−</button>
+                            <span class="micro-value" data-team="NOI">0</span>
+                            <button class="micro-btn plus" data-team="NOI">+</button>
+                        </div>
                     </div>
-                </div>
-                <div class="micro-controls loro">
-                    <span class="team-label">LORO</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="LORO">−</button>
-                        <span class="micro-value" data-team="LORO">0</span>
-                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    <div class="team-section">
+                        <span class="team-label">LORO</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="LORO">−</button>
+                            <span class="micro-value" data-team="LORO">0</span>
+                            <button class="micro-btn plus" data-team="LORO">+</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="punizione-diretta-fuori" data-xg="0.3">
                 <span class="micro-label">Diretta fuori</span>
-                <div class="micro-controls noi">
-                    <span class="team-label">NOI</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="NOI">−</button>
-                        <span class="micro-value" data-team="NOI">0</span>
-                        <button class="micro-btn plus" data-team="NOI">+</button>
+                <div class="micro-controls">
+                    <div class="team-section">
+                        <span class="team-label">NOI</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="NOI">−</button>
+                            <span class="micro-value" data-team="NOI">0</span>
+                            <button class="micro-btn plus" data-team="NOI">+</button>
+                        </div>
                     </div>
-                </div>
-                <div class="micro-controls loro">
-                    <span class="team-label">LORO</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="LORO">−</button>
-                        <span class="micro-value" data-team="LORO">0</span>
-                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    <div class="team-section">
+                        <span class="team-label">LORO</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="LORO">−</button>
+                            <span class="micro-value" data-team="LORO">0</span>
+                            <button class="micro-btn plus" data-team="LORO">+</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1848,40 +1909,44 @@
 
             <div class="micro-stat" data-item="rimessa-pericolosa" data-xg="0.3">
                 <span class="micro-label">Laterale con sviluppo pericoloso / 2ª palla</span>
-                <div class="micro-controls noi">
-                    <span class="team-label">NOI</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="NOI">−</button>
-                        <span class="micro-value" data-team="NOI">0</span>
-                        <button class="micro-btn plus" data-team="NOI">+</button>
+                <div class="micro-controls">
+                    <div class="team-section">
+                        <span class="team-label">NOI</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="NOI">−</button>
+                            <span class="micro-value" data-team="NOI">0</span>
+                            <button class="micro-btn plus" data-team="NOI">+</button>
+                        </div>
                     </div>
-                </div>
-                <div class="micro-controls loro">
-                    <span class="team-label">LORO</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="LORO">−</button>
-                        <span class="micro-value" data-team="LORO">0</span>
-                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    <div class="team-section">
+                        <span class="team-label">LORO</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="LORO">−</button>
+                            <span class="micro-value" data-team="LORO">0</span>
+                            <button class="micro-btn plus" data-team="LORO">+</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="rimessa-non-efficace" data-xg="0.1">
                 <span class="micro-label">Laterale non efficace</span>
-                <div class="micro-controls noi">
-                    <span class="team-label">NOI</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="NOI">−</button>
-                        <span class="micro-value" data-team="NOI">0</span>
-                        <button class="micro-btn plus" data-team="NOI">+</button>
+                <div class="micro-controls">
+                    <div class="team-section">
+                        <span class="team-label">NOI</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="NOI">−</button>
+                            <span class="micro-value" data-team="NOI">0</span>
+                            <button class="micro-btn plus" data-team="NOI">+</button>
+                        </div>
                     </div>
-                </div>
-                <div class="micro-controls loro">
-                    <span class="team-label">LORO</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="LORO">−</button>
-                        <span class="micro-value" data-team="LORO">0</span>
-                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    <div class="team-section">
+                        <span class="team-label">LORO</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="LORO">−</button>
+                            <span class="micro-value" data-team="LORO">0</span>
+                            <button class="micro-btn plus" data-team="LORO">+</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1904,60 +1969,66 @@
 
             <div class="micro-stat" data-item="errore-tecnico" data-xg="0.5">
                 <span class="micro-label">Tecnico in costruzione, porta palla gol</span>
-                <div class="micro-controls noi">
-                    <span class="team-label">NOI</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="NOI">−</button>
-                        <span class="micro-value" data-team="NOI">0</span>
-                        <button class="micro-btn plus" data-team="NOI">+</button>
+                <div class="micro-controls">
+                    <div class="team-section">
+                        <span class="team-label">NOI</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="NOI">−</button>
+                            <span class="micro-value" data-team="NOI">0</span>
+                            <button class="micro-btn plus" data-team="NOI">+</button>
+                        </div>
                     </div>
-                </div>
-                <div class="micro-controls loro">
-                    <span class="team-label">LORO</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="LORO">−</button>
-                        <span class="micro-value" data-team="LORO">0</span>
-                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    <div class="team-section">
+                        <span class="team-label">LORO</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="LORO">−</button>
+                            <span class="micro-value" data-team="LORO">0</span>
+                            <button class="micro-btn plus" data-team="LORO">+</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="errore-tattico" data-xg="0.6">
                 <span class="micro-label">Tattico / posizionamento, porta palla gol</span>
-                <div class="micro-controls noi">
-                    <span class="team-label">NOI</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="NOI">−</button>
-                        <span class="micro-value" data-team="NOI">0</span>
-                        <button class="micro-btn plus" data-team="NOI">+</button>
+                <div class="micro-controls">
+                    <div class="team-section">
+                        <span class="team-label">NOI</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="NOI">−</button>
+                            <span class="micro-value" data-team="NOI">0</span>
+                            <button class="micro-btn plus" data-team="NOI">+</button>
+                        </div>
                     </div>
-                </div>
-                <div class="micro-controls loro">
-                    <span class="team-label">LORO</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="LORO">−</button>
-                        <span class="micro-value" data-team="LORO">0</span>
-                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    <div class="team-section">
+                        <span class="team-label">LORO</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="LORO">−</button>
+                            <span class="micro-value" data-team="LORO">0</span>
+                            <button class="micro-btn plus" data-team="LORO">+</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="micro-stat" data-item="errore-grave" data-xg="0.8">
                 <span class="micro-label">Errore grave</span>
-                <div class="micro-controls noi">
-                    <span class="team-label">NOI</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="NOI">−</button>
-                        <span class="micro-value" data-team="NOI">0</span>
-                        <button class="micro-btn plus" data-team="NOI">+</button>
+                <div class="micro-controls">
+                    <div class="team-section">
+                        <span class="team-label">NOI</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="NOI">−</button>
+                            <span class="micro-value" data-team="NOI">0</span>
+                            <button class="micro-btn plus" data-team="NOI">+</button>
+                        </div>
                     </div>
-                </div>
-                <div class="micro-controls loro">
-                    <span class="team-label">LORO</span>
-                    <div class="button-row">
-                        <button class="micro-btn minus" data-team="LORO">−</button>
-                        <span class="micro-value" data-team="LORO">0</span>
-                        <button class="micro-btn plus" data-team="LORO">+</button>
+                    <div class="team-section">
+                        <span class="team-label">LORO</span>
+                        <div class="button-row">
+                            <button class="micro-btn minus" data-team="LORO">−</button>
+                            <span class="micro-value" data-team="LORO">0</span>
+                            <button class="micro-btn plus" data-team="LORO">+</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2644,6 +2715,323 @@ setInterval(() => {
             location.reload();
         }
     }
+
+    // ===== HEADER BUTTONS =====
+    document.getElementById('btn-reset').addEventListener('click', () => {
+        if (confirm('Sei sicuro di voler resettare qualsiasi informazione scritta? Questa azione non può essere annullata.')) {
+            // Reset all data
+            state.isRunning = false;
+            clearInterval(state.timerInterval);
+            state.timerSeconds = 0;
+            updateTimerDisplay();
+            state.gol.noi = 0;
+            state.gol.loro = 0;
+            state.xg.noi = 0;
+            state.xg.loro = 0;
+            document.getElementById('gol-noi-new').textContent = '0';
+            document.getElementById('gol-loro-new').textContent = '0';
+            document.getElementById('xg-noi-new').textContent = '0.00';
+            document.getElementById('xg-loro-new').textContent = '0.00';
+            document.querySelectorAll('.micro-value').forEach(val => val.textContent = '0');
+            state.possessoNoi = 50;
+            state.possessoLoro = 50;
+            state.possessoAttivo = null;
+            updatePossessoUI();
+            state.attackMomentum = new Array(60).fill(0);
+            state.goalEvents = [];
+            state.firstTempo = null;
+            state.secondTempo = null;
+            document.getElementById('avversario').value = '';
+            document.getElementById('data-partita').value = '';
+            document.getElementById('posizione-partita').value = '';
+            document.querySelectorAll('.analysis-row input, .analysis-row textarea').forEach(input => input.value = '');
+            localStorage.removeItem(STORAGE_KEY);
+            localStorage.removeItem(MATCHES_KEY);
+            calculateXG();
+            updateAttackMomentumChart();
+            drawPianoCartesiano();
+            drawRadarChart();
+        }
+    });
+
+    document.getElementById('btn-export').addEventListener('click', () => {
+        // Generate comprehensive report
+        const reportData = {
+            avversario: document.getElementById('avversario').value || 'N/A',
+            data: document.getElementById('data-partita').value || 'N/A',
+            posizione: document.getElementById('posizione-partita').value || 'N/A',
+            gol: state.gol,
+            xg: state.xg,
+            possesso: {
+                noi: state.possessoNoi,
+                loro: state.possessoLoro
+            },
+            macroStats: getMacrocategoryStats(),
+            notes: {
+                formazioneNoi: document.querySelector('.analysis-row input[placeholder*="4-3-3"]').value || '',
+                formazioneLoro: document.querySelector('.analysis-row input[placeholder*="3-5-2"]').value || '',
+                noteTattiche: document.querySelector('.analysis-row textarea').value || ''
+            }
+        };
+
+        // Create JSON file
+        const json = JSON.stringify(reportData, null, 2);
+        const blob = new Blob([json], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `report-${new Date().toISOString().slice(0, 10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+
+        // Also generate PDF
+        setTimeout(() => {
+            drawPianoCartesiano();
+            drawRadarChart();
+            setTimeout(generatePDF, 500);
+        }, 100);
+    });
+
+    // ===== SALVA PARTITA =====
+    document.getElementById('btn-save-match').addEventListener('click', () => {
+        if (!confirm('Vuoi salvare questa partita completata per il confronto?')) return;
+
+        const matchData = {
+            id: Date.now(),
+            avversario: document.getElementById('avversario').value || 'Sconosciuto',
+            data: document.getElementById('data-partita').value || new Date().toISOString().split('T')[0],
+            posizione: document.getElementById('posizione-partita').value || 'N/A',
+            gol: {
+                noi: (state.firstTempo ? state.firstTempo.gol.noi : 0) + state.gol.noi,
+                loro: (state.firstTempo ? state.firstTempo.gol.loro : 0) + state.gol.loro
+            },
+            xg: {
+                noi: (state.firstTempo ? state.firstTempo.xg.noi : 0) + state.xg.noi,
+                loro: (state.firstTempo ? state.firstTempo.xg.loro : 0) + state.xg.loro
+            },
+            possesso: {
+                noi: (state.firstTempo ? (state.firstTempo.possessoNoi + state.possessoNoi) / 2 : state.possessoNoi),
+                loro: (state.firstTempo ? (state.firstTempo.possessoLoro + state.possessoLoro) / 2 : state.possessoLoro)
+            },
+            stats: {},
+            firstTempo: state.firstTempo,
+            secondTempo: state.secondTempo,
+            savedAt: new Date().toISOString()
+        };
+
+        // Raccogli tutti gli stats totali
+        document.querySelectorAll('.micro-stat').forEach(stat => {
+            const item = stat.getAttribute('data-item');
+            const noiValue = stat.querySelector('.micro-value[data-team="NOI"]');
+            const loroValue = stat.querySelector('.micro-value[data-team="LORO"]');
+
+            if (noiValue && loroValue) {
+                let noiVal = parseInt(noiValue.textContent) || 0;
+                let loroVal = parseInt(loroValue.textContent) || 0;
+
+                // Aggiungi stats del primo tempo se esistono
+                if (state.firstTempo && state.firstTempo.stats[item]) {
+                    noiVal += state.firstTempo.stats[item].noi;
+                    loroVal += state.firstTempo.stats[item].loro;
+                }
+
+                matchData.stats[item] = {
+                    noi: noiVal,
+                    loro: loroVal
+                };
+            }
+        });
+
+        // Carica partite esistenti
+        const savedMatches = JSON.parse(localStorage.getItem(MATCHES_KEY) || '[]');
+
+        // Aggiungi nuova partita
+        savedMatches.push(matchData);
+
+        // Mantieni solo le ultime 20 partite
+        if (savedMatches.length > 20) {
+            savedMatches.shift();
+        }
+
+        localStorage.setItem(MATCHES_KEY, JSON.stringify(savedMatches));
+        alert('Partita salvata per il confronto!');
+        console.log('✓ Partita salvata per confronto');
+    });
+
+    // ===== NUOVA PARTITA =====
+    document.getElementById('btn-new-match').addEventListener('click', () => {
+        if (!confirm('Sei sicuro di voler iniziare una nuova partita? Tutti i dati attuali verranno persi.')) return;
+
+        // Reset all data
+        state.isRunning = false;
+        clearInterval(state.timerInterval);
+        state.timerSeconds = 0;
+        updateTimerDisplay();
+        state.gol.noi = 0;
+        state.gol.loro = 0;
+        state.xg.noi = 0;
+        state.xg.loro = 0;
+        document.getElementById('gol-noi-new').textContent = '0';
+        document.getElementById('gol-loro-new').textContent = '0';
+        document.getElementById('xg-noi-new').textContent = '0.00';
+        document.getElementById('xg-loro-new').textContent = '0.00';
+        document.querySelectorAll('.micro-value').forEach(val => val.textContent = '0');
+        state.possessoNoi = 50;
+        state.possessoLoro = 50;
+        state.possessoAttivo = null;
+        updatePossessoUI();
+        state.attackMomentum = new Array(60).fill(0);
+        state.goalEvents = [];
+        state.firstTempo = null;
+        state.secondTempo = null;
+        document.getElementById('avversario').value = '';
+        document.getElementById('data-partita').value = '';
+        document.getElementById('posizione-partita').value = '';
+        document.querySelectorAll('.analysis-row input, .analysis-row textarea').forEach(input => input.value = '');
+        localStorage.removeItem(STORAGE_KEY);
+        calculateXG();
+        updateAttackMomentumChart();
+        drawPianoCartesiano();
+        drawRadarChart();
+        alert('Nuova partita iniziata!');
+    });
+
+    // ===== CONFRONTA PARTITE =====
+    document.getElementById('btn-compare').addEventListener('click', () => {
+        const savedMatches = JSON.parse(localStorage.getItem(MATCHES_KEY) || '[]');
+
+        if (savedMatches.length === 0) {
+            alert('Nessuna partita salvata da confrontare.');
+            return;
+        }
+
+        // Create comparison modal
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        `;
+
+        const modalContent = document.createElement('div');
+        modalContent.style.cssText = `
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 32px;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        `;
+
+        const closeBtn = document.createElement('button');
+        closeBtn.textContent = '✕';
+        closeBtn.style.cssText = `
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6b7280;
+        `;
+        closeBtn.onclick = () => document.body.removeChild(modal);
+
+        const title = document.createElement('h2');
+        title.textContent = 'CONFRONTO PARTITE SALVATE';
+        title.style.cssText = `
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 24px;
+            text-align: center;
+        `;
+
+        modalContent.appendChild(closeBtn);
+        modalContent.appendChild(title);
+
+        // Create table
+        const table = document.createElement('table');
+        table.style.cssText = `
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        `;
+
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        ['Avversario', 'Data', 'Risultato', 'IPO NOI', 'IPO LORO', 'Possesso NOI', 'Possesso LORO', 'Azioni'].forEach(header => {
+            const th = document.createElement('th');
+            th.textContent = header;
+            th.style.cssText = `
+                padding: 12px 8px;
+                text-align: left;
+                border-bottom: 2px solid #e5e7eb;
+                font-weight: 600;
+                color: #6b7280;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            `;
+            headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        const tbody = document.createElement('tbody');
+        savedMatches.slice(-10).reverse().forEach(match => {
+            const row = document.createElement('tr');
+            row.style.cssText = `border-bottom: 1px solid #f3f4f6;`;
+
+            const cells = [
+                match.avversario,
+                match.data,
+                `${match.gol.noi}-${match.gol.loro}`,
+                match.xg.noi.toFixed(2),
+                match.xg.loro.toFixed(2),
+                `${match.possesso.noi.toFixed(1)}%`,
+                `${match.possesso.loro.toFixed(1)}%`,
+                ''
+            ];
+
+            cells.forEach((cellData, index) => {
+                const td = document.createElement('td');
+                td.textContent = cellData;
+                td.style.cssText = `
+                    padding: 12px 8px;
+                    color: #1a1a1a;
+                `;
+
+                if (index === 2) { // Risultato
+                    td.style.fontWeight = '600';
+                }
+
+                row.appendChild(td);
+            });
+
+            tbody.appendChild(row);
+        });
+        table.appendChild(tbody);
+
+        modalContent.appendChild(table);
+        modal.appendChild(modalContent);
+        document.body.appendChild(modal);
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                document.body.removeChild(modal);
+            }
+        });
+    });
 
     // ===== EVENT LISTENERS PER AUTO-SAVE =====
     document.getElementById('avversario').addEventListener('change', saveMatchData);
